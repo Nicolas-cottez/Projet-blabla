@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script><!--inclu tailwind-->
+    <link rel="stylesheet" href="style.css"> <!--inclu le css-->
+    <link rel="stylesheet" href="footer.css"> <!--inclu le css du footer-->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> <!--inclu les fonts-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> <!--inclu jquery-->
+    <script src="monscript.js" defer></script> <!--defer sert a charger a la fin du dom--> <!--inclu le js-->
+    <title>caca</title>
+</head>
+
+<body>
+
+    <?php include 'footer.php'; ?>
+
+</body>
+
+</html>
