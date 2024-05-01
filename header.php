@@ -1,15 +1,16 @@
 <header>
   <div class="navbar">
-    <div class="logo"><a href="#">Web Dev Creative</a></div>
+    <div class="logo"><a href="#">Blabla Omnes</a></div>
     <ul class="links">
-      <li><a href="hero">Home</a></li>
-      <li><a href="about">About</a></li>
-      <li><a href="services">Services</a></li>
-      <li><a href="contact">Contact</a></li>
+      <li><a href="main.php">Accueil</a></li>
+      <li><a href="ChercherTrajet.php">Chercher un trajet</a></li>
+      <li><a href="PublierTrajet.php">Publier un trajet</a></li>
+      <li><a href="MesTrajets.php">Mes trajets</a></li>
+      <li><a href="MonProfile.php">Mon profil</a></li>
     </ul>
     <a href="#" class="action_btn">Get Started</a>
     <div class="toggle_btn">
-      <i class="fa-regular fa-bars"></i>
+        <i class="fa-solid fa-bars"></i>
     </div>
   </div>
 </header>

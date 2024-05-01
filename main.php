@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script><!--inclu tailwind-->
     <link rel="stylesheet" href="style.css"> <!--inclu le css-->
-    <link rel="stylesheet" href="footer.css"> <!--inclu le css du footer-->
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> <!--inclu les fonts-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" /><!--inclu les fonts-->
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> <!--inclu jquery-->
     <script src="monscript.js" defer></script> <!--defer sert a charger a la fin du dom--> <!--inclu le js-->
     <title>BlaBLA Omnes</title>
@@ -15,7 +15,22 @@
 
 <body>
 
-    <?php include 'header.php'; ?>
+    <header>
+        <div class="navbar">
+            <div class="logo"><a href="#">Blabla Omnes</a></div>
+            <ul class="links">
+                <li><a href="main.php">Accueil</a></li>
+                <li><a href="ChercherTrajet.php">Chercher un trajet</a></li>
+                <li><a href="PublierTrajet.php">Publier un trajet</a></li>
+                <li><a href="MesTrajets.php">Mes trajets</a></li>
+                <li><a href="MonProfile.php">Mon profil</a></li>
+            </ul>
+            <a href="#" class="action_btn">Get Started</a>
+            <div class="toggle_btn">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+    </header>
 
     <main class="p-4">
         <section>
