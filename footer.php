@@ -4,6 +4,10 @@
         /*couleur*/
         padding: 50px 0;
         /*distance haut et bas*/
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0; /* bas de page */
     }
 
     .footer-contenu {
