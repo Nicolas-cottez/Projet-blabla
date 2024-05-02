@@ -8,7 +8,7 @@
 body {
     height: 100vh;
     background-color: black;
-    background-image: url("fond.jpg");
+    background-image: url("image\fond.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
