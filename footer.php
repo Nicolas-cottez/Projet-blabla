@@ -1,12 +1,8 @@
 <style>
     footer {
         background: #24262b;
-        /*couleur*/
         padding: 50px 0;
-        /*distance haut et bas*/
-        position: absolute;
-        left: 0;
-        right: 0;
+        width: 100%;
         bottom: 0; /* bas de page */
     }
 
