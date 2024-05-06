@@ -19,7 +19,7 @@
     <li><a href="PublierTrajet.php">Publier un trajet</a></li>
     <li><a href="MesTrajets.php">Mes trajets</a></li>
     <li><a href="MonProfile.php">Mon profil</a></li>
-    <li><a href="MonProfile.php">Devenir conducteur</a></li>
+    <li><a href="DevenirConducteur.php">Devenir conducteur</a></li>
   </div>
 </header>
 
