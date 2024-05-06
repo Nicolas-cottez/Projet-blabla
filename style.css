@@ -121,6 +121,13 @@ body {
     }
 }
 
+@media (max-width: 576px) {
+    .covoiturage-highlight {
+        padding: 0;
+        margin: 0;
+    }
+}
+
 /*-----------------------------------pour la partie commentaire--------------------------------*/
 .story-section {
     margin-top: 250px;
@@ -174,7 +181,7 @@ body {
     background-color: #0056b3;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 576px) {
     .story-section {
         flex-direction: column;
         text-align: center;

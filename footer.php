@@ -121,10 +121,10 @@
             <div class="footer-colone">
                 <h4>company</h4>
                 <ul>
-                    <li><a href="#">about us</a></li>
-                    <li><a href="#">our services</a></li>
-                    <li><a href="#">privacy policy</a></li>
-                    <li><a href="#">affiliate program</a></li>
+                    <li><a href="#">A propo de nous</a></li>
+                    <li><a href="#">nos services</a></li>
+                    <li><a href="#">politique de confidensialité</a></li>
+                    <li><a href="#">Programme d'affiliation</a></li>
                 </ul>
             </div>
 
@@ -132,7 +132,7 @@
                 <h4>get help</h4>
                 <ul>
                     <li><a href="#">FAQ</a></li>
-                    <li><a href="#">payment options</a></li>
+                    <li><a href="#">options de payment</a></li>
                 </ul>
             </div>
 
