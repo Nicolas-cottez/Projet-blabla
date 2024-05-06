@@ -8,7 +8,7 @@
       <li><a href="MesTrajet.php">Mes trajets</a></li>
       <li><a href="MonProfile.php">Mon profil</a></li>
     </ul>
-    <a href="#" class="action_btn">Get Started</a>
+    <a href="#" class="action_btn">Devenir conducteur</a>
     <div class="bar_btn">
       <i class="fa-solid fa-bars"></i>
     </div>
@@ -19,6 +19,7 @@
     <li><a href="PublierTrajet.php">Publier un trajet</a></li>
     <li><a href="MesTrajets.php">Mes trajets</a></li>
     <li><a href="MonProfile.php">Mon profil</a></li>
+    <li><a href="MonProfile.php">Devenir conducteur</a></li>
   </div>
 </header>
 
@@ -107,7 +108,7 @@
   }
 
   .menu_deroulant.open {
-    height: 240px;
+    height: 280px;
   }
 
   .menu_deroulant li {
