@@ -15,16 +15,15 @@
 
 <body>
 
-
     <?php include 'Header.php'; ?>
 
     <main role="main">
-        <!-- <section class="p-4 text-center bg-transparent">
+        <section class="p-4 text-center bg-transparent">
             <h2 class="text-3xl text-blue-700 font-semibold">Trouvez votre covoiturage!</h2>
             <p class="text-white mt-2 max-w-2xl mx-auto">
                 Bienvenue sur Blabla Omnes, votre plateforme de covoiturage d'Omnes.
             </p>
-        </section> -->
+        </section>
 
         <section class="p-4">
             <form id="searchForm" class="search-bar mt-4">
@@ -37,7 +36,7 @@
         </section>
 
 
-        <!-- <section class="covoiturage-highlight">
+        <section class="covoiturage-highlight">
             <h1>"Partagez plus qu'un trajet, partagez une expérience."</h1>
         </section>
 
@@ -51,7 +50,7 @@
                 <p>Avec Blabla Omnes, les rencontres font partie des voyages.</p>
                 <button>En route !</button>
             </div>
-        </section> -->
+        </section>
     </main>
 
 
