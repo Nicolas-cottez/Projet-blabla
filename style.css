@@ -1,108 +1,104 @@
-body, html{
+body,
+html {
     height: 100%;
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
-}
-body {
-    
-    background-color: black;
-    background-image: url("image/fond.jpg");
+    background-color: rgba(147, 152, 158);
+    background-image: url("image/nuage.png"),
+        url("image/nuage.png"),
+        url("image/fond.jpg");
+
     background-size: cover;
-    background-position: center;
+    background-position: center top, center center, center 0;
     background-repeat: no-repeat;
-    box-sizing: border-box;
     font-family: 'Open Sans', sans-serif;
+    background-position-y: 900px, 480px, 0px;
 }
 
-/*----------------pour la partie de la bar de recherche-------------------*/
+
+
+/*--------------------------titre et haut----------------------*/
+article {
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 25px;
+    margin: 20px auto;
+    max-width: 90%;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    color: #FAFAFA;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    text-align: center;
+}
+
+article h2 {
+    font-size: 2.8rem;
+    color: #FFD700;
+    margin-bottom: 20px;
+}
+
+article p {
+    font-size: 1.4rem;
+
+    line-height: 1.8;
+}
+
+/*---------------- Bar de Recherche -------------------*/
 .search-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 10px;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 15px;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
     width: 80%;
-    margin: 0 auto;
+    margin: 20px auto;
 }
 
 .search-input,
 .search-button {
-    border: 2px solid transparent;
-    padding: 8px 12px;
-    border-radius: 12px;
+    border: 2px solid #FFD700;
+    padding: 12px 15px;
+    border-radius: 20px;
+    margin-bottom: 15px;
+
     outline: none;
     transition: all 0.3s ease;
-}
+    width: 100%;
 
-.search-input {
-    flex-grow: 1;
-    margin-right: 0.5rem;
 }
 
 .search-input:focus {
-    border-color: #007bff;
-    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
+    border-color: #FFA500;
+    box-shadow: 0 3px 12px rgba(255, 165, 0, 0.5);
 }
 
 .search-button {
-    background-image: linear-gradient(to right, #0062cc, #0056b3);
+    background-image: linear-gradient(to right, #FFA500, #FF7F00);
     color: white;
     cursor: pointer;
     border: none;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .search-button:hover {
-    background-image: linear-gradient(to right, #0056b3, #004085);
-}
-
-/* Responsive */
-@media (max-width: 576px) {
-    .search-bar {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .search-input,
-    .search-button {
-        width: 100%;
-        margin-bottom: 10px;
-    }
-
-    .search-input:last-child {
-        margin-bottom: 0; 
-    }
-
-    .search-button {
-        margin-bottom: 0; 
-    }
+    background-image: linear-gradient(to right, #E68500, #FF8C00);
 }
 
 
-/*--------------------------pour la partie phrase millieu-----------------------------------*/
-
+/*---------------- Covoiturage Highlight -------------------*/
 .covoiturage-highlight {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: auto;
-    padding: 100px 20px;
-    margin-bottom: 80px;
+    padding: 30px;
+    margin: 25px;
+    font-size: 2rem;
     color: rgba(255, 255, 255, 0.9);
     text-align: center;
-    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
-    position: relative;
-    overflow: hidden;
-    background: none;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.6);
 }
 
 .covoiturage-highlight h1 {
-    font-size: 3rem;
-    max-width: 1200px;
     opacity: 0;
     animation: effet 2s ease-out forwards;
 }
@@ -121,53 +117,48 @@ body {
     }
 }
 
-@media (max-width: 576px) {
-    .covoiturage-highlight {
-        padding: 0;
-        margin: 0;
-    }
-}
-
-/*-----------------------------------pour la partie commentaire--------------------------------*/
+/*---------------- Story Section -------------------*/
 .story-section {
-    margin-top: 250px;
     display: flex;
+    flex-direction: column;
+    text-align: center;
     align-items: center;
-    justify-content: space-between;
-    padding: 20px;
-    background-color: #f0f0f0;
-    gap: 20px
+    justify-content: center;
+    padding: 24px;
+    background-color: rgba(230, 230, 230, 0.3);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    gap: 20px;
+    font-size: 1.8rem;
+    border-radius: 25px;
+    margin-left: 25px;
+    margin-right: 25px;
 }
 
 .story-image img {
     width: 100%;
     height: auto;
     border-radius: 10px;
-}
-.story-image {
-    flex: 0 0 40%; /* Fixes width, prevents growth and shrink */
-    padding-right: 20px; /* Ensures some space between the image and the text */
-}
-
-.story-content {
-    flex: 1;
-    padding-left: 20px;
-}
-
-.story-content h2 {
-    color: #0056b3;
-    font-size: 24px;
+    max-width: 600px;
     margin-bottom: 10px;
 }
 
-.story-content p {
-    font-size: 16px;
+.story-content {
+    padding: 20px;
     color: #333;
+    font-size: 16px;
     line-height: 1.6;
 }
 
+.story-content h2 {
+    color: #FFD700;
+    font-size: 1.8em;
+    margin-bottom: 10px;
+    text-shadow: 4px 4px 6px rgba(0, 0, 0, 0.7);
+    font-weight: bold;
+}
+
 .story-content button {
-    background-color: #007bff;
+    background-image: linear-gradient(to right, #FFA500, #FF7F00);
     color: white;
     border: none;
     padding: 10px 20px;
@@ -178,36 +169,5 @@ body {
 }
 
 .story-content button:hover {
-    background-color: #0056b3;
-}
-
-@media (max-width: 576px) {
-    .story-section {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .covoiturage-highlight h1 {
-        font-size: 2.5rem;
-    }
-
-    .story-image,
-    .story-content {
-        width: 100%;
-        padding: 0; 
-    }
-
-    .story-image img {
-        max-width: 600px;
-        margin-bottom: 10px;
-    }
-
-
-    .story-section {
-        padding: 15px;
-    }
-
-    .story-content {
-        padding: 20px 0;
-    }
+    background-image: linear-gradient(to right, #E68500, #FF8C00);
 }
