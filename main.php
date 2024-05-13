@@ -12,6 +12,7 @@
     <script src="monscript.js" defer></script> <!--defer sert a charger a la fin du dom--> <!--inclu le js-->
     <title>BlaBLA Omnes</title>
 
+
 </head>
 
 <body>
