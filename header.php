@@ -100,7 +100,7 @@
     top: 60px;
     width: 300px;
     height: 0;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(240, 240, 240, 0.1);
     backdrop-filter: blur(15px);
     border-radius: 10px;
     overflow: hidden;
