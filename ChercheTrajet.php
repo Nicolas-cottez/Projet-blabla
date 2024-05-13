@@ -9,7 +9,6 @@
 </head>
 <body class="bg-gray-100">
     <?php include 'Header.php'; ?>
-    <?php include 'Header.php'; ?>
     <div class="container mx-auto px-4 py-8">
         <h1 class="text-2xl font-semibold text-gray-800 mb-6">Chercher un trajet</h1>
         <form id="searchForm" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
