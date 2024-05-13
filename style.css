@@ -13,7 +13,7 @@ html {
     background-size: cover;
     background-position: center top, center center, center 0;
     background-repeat: no-repeat;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Poppins', sans-serif;
     background-position-y: 900px, 480px, 0px;
 }
 
@@ -90,6 +90,11 @@ article p {
 
 }
 
+.search-input:focus {
+    border-color: #FFA500;
+    box-shadow: 0 3px 12px rgba(255, 165, 0, 0.5);
+}
+
 .search-button{
     padding: 12px 15px;
     border-radius: 20px;
@@ -97,12 +102,7 @@ article p {
     outline: none;
     width: 100%;
     background-image: linear-gradient(to right, #FFA500, #FF7F00);
-    color: hsl(0, 0%, 100%);
-}
-
-.search-input:focus {
-    border-color: #FFA500;
-    box-shadow: 0 3px 12px rgba(255, 165, 0, 0.5);
+    color: white;
 }
 
 
@@ -183,5 +183,5 @@ article p {
     padding: 10px 20px;
     font-size: 16px;
     background-image: linear-gradient(to right, #FFA500, #FF7F00);
-    color: hsl(0, 0%, 100%);
+    color: white;
 }
