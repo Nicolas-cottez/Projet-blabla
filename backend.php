@@ -1,5 +1,5 @@
 <?php
-$source = "mysql:host=localhost;dbname=projet blablacar";
+$source = "mysql:host=localhost;dbname=projet_blablacar";
 $login = "Matty";
 $mdp = "azerty";
 try {
