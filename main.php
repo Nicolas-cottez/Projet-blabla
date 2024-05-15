@@ -48,6 +48,7 @@
         <div class="story-content">
             <h2>Embarquez pour des anecdotes passionnantes.</h2>
             <p>Avec Blabla Omnes, les rencontres font partie des voyages.</p>
+            <br>
             <button>En route !</button>
         </div>
     </content>
