@@ -3,3 +3,12 @@ h1{
     font-size: large;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
+
+img{
+    width: 50px; /* ajustez la taille selon vos besoins */
+    height: 50px; /* ajustez la taille selon vos besoins */
+    border-radius: 50%; /* crée un cercle en arrondissant les coins à 50% */
+    overflow: hidden; /* assure que l'image ne dépasse pas les bords arrondis */
+    border: 2px;
+    border-color: aqua;
+}
