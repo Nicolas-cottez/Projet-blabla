@@ -52,9 +52,9 @@ article {
 
 article h2 {
     font-size: 2.5rem;
-    color: #F5D742;
+    color: #f5d742a9;
     margin-bottom: 20px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     letter-spacing: 1.5px;
     font-weight: 600;
 }
