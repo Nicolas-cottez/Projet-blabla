@@ -59,7 +59,7 @@
         /*a gauche */
         bottom: -10px;
         /*-10px en dessous du parent*/
-        background-color: #FFA500;
+        background-color: #F5C242 ;
         /*or*/
         height: 2px;
         /*hauteur de la bar*/
@@ -110,7 +110,7 @@
         text-align: center;
         line-height: 40px;
         border-radius: 50%;
-        color: #FFA500;
+        color: #F5C242 ;
         overflow: hidden;
         position: relative;
         z-index: 1;
@@ -124,7 +124,7 @@
 
     .icon {
         font-size: 1.5rem;  /* Ajustez selon vos besoins pour la visibilité */
-        color: #FFA500;  /* Couleur initiale des icônes */
+        color: #F5C242 ;  /* Couleur initiale des icônes */
         z-index: 3;  /* S'assurer que les icônes restent au-dessus du fond */
         position: relative;
         transition: color 0.5s ease;

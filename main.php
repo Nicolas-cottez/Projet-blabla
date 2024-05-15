@@ -11,7 +11,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> <!--inclu jquery-->
     <script src="monscript.js" defer></script> <!--defer sert a charger a la fin du dom--> <!--inclu le js-->
     <title>BlaBLA Omnes</title>
-    
+
 </head>
 
 <body>
@@ -20,9 +20,9 @@
 
     <article>
         <h2>Trouvez votre covoiturage!</h2>
-        <p>
+        <!-- <p>
             Bienvenue sur Blabla Omnes, votre plateforme de covoiturage d'Omnes.
-        </p>
+        </p> -->
     </article>
 
     <main class="p-4">
