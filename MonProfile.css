@@ -1,0 +1,19 @@
+h2{
+    font-size: 2.8rem;
+    color: #FFD700;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.UserPicture{
+    width: 150px; /* ajustez la taille selon vos besoins */
+  height: 150px; /* ajustez la taille selon vos besoins */
+  border-radius: 50%; /* crée un cercle en arrondissant les coins à 50% */
+  overflow: hidden; /* assure que l'image ne dépasse pas les bords arrondis */
+  
+}
+
+.UserPicture img{
+    width: 100%; /* assure que l'image occupe tout l'espace du conteneur */
+  height: auto; /* permet à l'image de conserver son ratio hauteur/largeur */
+}
