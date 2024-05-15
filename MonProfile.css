@@ -1,6 +1,6 @@
 h2{
     font-size: 2.8rem;
-    color: #FFD700;
+    color: #F5D742;
     margin-bottom: 20px;
     text-align: center;
 }
@@ -10,10 +10,115 @@ h2{
   height: 150px; /* ajustez la taille selon vos besoins */
   border-radius: 50%; /* crée un cercle en arrondissant les coins à 50% */
   overflow: hidden; /* assure que l'image ne dépasse pas les bords arrondis */
+  margin: 0 auto;
+  padding: 3px;
+  box-sizing:border-box;
   
 }
 
 .UserPicture img{
     width: 100%; /* assure que l'image occupe tout l'espace du conteneur */
   height: auto; /* permet à l'image de conserver son ratio hauteur/largeur */
+}
+
+.rcorners1 {
+  border-radius: 25px;
+  background: #F5D742;
+  padding: 20px; 
+  width: 200px;
+  height: 20px;
+  margin: auto;
+  margin-bottom: 20px;
+}
+
+p{
+  font-size: 1rem;
+    line-height: 1.6;
+    color: black;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+    font-family: 'Poppins', sans-serif;
+    margin: auto;
+}
+
+body{
+  background-color: black;
+
+}
+
+*:focus{
+  outline: none;
+}
+
+.box{
+  box-sizing: border-box;
+  width: 360px;
+  height: 600px;
+  border: 2px solid #FFA500;
+  box-shadow: -3px -3px 7px black, 3px 3px 5px rgba(94,104,121,0.288);
+  border-radius: 5px;
+  background-color: rgb(42, 218, 80);
+  margin-top: 50px;
+  overflow: hidden;
+}
+
+input[type="text"],
+input[type="email"]{
+  display: block;
+  box-sizing: border-box;
+  background:none;
+  color: #F5D742;
+  margin-bottom: 30px;
+  padding: 4px; 
+  width: 200px;
+  height: 30px;
+  border: none;
+  box-sizing: border-box;
+  font-weight: 400;
+  font-size: 15px;
+  transition: 0.2s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus{
+  border-bottom: 2px solid #FFA500;
+  border-bottom-right-radius: 20px;
+  color:#FFA500;
+  transition: 0.2s ease;
+}
+
+button{
+  border: 1px solid #FFA500;
+  background-color: #F5D742;
+  color: black;
+  height: 30px;
+  width: 100px;
+  border-radius: 5px;
+  margin:0px;
+  transition: all 0.3s;
+
+}
+
+button:hover{
+  transform: scale(1.1);
+}
+
+input[type="file"]{
+  display:none;
+}
+
+label{
+  box-sizing: border-box;
+  color: black;
+  padding: 2px 15px;
+  border: 1px solid #FFA500;
+  border-radius: 5px;
+  background-color: #F5D742;
+  box-sizing: border-box;
+  font-size: 20px;
+  transition: all 0.3s;
+}
+
+label:hover{
+  background-color: #FFA500;
+  color: #F5D742;
 }
