@@ -1,7 +1,7 @@
 <?php
 $source = "mysql:host=localhost;dbname=projet_blablacar";
-$login = "Matty";
-$mdp = "azerty";
+$login = "root";
+$mdp = "";
 try {
     $db = new PDO($source, $login, $mdp);
     echo "Vous êtes connecté !";
