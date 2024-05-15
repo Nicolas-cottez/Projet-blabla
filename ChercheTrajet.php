@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script><!--inclu tailwind-->
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-400" >
     <?php include 'Header.php'; ?>
     <div class="container mx-auto px-4 py-8">
         <h1 class="text-2xl font-semibold text-gray-800 mb-6">Chercher un trajet</h1>
