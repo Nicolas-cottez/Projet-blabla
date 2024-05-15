@@ -8,4 +8,3 @@ document.getElementById('searchForm').addEventListener('submit', function(event)
     console.log("Recherche de trajets de", departure, "à", destination, "le", date, "pour", passengers, "passagers.");
     
 });
-
