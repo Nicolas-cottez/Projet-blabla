@@ -1,6 +1,6 @@
 <header>
   <div class="navigation_bar">
-    <div class="logo"><a href="#">Blabla Omnes</a></div>
+    <div class="logo"><a href="main.php">Blabla Omnes</a></div>
     <ul class="lien">
       <li><a href="main.php">Accueil</a></li>
       <li><a href="ChercheTrajet.php">Chercher un trajet</a></li>
