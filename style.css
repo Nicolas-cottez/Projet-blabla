@@ -1,22 +1,16 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900');
 
-body,
-html {
+body, html {
     height: 100%;
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
-    background-color: rgba(147, 152, 158);
-    background-image: url("image/nuage2.png"),
-        url("image/nuage2.png"),
-        url("image/fondtest.jpg");
-
-    background-size: cover, cover, 250% auto;
-    background-position: center top, center center, center 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 1)), url("image/fondtest.jpg") center / cover no-repeat;
     background-repeat: no-repeat;
+    background-color: black;
     font-family: 'Poppins', sans-serif;
-    background-position-y: 900px, 480px, 0px;
+    /* background-attachment: fixed; */   /*a voir*/
 }
 
 button {
