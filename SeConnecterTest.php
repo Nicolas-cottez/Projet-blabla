@@ -32,7 +32,7 @@
             if ($rep && $rep['ID_client'] != false) {
                 setcookie("username", $mail, time() + 3600);
                 setcookie("password", $MDP, time() + 3600);
-                header("location : client.php");
+                header("location: client.php");
                 exit();
             } else {
                 echo 'Email ou mot de passe incorrect';
