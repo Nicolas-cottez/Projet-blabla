@@ -1,6 +1,6 @@
 <?php
 
-$source = "mysql:host=localhost;dbname=utilisateur";
+$source = "mysql:host=localhost;dbname=projet_blablacar2";
 $login = "root";
 $mdp = "";
 
@@ -24,7 +24,7 @@ if (isset($_POST['ok'])) {
     $MDP = $_POST['MDP'];
 
     // Préparation de la requête SQL
-    $query = "INSERT INTO users (mail, MDP, nom, Num_Tel, Prenom) VALUES (:mail, :MDP, :nom, :Num_Tel, :Prenom)";
+    $query = "INSERT INTO client (mail, MDP, nom, Num_Tel, Prenom) VALUES ( :mail, :MDP, :nom, :Num_Tel, :Prenom)";
     $stmt = $db->prepare($query);
     
     // Exécution de la requête avec les paramètres

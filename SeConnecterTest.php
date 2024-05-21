@@ -14,7 +14,7 @@ $username = "root";
 $MDP = "";
 
 try {
-    $bdd = new PDO("mysql:host=$servername;dbname=utilisateur", $username, $MDP);
+    $bdd = new PDO("mysql:host=$servername;dbname=projet_blablacar2", $username, $MDP);
     $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     echo "Connexion réussie !";
 } catch(PDOException $e) {
@@ -26,14 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $MDP = $_POST['MDP'];
     if ($mail != "" && $MDP != "") {
         // connexion à la bdd
-        $req = $bdd->query("SELECT * FROM users WHERE mail and MDP = '$MDP'");
+        $req = $bdd->query("SELECT * FROM client WHERE mail and MDP = '$MDP'");
         $rep = $req->fetch();
-        if($rep){
-            echo"Vous êtes connectés";
-        }
-        else{
-            echo"Email ou mdp incorrect";
-        }
+    }else{
+        echo"Email ou mdp incorrect";
     }
 }
 ?> 
