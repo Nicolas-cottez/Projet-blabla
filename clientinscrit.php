@@ -21,6 +21,19 @@
     <article>
     <h2>Merci, Vous êtes inscrit !</h2>
     </article>
+    br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
     <br>
     <br>
     <br>

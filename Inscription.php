@@ -78,7 +78,6 @@ if (isset($_POST['ok'])) {
     // Récupération et affichage des résultats
     $reponse = $stmt->fetchAll(PDO::FETCH_ASSOC);
     var_dump($reponse);
-
     header("location: clientinscrit.php");
 }
 ?>
