@@ -15,7 +15,6 @@
         <input type="text" name="" placeholder="User Name">
         <input type="email" name="" placeholder="Email ID">
         <input type="text" name="" placeholder="Phone Number">
-        <input type="text" name="" placeholder="Date of Birth">
         <input type="text" name="" placeholder="Gender">
         <button>CANCEL</button>
         <button>DONE</button>

@@ -8,6 +8,20 @@ if (isset($_POST['ok'])) {
     $Num_Tel = $_POST['Num_Tel'];
     $mail = $_POST['mail'];
     $MDP = $_POST['MDP'];
+    $Photo = $_FILES['Photo']['name'];
+    $destination = 'image/' . $Photo;
+    $imagePath = pathinfo($destination, PATHINFO_EXTENSION);
+    $valid_extension = array("jpg", "png", "gif");
+    
+    if (!in_array(strtolower($imagePath), $valid_extension)) {
+        echo "Extension de fichier non valide.";
+        exit;
+    }
+
+    if (!move_uploaded_file($_FILES['Photo']['tmp_name'], $destination)) {
+        echo "Erreur lors du téléchargement de la photo.";
+        exit;
+    }
 
     $allowed_domains = ["omnesintervenant.com", "ece.fr", "edu.ece.fr"];
     $email_domain = substr(strrchr($mail, "@"), 1);
