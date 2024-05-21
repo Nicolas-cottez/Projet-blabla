@@ -24,12 +24,16 @@ try {
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $mail = $_POST['mail'];
     $MDP = $_POST['MDP'];
-    if ($mail != "" && $MDP != "") {
-        // connexion à la bdd
-        $req = $bdd->query("SELECT * FROM client WHERE mail and MDP = '$MDP'");
+    if ($mail != '' && $MDP != '') {
+        $req = $bdd->query("SELECT * FROM client WHERE mail = '$mail' AND MDP = '$MDP'");
         $rep = $req->fetch();
-    }else{
-        echo"Email ou mdp incorrect";
+        if ($rep && $rep['id'] != false) {
+            echo 'Vous êtes connectés';
+        } else {
+            $error_msg = "Email ou mot de passe incorrect";
+        }
+    } else {
+        $error_msg = "Email ou mot de passe incorrect";
     }
 }
 ?> 
