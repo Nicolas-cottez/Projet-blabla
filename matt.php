@@ -42,7 +42,7 @@
                 <div class="card-back">
                   <div class="center-wrap">
                     <div class="section text-center">
-                      <form method="POST" action="Inscription.php">
+                      <form method="POST" action="Inscription.php" enctype="multipart/form-data">
                         <h4 class="mb-3 pb-3 font-medium text-3xl">S'inscrire</h4>
                         <div class="form-group">
                           <input id="nom" name="nom" type="text" class="form-style" placeholder="Nom" required>
@@ -50,7 +50,7 @@
                         </div>
                         <div class="form-group">
                           <input id="Prenom" name="Prenom" type="text" class="form-style" placeholder="Prénom" required>
-                          <i the="input-icon uil uil-user"></i>
+                          <i class="input-icon uil uil-user"></i>
                         </div>
                         <div class="form-group mt-2">
                           <input id="Num_Tel" name="Num_Tel" type="tel" class="form-style" placeholder="Numéro de Téléphone" required>
@@ -62,6 +62,10 @@
                         </div>
                         <div class="form-group mt-2">
                           <input id="MDP" name="MDP" type="password" class="form-style" placeholder="Mot De Passe" required>
+                          <i class="input-icon uil uil-lock-alt"></i>
+                        </div>
+                        <div class="form-group mt-2">
+                          <input id="Photo" name="Photo" type="file" class="form-style" placeholder="Photo" required>
                           <i class="input-icon uil uil-lock-alt"></i>
                         </div>
                         <input type="submit" class="btn mt-4" value="S'inscrire" name="ok">

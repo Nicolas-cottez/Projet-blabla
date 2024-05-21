@@ -1,13 +1,56 @@
 <?php include 'backend.php'; ?>
+
 <?php
 if (isset($_POST['ok'])) {
     var_dump($_POST);
+    
     // Récupération des données du formulaire
     $nom = htmlspecialchars($_POST['nom']);
     $Prenom = htmlspecialchars($_POST['Prenom']);
     $Num_Tel = htmlspecialchars($_POST['Num_Tel']);
     $mail = htmlspecialchars($_POST['mail']);
     $MDP = sha1($_POST['MDP']);
+    
+    // Gestion de l'upload de la photo
+    $target_dir = "uploads/";
+    $photo = basename($_FILES["Photo"]["name"]);
+    $target_file = $target_dir . $photo;
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+    // Vérifiez si le fichier image est une image réelle ou une fausse image
+    $check = getimagesize($_FILES["Photo"]["tmp_name"]);
+    if($check !== false) {
+        $uploadOk = 1;
+    } else {
+        echo "Le fichier n'est pas une image.";
+        $uploadOk = 0;
+    }
+
+    // Vérifiez si le fichier existe déjà
+    if (file_exists($target_file)) {
+        echo "Désolé, le fichier existe déjà.";
+        $uploadOk = 0;
+    }
+
+    // Limite les formats de fichier
+    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+    && $imageFileType != "gif" ) {
+        echo "Désolé, seuls les fichiers JPG, JPEG, PNG et GIF sont autorisés.";
+        $uploadOk = 0;
+    }
+
+    // Vérifiez si $uploadOk est à 0 à cause d'une erreur
+    if ($uploadOk == 0) {
+        echo "Désolé, votre fichier n'a pas été téléchargé.";
+    // Si tout est ok, essayez de télécharger le fichier
+    } else {
+        if (move_uploaded_file($_FILES["Photo"]["tmp_name"], $target_file)) {
+            echo "Le fichier ". htmlspecialchars( basename( $_FILES["Photo"]["name"])). " a été téléchargé.";
+        } else {
+            echo "Désolé, une erreur s'est produite lors du téléchargement de votre fichier.";
+        }
+    }
 
     $allowed_domains = ["omnesintervenant.com", "ece.fr", "edu.ece.fr"];
     $email_domain = substr(strrchr($mail, "@"), 1);
@@ -15,11 +58,11 @@ if (isset($_POST['ok'])) {
     if (!in_array($email_domain, $allowed_domains)) {
         echo "L'adresse e-mail doit appartenir aux domaines suivants : omnesintervenant.com, ece.fr ou edu.ece.fr";
         header("location: matt.php");
-                exit();
+        exit();
     }
 
     // Préparation de la requête SQL
-    $query = "INSERT INTO client (nom, Prenom, mail, MDP, Num_Tel) VALUES (:nom, :Prenom, :mail, :MDP, :Num_Tel)";
+    $query = "INSERT INTO client (nom, Prenom, mail, MDP, Num_Tel, Photo) VALUES (:nom, :Prenom, :mail, :MDP, :Num_Tel, :photo)";
     $stmt = $db->prepare($query);
 
     // Exécution de la requête avec les paramètres
@@ -28,9 +71,9 @@ if (isset($_POST['ok'])) {
         ':Prenom' => $Prenom,
         ':mail' => $mail,
         ':MDP' => $MDP,
-        ':Num_Tel' => $Num_Tel
+        ':Num_Tel' => $Num_Tel,
+        ':photo' => $photo
     ]);
-
 
     // Récupération et affichage des résultats
     $reponse = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -42,16 +85,13 @@ if (isset($_POST['ok'])) {
 
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription - Blabla Omnes</title>
 </head>
-
 <body>
-
-    <form method="POST" action="">
+    <form method="POST" action="" enctype="multipart/form-data">
         <label>Votre nom</label>
         <input type="text" id="nom" name="nom" placeholder="Entrez votre nom..." required>
         <br />
@@ -72,7 +112,5 @@ if (isset($_POST['ok'])) {
         <br />
         <input type="submit" value="M'inscrire" name="ok">
     </form>
-
 </body>
-
 </html>
