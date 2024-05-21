@@ -1,33 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
 
-<?php 
-$servername = "localhost";
-$username = "root";
-$MDP = "";
-
-try {
-    $bdd = new PDO("mysql:host=$servername;dbname=projet_blablacar2", $username, $MDP);
-    $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    echo "Erreur BDD : " . $e->getMessage();
-}
-
-$email = $_COOKIE['email'];
-$token = $_COOKIE['token'];
-
-$stmt = $bdd->prepare("SELECT * FROM users WHERE email = :email AND token = :token");
-$stmt->execute(['email' => $email, 'token' => $token]);
-$rep = $stmt->fetch();
-
-if ($rep && !empty($rep['pseudo'])) {
-    echo "Vous êtes bien connecté " . htmlspecialchars($rep['pseudo']) . "!";
-} else {
-    echo "Erreur de connexion. Veuillez vérifier vos informations.";
-}
-
-?>
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
