@@ -24,15 +24,23 @@
     }
 
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
-        $mail = $_POST['mail'];
-        $MDP = $_POST['MDP'];
-        if ($mail != '' && $MDP != '') {
-            $req = $bdd->query("SELECT * FROM client WHERE mail = '$mail' AND MDP = '$MDP'");
-            $rep = $req->fetch();
-            if ($rep && $rep['ID_client'] != false) {
-                setcookie("username", $mail, time() + 3600);
-                setcookie("password", $MDP, time() + 3600);
-                header("location: clientconnecte.php");
+        $mail = htmlspecialchars($_POST['mail']);
+        $MDP = sha1($_POST['MDP']);
+        if (!empty($mail) && !empty($MDP)) {
+    
+            $token = bin2hex(random_bytes(16));
+    
+            $stmt = $bdd->prepare("SELECT * FROM client WHERE mail = :mail AND MDP = :MDP");
+            $stmt->execute(['mail' => $mail, 'MDP' => $MDP]);
+            $rep = $stmt->fetch();
+    
+            if ($rep && $rep['ID_client']) {
+                $updateStmt = $bdd->prepare("UPDATE client SET token = :token WHERE mail = :mail AND MDP = :MDP");
+                $updateStmt->execute(['token' => $token, 'mail' => $mail, 'MDP' => $MDP]);
+    
+                setcookie("token", $token, time() + 3600, "/", "", false, true);
+                setcookie("mail", $mail, time() + 3600, "/", "", false, true);
+                header("Location: main.php");
                 exit();
             } else {
                 echo 'Email ou mot de passe incorrect';
