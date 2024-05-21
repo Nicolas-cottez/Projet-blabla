@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 </head>
 
 <body>
-
+    <form method="POST" action="">
         <label for="mail">mail</label>
         <input type="text" placeholder="Entrez votre e-mail..." id="mail" name="mail">
         <label for="MDP">Mot de passe</label>

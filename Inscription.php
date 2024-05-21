@@ -2,15 +2,13 @@
 
 <?php
 if (isset($_POST['ok'])) {
-    var_dump($_POST);
-    
     // Récupération des données du formulaire
     $nom = htmlspecialchars($_POST['nom']);
     $Prenom = htmlspecialchars($_POST['Prenom']);
     $Num_Tel = htmlspecialchars($_POST['Num_Tel']);
     $mail = htmlspecialchars($_POST['mail']);
     $MDP = sha1($_POST['MDP']);
-    
+
     // Gestion de l'upload de la photo
     $target_dir = "uploads/";
     $photo = basename($_FILES["Photo"]["name"]);
@@ -20,7 +18,7 @@ if (isset($_POST['ok'])) {
 
     // Vérifiez si le fichier image est une image réelle ou une fausse image
     $check = getimagesize($_FILES["Photo"]["tmp_name"]);
-    if($check !== false) {
+    if ($check !== false) {
         $uploadOk = 1;
     } else {
         echo "Le fichier n'est pas une image.";
@@ -34,8 +32,8 @@ if (isset($_POST['ok'])) {
     }
 
     // Limite les formats de fichier
-    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-    && $imageFileType != "gif" ) {
+    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+        && $imageFileType != "gif") {
         echo "Désolé, seuls les fichiers JPG, JPEG, PNG et GIF sont autorisés.";
         $uploadOk = 0;
     }
@@ -43,10 +41,9 @@ if (isset($_POST['ok'])) {
     // Vérifiez si $uploadOk est à 0 à cause d'une erreur
     if ($uploadOk == 0) {
         echo "Désolé, votre fichier n'a pas été téléchargé.";
-    // Si tout est ok, essayez de télécharger le fichier
     } else {
         if (move_uploaded_file($_FILES["Photo"]["tmp_name"], $target_file)) {
-            echo "Le fichier ". htmlspecialchars( basename( $_FILES["Photo"]["name"])). " a été téléchargé.";
+            echo "Le fichier " . htmlspecialchars(basename($_FILES["Photo"]["name"])) . " a été téléchargé.";
         } else {
             echo "Désolé, une erreur s'est produite lors du téléchargement de votre fichier.";
         }
@@ -75,12 +72,11 @@ if (isset($_POST['ok'])) {
         ':photo' => $photo
     ]);
 
-    // Récupération et affichage des résultats
-    $reponse = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    var_dump($reponse);
+    // Redirection après l'inscription
     header("location: clientinscrit.php");
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
