@@ -18,6 +18,9 @@
     <br>
     <br>
     <br>
+    <article>
+    <h2>Merci, Vous êtes vous êtes connecté</h2>
+    </article>
     <br>
     <br>
     <br>
@@ -35,8 +38,31 @@
 
 <style>
     body{
+        font-family: 'Poppins', sans-serif;
         background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 1)), url("image/fondtest.jpg") center / cover no-repeat;
     }
+    article {
+    padding: 20px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+article h2 {
+    font-size: 2.5rem;
+    color: #f5d742a9;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    letter-spacing: 1.5px;
+    font-weight: 600;
+}
+
+article p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #FFFFFF;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+}
+    
 
 </style>
 
