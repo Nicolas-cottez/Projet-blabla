@@ -14,7 +14,8 @@ if (isset($_POST['ok'])) {
 
     if (!in_array($email_domain, $allowed_domains)) {
         echo "L'adresse e-mail doit appartenir aux domaines suivants : omnesintervenant.com, ece.fr ou edu.ece.fr";
-        exit;
+        header("location: matt.php");
+                exit();
     }
 
     // Préparation de la requête SQL
@@ -34,6 +35,7 @@ if (isset($_POST['ok'])) {
     // Récupération et affichage des résultats
     $reponse = $stmt->fetchAll(PDO::FETCH_ASSOC);
     var_dump($reponse);
+    header("location: clientinscrit.php");
 }
 ?>
 
@@ -48,11 +50,7 @@ if (isset($_POST['ok'])) {
 
 <body>
 
-<<<<<<< HEAD
 <form method="POST" action="">
-=======
-<form method="POST" action="Inscription_2.php" enctype="multipart/form-data">
->>>>>>> a6c4840121044abb3ab1cbefb2e7e2f5fa1f914c
     <label>Votre nom</label>
     <input type="text" id="nom" name="nom" placeholder="Entrez votre nom..." required>
     <br />
