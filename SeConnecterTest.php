@@ -27,10 +27,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if ($mail != '' && $MDP != '') {
         $req = $bdd->query("SELECT * FROM client WHERE mail = '$mail' AND MDP = '$MDP'");
         $rep = $req->fetch();
-        if ($rep && $rep['id'] != false) {
+        if ($rep && $rep['ID_client'] != false) {
             echo 'Vous êtes connectés';
         } else {
             $error_msg = "Email ou mot de passe incorrect";
+            echo "erreur";
         }
     } else {
         $error_msg = "Email ou mot de passe incorrect";
