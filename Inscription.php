@@ -9,12 +9,15 @@
 
 <body>
 
-<form method="POST" action="Inscription_2.php">
+<form method="POST" action="Inscription_2.php" enctype="multipart/form-data">
     <label>Votre nom</label>
     <input type="text" id="nom" name="nom" placeholder="Entrez votre nom..." required>
     <br />
     <label>Votre prénom</label>
     <input type="text" id="Prenom" name="Prenom" placeholder="Entrez votre prénom..." required>
+    <br />
+    <label>Votre photo</label>
+    <input type="file" id="Photo" name="Photo" required>
     <br />
     <label>Votre numéro de tél</label>
     <input type="text" id="Num_Tel" name="Num_Tel" placeholder="Entrez votre numéro..." required>
