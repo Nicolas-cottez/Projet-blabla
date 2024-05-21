@@ -1,18 +1,5 @@
+<?php include 'backend.php'; ?>
 <?php
-
-$source = "mysql:host=localhost;dbname=projet_blablacar2";
-$login = "root";
-$mdp = "";
-
-try {
-    $db = new PDO($source, $login, $mdp);
-    echo "Vous êtes connecté !";
-} catch (PDOException $e) {
-    $error_message = $e->getMessage();
-    echo $error_message;
-    exit();
-}
-
 if (isset($_POST['ok'])) {
     var_dump($_POST);
     
