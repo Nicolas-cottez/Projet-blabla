@@ -1,43 +1,45 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
 </head>
+
 <body>
 
-<?php
-$servername = "localhost";
-$username = "root";
-$MDP = "";
+    <?php
+    $servername = "localhost";
+    $username = "root";
+    $MDP = "";
 
-try {
-    $bdd = new PDO("mysql:host=$servername;dbname=projet_blablacar2", $username, $MDP);
-    $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Connexion réussie !";
-} catch(PDOException $e) {
-    echo "Erreur : " . $e->getMessage();
-}
-
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $mail = $_POST['mail'];
-    $MDP = $_POST['MDP'];
-    if ($mail != '' && $MDP != '') {
-        $req = $bdd->query("SELECT * FROM client WHERE mail = '$mail' AND MDP = '$MDP'");
-        $rep = $req->fetch();
-        if ($rep && $rep['ID_client'] != false) {
-            echo 'Vous êtes connectés';
-        } else {
-            $error_msg = "Email ou mot de passe incorrect";
-            echo "erreur";
-        }
-    } else {
-        $error_msg = "Email ou mot de passe incorrect";
+    try {
+        $bdd = new PDO("mysql:host=$servername;dbname=projet_blablacar2", $username, $MDP);
+        $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        // echo "Connexion BDD réussie !";
+    } catch (PDOException $e) {
+        echo "Erreur BDD : " . $e->getMessage();
     }
-}
-?> 
+
+    if ($_SERVER['REQUEST_METHOD'] == "POST") {
+        $mail = $_POST['mail'];
+        $MDP = $_POST['MDP'];
+        if ($mail != '' && $MDP != '') {
+            $req = $bdd->query("SELECT * FROM client WHERE mail = '$mail' AND MDP = '$MDP'");
+            $rep = $req->fetch();
+            if ($rep && $rep['ID_client'] != false) {
+                setcookie("username", $mail, time() + 3600);
+                setcookie("password", $MDP, time() + 3600);
+                header("location : client.php");
+                exit();
+            } else {
+                echo 'Email ou mot de passe incorrect';
+            }
+        }
+    }
+    ?>
 
     <form method="POST" action="">
         <label for="mail">mail</label>
@@ -47,4 +49,5 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         <input type="submit" value="Se connecter" name="ok">
     </form>
 </body>
+
 </html>
