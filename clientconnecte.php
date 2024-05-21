@@ -19,7 +19,7 @@
     <br>
     <br>
     <article>
-    <h2>Merci, Vous êtes vous êtes connecté</h2>
+    <h2>Merci, Vous êtes connecté</h2>
     </article>
     <br>
     <br>
