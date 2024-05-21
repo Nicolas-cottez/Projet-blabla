@@ -11,16 +11,16 @@ if (isset($_POST['ok'])) {
     $MDP = $_POST['MDP'];
 
     // Préparation de la requête SQL
-    $query = "INSERT INTO client (mail, MDP, nom, Num_Tel, Prenom) VALUES ( :mail, :MDP, :nom, :Num_Tel, :Prenom)";
+    $query = "INSERT INTO client (nom, Prenom, mail, MDP, Num_Tel) VALUES (:nom, :Prenom, :mail, :MDP, :Num_Tel)";
     $stmt = $db->prepare($query);
     
     // Exécution de la requête avec les paramètres
     $stmt->execute([
+        ':nom' => $nom,
+        ':Prenom' => $Prenom,
         ':mail' => $mail,
         ':MDP' => $MDP,
-        ':nom' => $nom,
-        ':Num_Tel' => $Num_Tel,
-        ':Prenom' => $Prenom
+        ':Num_Tel' => $Num_Tel
     ]);
 
     // Récupération et affichage des résultats
