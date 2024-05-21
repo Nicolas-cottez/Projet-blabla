@@ -23,14 +23,14 @@
                 <div class="card-front">
                   <div class="center-wrap">
                     <div class="section text-center">
-                      <form method="POST" action="se_connecter_action.php">
+                      <form method="POST" action="SeConnecterTest.php">
                         <h4 class="mb-6 pb-4 font-medium text-3xl">Se Connecter</h4>
                         <div class="form-group">
-                          <input type="email" class="form-style" placeholder="Email" name="login_email" required>
+                          <input id="mail" type="email" class="form-style" placeholder="Email" name="login_email" required>
                           <i class="input-icon uil uil-at"></i>
                         </div>
                         <div class="form-group mt-2">
-                          <input type="password" class="form-style" placeholder="Mot De Passe" name="login_password" required>
+                          <input id="MDP" type="password" class="form-style" placeholder="Mot De Passe" name="login_password" required>
                           <i class="input-icon uil uil-lock-alt"></i>
                         </div>
                         <input type="submit" class="btn mt-4" value="Se Connecter">
@@ -42,7 +42,7 @@
                 <div class="card-back">
                   <div class="center-wrap">
                     <div class="section text-center">
-                      <form method="POST" action="Inscription_2.php">
+                      <form method="POST" action="Inscription.php">
                         <h4 class="mb-3 pb-3 font-medium text-3xl">S'inscrire</h4>
                         <div class="form-group">
                           <input id="nom" name="nom" type="text" class="form-style" placeholder="Nom" required>
