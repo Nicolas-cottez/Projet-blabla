@@ -30,9 +30,9 @@
             $req = $bdd->query("SELECT * FROM client WHERE mail = '$mail' AND MDP = '$MDP'");
             $rep = $req->fetch();
             if ($rep && $rep['ID_client'] != false) {
-                setcookie("username", $mail, time() + 3600);
-                setcookie("password", $MDP, time() + 3600);
-                header("location : client.php");
+                //setcookie("username", $mail, time() + 3600);
+                //setcookie("password", $MDP, time() + 3600);
+                header("location: client.php");
                 exit();
             } else {
                 echo 'Email ou mot de passe incorrect';
