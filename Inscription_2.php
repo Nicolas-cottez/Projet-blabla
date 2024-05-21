@@ -1,18 +1,5 @@
+<?php include 'backend.php'; ?>
 <?php
-
-$source = "mysql:host=localhost;dbname=projet_blablacar";
-$login = "root";
-$mdp = "";
-
-try {
-    $db = new PDO($source, $login, $mdp);
-    echo "Vous êtes connecté !";
-} catch (PDOException $e) {
-    $error_message = $e->getMessage();
-    echo $error_message;
-    exit();
-}
-
 if (isset($_POST['ok'])) {
     var_dump($_POST);
     
@@ -24,7 +11,7 @@ if (isset($_POST['ok'])) {
     $MDP = $_POST['MDP'];
 
     // Préparation de la requête SQL
-    $query = "INSERT INTO client (mail, MDP, nom, Num_Tel, Prenom) VALUES (:mail, :MDP, :nom, :Num_Tel, :Prenom)";
+    $query = "INSERT INTO client (mail, MDP, nom, Num_Tel, Prenom) VALUES ( :mail, :MDP, :nom, :Num_Tel, :Prenom)";
     $stmt = $db->prepare($query);
     
     // Exécution de la requête avec les paramètres

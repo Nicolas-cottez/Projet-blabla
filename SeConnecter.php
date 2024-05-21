@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 <?php include 'backend.php'; ?>
 <head>
   <meta charset="UTF-8">
@@ -27,7 +27,7 @@
                     <div class="section text-center">
                       <h4 class="mb-6 pb-4 font-medium text-3xl">Se Connecter</h4>
                       <div class="form-group">
-                        <input type="email" class="form-style" placeholder="Email">
+                        <input type="email" class="form-style" placeholder="mail">
                         <i class="input-icon uil uil-at"></i>
                       </div>
                       <div class="form-group mt-2">
@@ -43,33 +43,36 @@
                   <div class="center-wrap">
                     <div class="section text-center">
                       <h4 class="mb-3 pb-3 font-medium text-3xl">S'inscrire</h4>
+                      <form method="POST" action="Inscription_2.php">
                       <div class="form-group-row">
                         <div class="form-group">
-                          <input type="text" class="form-style" placeholder="Nom">
+                          <input id="nom" name="nom" type="text" class="form-style" placeholder="Nom" required>
                           <i class="input-icon uil uil-user"></i>
                         </div>
                         <div class="form-group">
-                          <input type="text" class="form-style" placeholder="Prénom">
+                          <input id="Prenom" name="Prenom" type="text" class="form-style" placeholder="Prénom" required>
                           <i class="input-icon uil uil-user"></i>
                         </div>
                       </div>
                       <div class="form-group mt-2">
-                        <input type="tel" class="form-style" placeholder="Numéro de Téléphone">
+                        <input id="Num_Tel" name="Num_Tel" type="tel" class="form-style" placeholder="Numéro de Téléphone" required>
                         <i class="input-icon uil uil-phone"></i>
                       </div>
                       <div class="form-group mt-2">
-                        <input type="email" class="form-style" placeholder="Email">
+                        <input id="mail" name="mail" type="email" class="form-style" placeholder="mail" required>
                         <i class="input-icon uil uil-at"></i>
                       </div>
                       <div class="form-group mt-2">
-                        <input type="password" class="form-style" placeholder="Mot De Passe">
+                        <input id="MDP" name="MDP" type="password" class="form-style" placeholder="Mot De Passe" required>
                         <i class="input-icon uil uil-lock-alt"></i>
                       </div>
-                      <div class="form-group mt-2">
+                      <!-- <div class="form-group mt-2">
                         <input type="file" class="form-style" placeholder="Ajouter Une Photo">
                         <i class="input-icon uil uil-upload"></i>
-                      </div>
+                      </div> -->
+                      <input type="submit" value="M'inscrire" name="ok">
                       <a href="#" class="btn mt-4">S'inscrire</a>
+                      </form>
                     </div>
                   </div>
                 </div>
