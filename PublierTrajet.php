@@ -1,6 +1,6 @@
-<?php include 'backend.php'; ?>
+<?php include 'traitement.php';
 
-<?php
+
 if (isset($_POST['ok'])) {
     var_dump($_POST);
     
@@ -15,7 +15,7 @@ if (isset($_POST['ok'])) {
     
 
     // Préparation de la requête SQL
-    $query = "INSERT INTO trajet (Depart, arrivee, Distance, Duree, Date, prix, Nb_personne) VALUES (:Depart, :arrivee, :Distance, :Duree, :Date, :prix, :Nb_personne)";
+    $query = ("INSERT INTO trajet (Depart, arrivee, Distance, Duree, Date, prix, Nb_personne) VALUES (:Depart, :arrivee, :Distance, :Duree, :Date, :prix, :Nb_personne)");
     $stmt = $db->prepare($query);
 
     // Exécution de la requête avec les paramètres

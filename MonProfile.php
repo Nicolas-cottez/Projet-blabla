@@ -37,7 +37,7 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
         exit();
     }
 } else {
-    echo "Veuillez vous connecter.";
+    header("Location: SeConnecterTest.php");
     exit();
 }
 ?>
