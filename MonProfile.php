@@ -33,13 +33,31 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
         // Si la photo n'existe pas, utilisez une image par défaut
         $photoPath = !empty($photo) ? "uploads/$photo" : "image/default.jpg";
     } else {
-        echo "Utilisateur non trouvé ou token invalide.";
+        header("Location: SeConnecterTest.php");
         exit();
     }
 } else {
     header("Location: SeConnecterTest.php");
     exit();
 }
+
+if(isset($_POST['deco'])){
+    $stmt = $bdd->prepare("UPDATE client SET token = NULL WHERE mail = :mail AND token = :token");
+    $stmt->execute(['mail' => $_COOKIE['mail'], 'token' => $_COOKIE['token']]);
+
+    header("Location: clientdeconnecte.php");
+    exit();
+}
+
+
+if(isset($_POST['suppr'])){
+    $stmt = $bdd->prepare("DELETE FROM client WHERE mail = :mail AND token = :token");
+    $stmt->execute(['mail' => $_COOKIE['mail'], 'token' => $_COOKIE['token']]);
+
+    header("Location: clientdeconnecte.php");
+    exit();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -62,6 +80,15 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
         <input type="text" name="password" placeholder="Password" value="<?php echo $MDP; ?>" readonly>
         <button onclick="window.location.href='logout.php'">CANCEL</button>
         <button><a href="main.php">MENU</a></button>
+        <form method="POST" action="">
+            <button>
+        <input type="submit" value="Se déconnecter" name="deco" >
+        </button>
+        <button>
+        <input type="submit" value="Supprimer" name="suppr" >
+        </button>
+        </form>
+        
     </div>
 </body>
 </html>
