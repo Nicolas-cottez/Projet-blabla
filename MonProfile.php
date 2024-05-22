@@ -61,7 +61,7 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
         <input type="text" name="phone" placeholder="Phone Number" value="<?php echo $phone; ?>" readonly>
         <input type="text" name="password" placeholder="Password" value="<?php echo $MDP; ?>" readonly>
         <button onclick="window.location.href='logout.php'">CANCEL</button>
-        <button>DONE</button>
+        <button><a href="main.php">MENU</a></button>
     </div>
 </body>
 </html>
