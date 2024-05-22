@@ -54,6 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         <label for="MDP">Mot de passe</label>
         <input type="password" placeholder="Entrez votre MDP..." id="MDP" name="MDP">
         <input type="submit" value="Se connecter" name="ok">
-    </form>
+        </form>
+    
 </body>
 </html>
