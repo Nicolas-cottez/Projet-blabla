@@ -49,6 +49,15 @@ if(isset($_POST['deco'])){
     exit();
 }
 
+
+if(isset($_POST['suppr'])){
+    $stmt = $bdd->prepare("DELETE FROM client WHERE mail = :mail AND token = :token");
+    $stmt->execute(['mail' => $_COOKIE['mail'], 'token' => $_COOKIE['token']]);
+
+    header("Location: clientdeconnecte.php");
+    exit();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -72,7 +81,12 @@ if(isset($_POST['deco'])){
         <button onclick="window.location.href='logout.php'">CANCEL</button>
         <button><a href="main.php">MENU</a></button>
         <form method="POST" action="">
+            <button>
         <input type="submit" value="Se déconnecter" name="deco" >
+        </button>
+        <button>
+        <input type="submit" value="Supprimer" name="suppr" >
+        </button>
         </form>
         
     </div>
