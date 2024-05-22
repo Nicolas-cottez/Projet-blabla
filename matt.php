@@ -42,7 +42,7 @@
                 <div class="card-back">
                   <div class="center-wrap">
                     <div class="section text-center">
-                      <form method="POST" action="Inscription.php" enctype="multipart/form-data">
+                      <form method="POST" action="Inscription_2.php">
                         <h4 class="mb-3 pb-3 font-medium text-3xl">S'inscrire</h4>
                         <div class="form-group">
                           <input id="nom" name="nom" type="text" class="form-style" placeholder="Nom" required>
