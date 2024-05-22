@@ -8,7 +8,7 @@
       <li><a href="MesTrajet.php">Mes trajets</a></li>
       <li><a href="MonProfile.php">Mon profil</a></li>
     </ul>
-    <a href="#" class="action_btn">Devenir conducteur</a>
+    <a href="DevenirConducteur.php" class="action_btn">Devenir conducteur</a>
     <div class="bar_btn">
       <i class="fa-solid fa-bars"></i>
     </div>

@@ -72,11 +72,22 @@ if (isset($_POST['ok'])) {
         ':photo' => $photo
     ]);
 
+    // Gestion des cookies pour maintenir l'utilisateur connecté
+    $token = bin2hex(random_bytes(16));
+
+    // Mise à jour du token dans la base de données
+    $updateStmt = $db->prepare("UPDATE client SET token = :token WHERE mail = :mail");
+    $updateStmt->execute(['token' => $token, 'mail' => $mail]);
+
+    // Définir les cookies
+    setcookie("token", $token, time() + 3600, "/", "", false, true);
+    setcookie("mail", $mail, time() + 3600, "/", "", false, true);
+
     // Redirection après l'inscription
     header("location: clientinscrit.php");
+    exit();
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="fr">
