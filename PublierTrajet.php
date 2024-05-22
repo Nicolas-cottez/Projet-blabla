@@ -11,11 +11,14 @@ if (isset($_POST['ok'])) {
     $Duree = htmlspecialchars($_POST['Duree']);
     $Date = htmlspecialchars($_POST['Date']);
     $prix = htmlspecialchars($_POST['prix']);
+    $nom_campus = htmlspecialchars($_POST['nom_campus']);
     $Nb_personne = htmlspecialchars($_POST['Nb_personne']);
+    $ID_conducteur = htmlspecialchars($_POST['ID_conducteur']);
+    
     
 
     // Préparation de la requête SQL
-    $query = "INSERT INTO trajet (Depart, arrivee, Distance, Duree, Date, prix, Nb_personne) VALUES (:Depart, :arrivee, :Distance, :Duree, :Date, :prix, :Nb_personne)";
+    $query = "INSERT INTO trajet (Depart, arrivee, Distance, Duree, Date, prix, nom_campus, Nb_personne, ID_conducteur) VALUES (:Depart, :arrivee, :Distance, :Duree, :Date, :prix, :nom_campus, :Nb_personne, :ID_conducteur)";
     $stmt = $db->prepare($query);
 
     // Exécution de la requête avec les paramètres
@@ -26,7 +29,9 @@ if (isset($_POST['ok'])) {
         ':Duree' => $Duree,
         ':Date' => $Date,
         ':prix' => $prix,
-        ':Nb_personne' => $Nb_personne
+        ':nom_campus' => $nom_campus,
+        ':Nb_personne' => $Nb_personne,
+        ':ID_conducteur' => $ID_conducteur
     ]);
 
     // Récupération et affichage des résultats
@@ -80,6 +85,10 @@ if (isset($_POST['ok'])) {
             <div class="mb-4">
                 <label for="nom_campus" class="block text-gray-700 text-sm font-bold mb-2">Nom du campus:</label>
                 <input type="text" id="nom_campus" name="nom_campus" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="mb-4">
+                <label for="ID_conducteur" class="block text-gray-700 text-sm font-bold mb-2">Id du conducteur:</label>
+                <input type="text" id="ID_conducteur" name="ID_conducteur" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             </div>
             <div class="flex items-center justify-between">
                 <input type="submit" value="Publier" name="ok" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
