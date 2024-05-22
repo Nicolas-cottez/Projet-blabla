@@ -27,7 +27,11 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
         $prenom = htmlspecialchars($user['Prenom']);
         $email = htmlspecialchars($user['mail']);
         $phone = htmlspecialchars($user['Num_Tel']);
-        
+        $MDP = htmlspecialchars($user['MDP']);
+        $photo = htmlspecialchars($user['Photo']); // Nouveau champ photo
+
+        // Si la photo n'existe pas, utilisez une image par défaut
+        $photoPath = !empty($photo) ? "uploads/$photo" : "image/default.jpg";
     } else {
         echo "Utilisateur non trouvé ou token invalide.";
         exit();
@@ -38,7 +42,7 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,14 +52,14 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
 <body>
     <div class="box">
         <div class="UserPicture">
-            <img src="image/user.jpg" alt="user">
+            <img src="<?php echo $photoPath; ?>" alt="user">
         </div>
         <input type="file" name="" id="file" accept="image/*">
         <label for="file">EDIT PIC</label>
         <input type="text" name="username" placeholder="User Name" value="<?php echo $prenom . ' ' . $nom; ?>" readonly>
         <input type="email" name="email" placeholder="Email ID" value="<?php echo $email; ?>" readonly>
         <input type="text" name="phone" placeholder="Phone Number" value="<?php echo $phone; ?>" readonly>
-        <input type="text" name="gender" placeholder="Gender" value="<?php echo $gender; ?>" readonly>
+        <input type="text" name="password" placeholder="Password" value="<?php echo $MDP; ?>" readonly>
         <button onclick="window.location.href='logout.php'">CANCEL</button>
         <button>DONE</button>
     </div>
