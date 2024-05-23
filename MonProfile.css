@@ -24,6 +24,21 @@ h2 {
   height: auto;
 }
 
+.Carte{
+  width: 250px;
+  height: 150px;
+  overflow: hidden;
+  margin: 0 auto;
+  padding: 3px;
+  box-sizing: border-box;
+  border: 3px solid #FFA500;
+}
+
+.Carte img {
+  width: 100%;
+  height: auto;
+}
+
 /* Styles pour les sections */
 .rcorners1 {
   border-radius: 25px;
