@@ -13,7 +13,7 @@ try {
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $mail = htmlspecialchars($_POST['mail']);
-    $MDP = sha1($_POST['MDP']);
+    $MDP = password_hash($_POST['MDP'], PASSWORD_DEFAULT);
     if (!empty($mail) && !empty($MDP)) {
 
         $token = bin2hex(random_bytes(16));
