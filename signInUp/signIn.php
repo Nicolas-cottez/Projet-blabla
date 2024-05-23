@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
             setcookie("token", $token, time() + 3600, "/", "", false, true);
             setcookie("mail", $mail, time() + 3600, "/", "", false, true);
-            header("Location: main.php");
+            header("Location: ../clientconnecte.php");
             exit();
         } else {
             echo 'Email ou mot de passe incorrect';
@@ -35,25 +35,3 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="fr">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion</title>
-</head>
-
-<body>
-    <form method="POST" action="">
-        <label for="mail">mail</label>
-        <input type="text" placeholder="Entrez votre e-mail..." id="mail" name="mail" required>
-        <label for="MDP">Mot de passe</label>
-        <input type="password" placeholder="Entrez votre MDP..." id="MDP" name="MDP" required>
-        <input type="submit" value="Se connecter" name="ok">
-        <label><a href="Inscription.php">S'inscrire</a></label>
-    </form>
-</body>
-</html>

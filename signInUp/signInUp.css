@@ -118,7 +118,7 @@ h6 span {
   width: 100%;
   height: 120%;
   background-color: #F5D742;
-  background-image: url('image/fond_patern_green.jpg');
+  background-image: url('../image/fond_patern_green.jpg');
   position: absolute;
   border-radius: 6px;
   -webkit-transform-style: preserve-3d;

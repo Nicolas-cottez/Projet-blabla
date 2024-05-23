@@ -15,7 +15,7 @@
     <br>
     <a href="validationpermis.php"> <button> Vérifier un permis ?</button></a>
     <br>
-    <button><a href=""></a> Modification des infos</button>
+    <a href="dataclients.php"> <button> Modification des clients</button></a>
 
 
 </body>
