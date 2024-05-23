@@ -29,9 +29,17 @@
 </head>
 <body>
     
+<h1> Voulez vous valider le permis d'un client ?</h1>
+<form method="POST" action="">
+        <input type="number" id="ID_client" name="ID_client" placeholder="ID du client à valider..." required>
+        <input type="submit" value="Valider" name="valider">
+        <br>
+        </form>
+
 <h1> Liste des clients en attente de validation du permis :</h1>
 <table>
 <tr>
+        <th>ID du client</th>
         <th>Nom</th>
         <th>Prénom</th>
         <th>Photo</th>
@@ -40,16 +48,33 @@
         <th>Plaque de la voiture</th>
     </tr>
     <?php 
+    if(isset($_POST['valider'])) {
+        $ID_client = htmlspecialchars($_POST['ID_client']);
+        
+        $query = "UPDATE client SET Etat_conducteur = 1 WHERE ID_client = :ID_client";
+        $stmt = $db->prepare($query);
+        
+        $stmt->execute([
+            ':ID_client' => $ID_client
+        ]);
+    }
+    
     // Requête pour récupérer les clients en attente de validation du permis
-    $query = "SELECT nom, Prenom, Photo, permis, Modele, Plaque FROM client WHERE Etat_conducteur = 1";
+    $query = "SELECT ID_client, nom, Prenom, Photo, permis, Modele, Plaque FROM client WHERE Etat_conducteur = 0";
     $stmt = $db->query($query);
 
+
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+        $photo_path = '../uploads/' . htmlspecialchars($row['Photo']);
+        $permis_path = '../uploads/' . htmlspecialchars($row['permis']);
+
         echo "<tr>";
+        echo "<td>" . htmlspecialchars($row['ID_client']) . "</td>";
         echo "<td>" . htmlspecialchars($row['nom']) . "</td>";
         echo "<td>" . htmlspecialchars($row['Prenom']) . "</td>";
-        echo "<td><img src='path/to/photo/directory/" . htmlspecialchars($row['Photo']) . "' alt='Photo'></td>";
-        echo "<td><img src='path/to/permis/directory/" . htmlspecialchars($row['permis']) . "' alt='Photo du permis'></td>";
+        echo "<td><img src='" . $photo_path . "' alt='Photo'></td>";
+        echo "<td><img src='" . $permis_path . "' alt='Photo du permis'></td>";
         echo "<td>" . htmlspecialchars($row['Modele']) . "</td>";
         echo "<td>" . htmlspecialchars($row['Plaque']) . "</td>";
         echo "</tr>";
