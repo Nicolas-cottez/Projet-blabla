@@ -24,14 +24,24 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
     // Si l'utilisateur est trouvé
     if ($user) {
         $nom = htmlspecialchars($user['nom']);
-        $prenom = htmlspecialchars($user['Prenom']);
+        $Prenom = htmlspecialchars($user['Prenom']);
         $email = htmlspecialchars($user['mail']);
-        $phone = htmlspecialchars($user['Num_Tel']);
+        $Num_Tel = htmlspecialchars($user['Num_Tel']);
         $MDP = htmlspecialchars($user['MDP']);
-        $photo = htmlspecialchars($user['Photo']); // Nouveau champ photo
+        $Photo = htmlspecialchars($user['Photo']); // Nouveau champ photo
+        $Etat_conducteur = $user['Etat_conducteur']; // Vérifier si l'utilisateur est un conducteur
 
         // Si la photo n'existe pas, utilisez une image par défaut
-        $photoPath = !empty($photo) ? "uploads/$photo" : "image/default.jpg";
+        $photoPath = !empty($Photo) ? "uploads/$Photo" : "image/default.jpg";
+        if ($Etat_conducteur) {
+            $Modele = htmlspecialchars($user['Modele']);
+            $Plaque = htmlspecialchars($user['Plaque']);
+            $PhotoV = htmlspecialchars($user['PhotoV']);
+            $permis = htmlspecialchars($user['permis']);
+        }
+
+        
+        
     } else {
         header("Location: SeConnecterTest.php");
         exit();
@@ -41,7 +51,7 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
     exit();
 }
 
-if(isset($_POST['deco'])){
+if (isset($_POST['deco'])) {
     $stmt = $bdd->prepare("UPDATE client SET token = NULL WHERE mail = :mail AND token = :token");
     $stmt->execute(['mail' => $_COOKIE['mail'], 'token' => $_COOKIE['token']]);
 
@@ -49,15 +59,13 @@ if(isset($_POST['deco'])){
     exit();
 }
 
-
-if(isset($_POST['suppr'])){
+if (isset($_POST['suppr'])) {
     $stmt = $bdd->prepare("DELETE FROM client WHERE mail = :mail AND token = :token");
     $stmt->execute(['mail' => $_COOKIE['mail'], 'token' => $_COOKIE['token']]);
 
     header("Location: clientdeconnecte.php");
     exit();
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -74,21 +82,32 @@ if(isset($_POST['suppr'])){
         </div>
         <input type="file" name="" id="file" accept="image/*">
         <label for="file">EDIT PIC</label>
-        <input type="text" name="username" placeholder="User Name" value="<?php echo $prenom . ' ' . $nom; ?>" readonly>
+        <input type="text" name="username" placeholder="User Name" value="<?php echo $Prenom . ' ' . $nom; ?>" readonly>
         <input type="email" name="email" placeholder="Email ID" value="<?php echo $email; ?>" readonly>
-        <input type="text" name="phone" placeholder="Phone Number" value="<?php echo $phone; ?>" readonly>
+        <input type="text" name="phone" placeholder="Phone Number" value="<?php echo $Num_Tel; ?>" readonly>
         <input type="text" name="password" placeholder="Password" value="<?php echo $MDP; ?>" readonly>
+
+        <?php if ($Etat_conducteur): ?>
+            <input type="text" name="modele" placeholder="Modèle de voiture" value="<?php echo $Modele; ?>" readonly>
+            <input type="text" name="plaque" placeholder="Plaque du véhicule" value="<?php echo $Plaque; ?>" readonly>
+            <div class="UserPicture">
+            <img src="<?php echo $photoV; ?>" alt="user">
+            </div>
+            <div class="UserPicture">
+            <img src="<?php echo $permis; ?>" alt="user">
+            </div>
+        <?php endif; ?>
+
         <button onclick="window.location.href='logout.php'">CANCEL</button>
         <button><a href="main.php">MENU</a></button>
         <form method="POST" action="">
             <button>
-        <input type="submit" value="Se déconnecter" name="deco" >
-        </button>
-        <button>
-        <input type="submit" value="Supprimer" name="suppr" >
-        </button>
+                <input type="submit" value="Se déconnecter" name="deco">
+            </button>
+            <button>
+                <input type="submit" value="Supprimer" name="suppr">
+            </button>
         </form>
-        
     </div>
 </body>
 </html>
