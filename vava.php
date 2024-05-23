@@ -1,45 +1,49 @@
 <?php
-// Inclure le fichier de connexion à la base de données
 include 'backend.php';
 
-// Vérifier si le formulaire est soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Récupérer les valeurs des champs du formulaire
     $departure = $_POST['departure'];
     $destination = $_POST['destination'];
+    $date = $_POST['date'];
 
-    // Préparer la requête SQL pour vérifier les adresses dans la base de données
     $query = $db->prepare('SELECT COUNT(*) FROM campus WHERE adresse = :adresse');
-    
-    // Vérifier si l'adresse de départ existe dans la base de données
+
+    // Check if departure exists
     $query->execute(['adresse' => $departure]);
     $departureExists = $query->fetchColumn() > 0;
 
-    // Vérifier si l'adresse de destination existe dans la base de données
+    // Check if destination exists
     $query->execute(['adresse' => $destination]);
     $destinationExists = $query->fetchColumn() > 0;
 
-    // Initialiser un tableau pour stocker les messages d'erreur
+    // Check if the selected date exists in the "date" column of the "trajet" table
+    $query = $db->prepare('SELECT COUNT(*) FROM trajet WHERE date = :date');
+    $query->execute(['date' => $date]);
+    $dateExists = $query->fetchColumn() > 0;
+
     $errors = [];
 
-    // Vérifier les conditions et ajouter les messages d'erreur si nécessaire
+    // If both departure and destination exist
     if ($departureExists && $destinationExists) {
-        $errors[] = "Vous devez avoir un seul campus dans vos destination";
+        $errors[] = "Veuillez sélectionner un seul campus.";
     }
 
+    // If departure or destination does not exist
     if (!$departureExists || !$destinationExists) {
         $errors[] = "L'adresse de départ ou de destination n'existe pas dans la base de données.";
     }
 
-    // Si des erreurs existent, les afficher
-    if (!empty($errors)) {
-        foreach ($errors as $error) {
-            echo "<p style='color:red;'>$error</p>";
-        }
-    } else {
-        // Sinon, continuer avec le traitement normal (par exemple, afficher les résultats de la recherche)
-        echo "<p style='color:green;'>Recherche réussie !</p>";
-        // Vous pouvez ajouter ici le code pour afficher les résultats de la recherche
+    // If the selected date does not exist
+    if (!$dateExists) {
+        $errors[] = "La date sélectionnée n'est pas disponible pour les trajets.";
     }
+
+    if (!empty($errors)) {
+        echo json_encode(['status' => 'error', 'message' => implode(" ", $errors)]);
+    } else {
+        echo json_encode(['status' => 'success']);
+    }
+} else {
+    echo json_encode(['status' => 'error', 'message' => 'Requête invalide.']);
 }
 ?>

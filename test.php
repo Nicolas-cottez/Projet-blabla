@@ -19,37 +19,43 @@
             <!-- Departure Select -->
             <div class="mb-4">
                 <label for="departure" class="block text-gray-700 text-sm font-bold mb-2">Départ:</label>
-                <select name="departure" id="departure" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                    <?php
-                    $reponse = $db->query('SELECT adresse FROM campus');
-                    while ($donnees = $reponse->fetch()) {
-                    ?>
-                        <option value="<?php echo htmlspecialchars($donnees['adresse']); ?>">
-                            <?php echo htmlspecialchars($donnees['adresse']); ?>
-                        </option>
-                    <?php
-                    }
-                    $reponse->closeCursor();
-                    ?>
-                </select>
+                <select name="departure" id="departure" class="destination-select shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <?php
+                $reponse = $db->query('       SELECT Depart AS adresse FROM trajet
+                UNION
+                SELECT Arrivee AS adresse FROM trajet
+                UNION
+                SELECT adresse FROM campus
+                WHERE nom_campus NOT IN (SELECT DISTINCT nom_campus FROM trajet)');
+                while ($donnees = $reponse->fetch()) {
+                ?>
+                    <option value="<?php echo htmlspecialchars($donnees['adresse']); ?>">
+                        <?php echo htmlspecialchars($donnees['adresse']); ?>
+                    </option>
+                <?php
+                }
+                $reponse->closeCursor();
+                ?>
+            </select>
             </div>
             <!-- Destination Select -->
             <div class="mb-4">
                 <label for="destination" class="block text-gray-700 text-sm font-bold mb-2">Destination:</label>
                 <select id="destination" name="destination" class="destination-select shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                    <?php
-                    $reponse = $db->query('SELECT adresse FROM campus');
-                    while ($donnees = $reponse->fetch()) {
-                    ?>
-                        <option value="<?php echo htmlspecialchars($donnees['adresse']); ?>">
-                            <?php echo htmlspecialchars($donnees['adresse']); ?>
-                        </option>
-                    <?php
-                    }
-                    $reponse->closeCursor();
-                    ?>
-                </select>
-            </div>
+                <?php
+                $reponse = $db->query('SELECT Depart AS adresse FROM trajet UNION SELECT Arrivee AS adresse FROM trajet
+                UNION SELECT adresse FROM campus
+                WHERE nom_campus NOT IN (SELECT DISTINCT nom_campus FROM trajet)');
+                while ($donnees = $reponse->fetch()) {
+                ?>
+                    <option value="<?php echo htmlspecialchars($donnees['adresse']); ?>">
+                        <?php echo htmlspecialchars($donnees['adresse']); ?>
+                    </option>
+                <?php
+                }
+                $reponse->closeCursor();
+                ?>
+            </select>
             <!-- Other form elements -->
             <div class="mb-4">
                 <label for="date" class="block text-gray-700 text-sm font-bold mb-2">Date:</label>
@@ -72,8 +78,65 @@
             allowClear: true
         });
     });
+    $(document).ready(function() {
+            $('#searchForm').on('submit', function(event) {
+                event.preventDefault(); // Empêche le rechargement de la page
+                var formData = $(this).serialize(); // Sérialise les données du formulaire
+
+                console.log("Formulaire soumis"); // Vérifie que le formulaire est soumis
+                console.log("Form data: " + formData); // Vérifie les données du formulaire
+
+                $.ajax({
+                    url: 'vava.php',
+                    type: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        console.log("Réponse du serveur : " + response); // Vérifie la réponse du serveur
+                        var data = JSON.parse(response);
+                        if (data.status === 'error') {
+                            alert(data.message); // Affiche le message d'erreur
+                        } else {
+                            alert('Recherche réussie !');
+                            // Traitez la réponse réussie ici (par exemple, rediriger ou afficher les résultats)
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Erreur AJAX : " + status + " " + error);
+                    }
+                });
+            });
+        });
     </script>
     <?php include 'footer.php'; ?>
+
+    <<style>
+    .select2-container--default .select2-selection--single {
+        background-color: #fff; /* bg-white */
+        border: 1px solid #d1d5db; /* border-gray-300 */
+        border-radius: 0.375rem; /* rounded-md */
+        height: 2.875rem; /* hauteur totale pour aligner le texte verticalement */
+        padding-top: 0.5rem; /* py-2 */
+        padding-bottom: 0.5rem; /* py-2 */
+        padding-left: 1rem; /* pl-4 */
+        padding-right: 1rem; /* pr-4 */
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        color: #4b5563; /* text-gray-700 */
+        line-height: 1.75rem; /* leading-tight */
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        top: 50%;
+        right: 1rem; /* pr-4 */
+        transform: translateY(-50%);
+    }
+    .select2-container .select2-dropdown {
+        border-color: #d1d5db; /* border-gray-300 */
+        border-radius: 0.375rem; /* rounded-md */
+    }
+    .select2-container .select2-search--dropdown .select2-search__field {
+        border-radius: 0.375rem; /* rounded-md */
+    }
+</style>
 </body>
 </html>
 
