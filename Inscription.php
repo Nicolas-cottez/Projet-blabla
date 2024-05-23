@@ -7,7 +7,7 @@ if (isset($_POST['ok'])) {
     $Prenom = htmlspecialchars($_POST['Prenom']);
     $Num_Tel = htmlspecialchars($_POST['Num_Tel']);
     $mail = htmlspecialchars($_POST['mail']);
-    $MDP = sha1($_POST['MDP']);
+    $MDP = password_hash($_POST['MDP'], PASSWORD_DEFAULT);
 
     // Gestion de l'upload de la photo
     $target_dir = "uploads/";
@@ -117,6 +117,7 @@ if (isset($_POST['ok'])) {
         <input type="password" id="MDP" name="MDP" placeholder="Entrez votre mot de passe..." required>
         <br />
         <input type="submit" value="M'inscrire" name="ok">
+        <label><a href="SeConnecterTest.php">Se connecter</a></label>
     </form>
 </body>
 </html>
