@@ -4,7 +4,7 @@ include 'backend.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $departure = $_POST['departure'];
     $destination = $_POST['destination'];
-    $date = $_POST['date'];
+     $date = $_POST['date'];
 
     $query = $db->prepare('SELECT COUNT(*) FROM campus WHERE adresse = :adresse');
 
@@ -16,16 +16,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $query->execute(['adresse' => $destination]);
     $destinationExists = $query->fetchColumn() > 0;
 
-    // Check if the selected date exists in the "date" column of the "trajet" table
-    $query = $db->prepare('SELECT COUNT(*) FROM trajet WHERE date = :date');
-    $query->execute(['date' => $date]);
-    $dateExists = $query->fetchColumn() > 0;
-
     $errors = [];
 
     // If both departure and destination exist
     if ($departureExists && $destinationExists) {
-        $errors[] = "Veuillez sélectionner un seul campus.";
+        $errors[] = "Veuillez selectionner un seul campus";
     }
 
     // If departure or destination does not exist
@@ -33,10 +28,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors[] = "L'adresse de départ ou de destination n'existe pas dans la base de données.";
     }
 
-    // If the selected date does not exist
-    if (!$dateExists) {
-        $errors[] = "La date sélectionnée n'est pas disponible pour les trajets.";
-    }
 
     if (!empty($errors)) {
         echo json_encode(['status' => 'error', 'message' => implode(" ", $errors)]);

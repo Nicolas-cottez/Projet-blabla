@@ -45,7 +45,12 @@
         
             <select id="destination" name="destination" class="destination-select search-input">
                 <?php
-                $reponse = $db->query('SELECT adresse FROM campus');
+                $reponse = $db->query('   SELECT Depart AS adresse FROM trajet
+                UNION
+                SELECT Arrivee AS adresse FROM trajet
+                UNION
+                SELECT adresse FROM campus
+                WHERE nom_campus NOT IN (SELECT DISTINCT nom_campus FROM trajet)');
                 while ($donnees = $reponse->fetch()) {
                 ?>
                     <option value="<?php echo htmlspecialchars($donnees['adresse']); ?>">
