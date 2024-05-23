@@ -5,7 +5,7 @@ $username = "root";
 $MDP = "";
 
 try {
-    $bdd = new PDO("mysql:host=$servername;dbname=projet_blablacar2", $username, $MDP);
+    $bdd = new PDO("mysql:host=$servername;dbname=projet_blablacar", $username, $MDP);
     $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     echo "Erreur BDD : " . $e->getMessage();
