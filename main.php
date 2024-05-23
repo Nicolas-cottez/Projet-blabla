@@ -2,13 +2,17 @@
 <html lang="fr">
 
 <head>
+<?php include 'backend.php'; ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script><!--inclu tailwind-->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" /><!--inclu les fonts-->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> <!--inclu jquery-->
-    <script src="monscript.js" defer></script> <!--defer sert a charger a la fin du dom--> <!--inclu le js-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <title>BlaBLA Omnes</title>
 
 </head>
@@ -25,9 +29,33 @@
     </article>
 
     <main class="p-4">
-        <form id="searchForm" class="search-bar mt-4">
-            <input type="text" id="departure" name="departure" placeholder="Départ" class="search-input">
-            <input type="text" id="destination" name="destination" placeholder="Destination" class="search-input">
+        <form id="searchForm" class="search-bar mt-4" action="vava.php" method="POST">
+            <select id="departure" name="departure"  class="search-input">
+            <?php
+            $reponse = $db->query('SELECT adresse FROM campus');
+                    while ($donnees = $reponse->fetch()) {
+                    ?>
+                        <option value="<?php echo htmlspecialchars($donnees['adresse']); ?>">
+                            <?php echo htmlspecialchars($donnees['adresse']); ?>
+                        </option>
+                    <?php
+                    }
+                    $reponse->closeCursor();
+                    ?>
+                </select>
+                <select id="destination" name="destination"  class="search-input">
+            <?php
+            $reponse = $db->query('SELECT adresse FROM campus');
+                    while ($donnees = $reponse->fetch()) {
+                    ?>
+                        <option value="<?php echo htmlspecialchars($donnees['adresse']); ?>">
+                            <?php echo htmlspecialchars($donnees['adresse']); ?>
+                        </option>
+                    <?php
+                    }
+                    $reponse->closeCursor();
+                    ?>
+                </select>
             <input type="date" id="date" name="date" class="search-input">
             <input type="number" id="passengers" name="passengers" placeholder="passager" class="search-input">
             <button type="submit" class="search-button">Rechercher</button>
