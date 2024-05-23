@@ -1,42 +1,61 @@
 <?php include 'backend.php';
 
-
 if (isset($_POST['ok'])) {
-    var_dump($_POST);
-    
-    // Récupération des données du formulaire
-    $Depart = htmlspecialchars($_POST['Depart']);
-    $arrivee = htmlspecialchars($_POST['arrivee']);
-    $Distance = htmlspecialchars($_POST['Distance']);
-    $Duree = htmlspecialchars($_POST['Duree']);
-    $Date = htmlspecialchars($_POST['Date']);
-    $prix = htmlspecialchars($_POST['prix']);
-    $nom_campus = htmlspecialchars($_POST['nom_campus']);
-    $Nb_personne = htmlspecialchars($_POST['Nb_personne']);
-    $ID_conducteur = htmlspecialchars($_POST['ID_conducteur']);
-    
-    
+    // Vérifier si l'utilisateur est connecté et est un conducteur
+    if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
+        $token = $_COOKIE['token'];
+        $mail = $_COOKIE['mail'];
 
-    // Préparation de la requête SQL
-    $query = "INSERT INTO trajet (Depart, arrivee, Distance, Duree, Date, prix, nom_campus, Nb_personne, ID_conducteur) VALUES (:Depart, :arrivee, :Distance, :Duree, :Date, :prix, :nom_campus, :Nb_personne, :ID_conducteur)";
-    $stmt = $db->prepare($query);
+        // Vérifier le token dans la base de données
+        $query = "SELECT ID_client FROM client WHERE mail = :mail AND token = :token";
+        $stmt = $db->prepare($query);
+        $stmt->execute([
+            ':mail' => $mail,
+            ':token' => $token
+        ]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Exécution de la requête avec les paramètres
-    $stmt->execute([
-        ':Depart' => $Depart,
-        ':arrivee' => $arrivee,
-        ':Distance' => $Distance,
-        ':Duree' => $Duree,
-        ':Date' => $Date,
-        ':prix' => $prix,
-        ':nom_campus' => $nom_campus,
-        ':Nb_personne' => $Nb_personne,
-        ':ID_conducteur' => $ID_conducteur
-    ]);
+        if ($result) {
+            $ID_client = $result['ID_client'];
 
-    // Récupération et affichage des résultats
-    $reponse = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    var_dump($reponse);
+            // Récupération des données du formulaire
+            $Depart = htmlspecialchars($_POST['Depart']);
+            $arrivee = htmlspecialchars($_POST['arrivee']);
+            $Distance = htmlspecialchars($_POST['Distance']);
+            $Duree = htmlspecialchars($_POST['Duree']);
+            $Date = htmlspecialchars($_POST['Date']);
+            $prix = htmlspecialchars($_POST['prix']);
+            $nom_campus = htmlspecialchars($_POST['nom_campus']);
+            $Nb_personne = htmlspecialchars($_POST['Nb_personne']);
+
+            // Préparation de la requête SQL pour insérer le trajet
+            $query = "INSERT INTO trajet (ID_conducteur, Depart, arrivee, Distance, Duree, Date, prix, nom_campus, Nb_personne) VALUES (:ID_conducteur, :Depart, :arrivee, :Distance, :Duree, :Date, :prix, :nom_campus, :Nb_personne)";
+            $stmt = $db->prepare($query);
+
+            // Exécution de la requête avec les paramètres
+            $stmt->execute([
+                ':ID_conducteur' => $ID_client,
+                ':Depart' => $Depart,
+                ':arrivee' => $arrivee,
+                ':Distance' => $Distance,
+                ':Duree' => $Duree,
+                ':Date' => $Date,
+                ':prix' => $prix,
+                ':nom_campus' => $nom_campus,
+                ':Nb_personne' => $Nb_personne
+            ]);
+
+            // Redirection après la publication du trajet
+            header("Location: ResultatRecherche.php");
+            exit();
+        } else {
+            echo "Vous devez être connecté pour publier un trajet.";
+            exit();
+        }
+    } else {
+        echo "Vous devez être connecté pour publier un trajet.";
+        exit();
+    }
 }
 ?>
 
@@ -85,10 +104,6 @@ if (isset($_POST['ok'])) {
             <div class="mb-4">
                 <label for="nom_campus" class="block text-gray-700 text-sm font-bold mb-2">Nom du campus:</label>
                 <input type="text" id="nom_campus" name="nom_campus" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            </div>
-            <div class="mb-4">
-                <label for="ID_conducteur" class="block text-gray-700 text-sm font-bold mb-2">Id du conducteur:</label>
-                <input type="text" id="ID_conducteur" name="ID_conducteur" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             </div>
             <div class="flex items-center justify-between">
                 <input type="submit" value="Publier" name="ok" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
