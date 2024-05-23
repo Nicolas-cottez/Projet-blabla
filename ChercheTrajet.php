@@ -87,7 +87,7 @@
                 console.log("Form data: " + formData); // Vérifie les données du formulaire
 
                 $.ajax({
-                    url: 'vava.php',
+                    url: 'test.php',
                     type: 'POST',
                     data: formData,
                     success: function(response) {
@@ -96,8 +96,9 @@
                         if (data.status === 'error') {
                             alert(data.message); // Affiche le message d'erreur
                         } else {
-                            alert('Recherche réussie !');
-                            // Traitez la réponse réussie ici (par exemple, rediriger ou afficher les résultats)
+                    // Rediriger vers une nouvelle page PHP si la recherche est réussie
+                    window.location.href = 'ResultatRecherche.php';
+                
                         }
                     },
                     error: function(xhr, status, error) {

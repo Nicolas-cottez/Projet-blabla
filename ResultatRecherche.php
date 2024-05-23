@@ -1,48 +1,42 @@
+<?php
+// Connexion à la base de données
+include 'backend.php';
+
+// Requête pour sélectionner toutes les entrées de la table "trajet"
+$query = $db->query('SELECT * FROM trajet');
+$trajets = $query->fetchAll(PDO::FETCH_ASSOC);
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script><!-- inclut tailwind -->
-    <link rel="stylesheet" href="style.css">
-    <title>Résultats des trajets</title>
+    <title>Liste des trajets</title>
 </head>
-
 <body>
-    <?php include 'Header.php'; ?>
-
-    <main class="p-4">
-        <h2>Résultats de recherche</h2>
-        <div id="results"></div>
-    </main>
-
-    <?php include 'footer.php'; ?>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var urlParams = new URLSearchParams(window.location.search);
-            var trajets = JSON.parse(urlParams.get('trajets'));
-
-            var resultsDiv = document.getElementById('results');
-            if (trajets.length > 0) {
-                trajets.forEach(function(trajet) {
-                    var trajetDiv = document.createElement('div');
-                    trajetDiv.className = "p-4 border rounded shadow-md mb-4";
-
-                    trajetDiv.innerHTML = `
-                        <p><strong>Départ:</strong> ${trajet.Depart}</p>
-                        <p><strong>Arrivée:</strong> ${trajet.Arrivee}</p>
-                        <p><strong>Date:</strong> ${trajet.date}</p>
-                        <p><strong>Passagers:</strong> ${trajet.passagers}</p>
-                    `;
-                    resultsDiv.appendChild(trajetDiv);
-                });
-            } else {
-                resultsDiv.innerHTML = "<p>Aucun trajet trouvé.</p>";
-            }
-        });
-    </script>
+    <h1>Liste des trajets</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Distance</th>
+                <th>Départ</th>
+                <th>Arrivée</th>
+                <th>Date</th>
+                <!-- Ajoutez d'autres colonnes selon votre structure de données -->
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($trajets as $trajet): ?>
+            <tr>
+                <td><?php echo $trajet['Distance']; ?></td>
+                <td><?php echo $trajet['Depart']; ?></td>
+                <td><?php echo $trajet['arrivee']; ?></td>
+                <td><?php echo $trajet['Date']; ?></td>
+                <!-- Ajoutez d'autres cellules selon votre structure de données -->
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
 </body>
-
 </html>
