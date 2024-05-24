@@ -23,48 +23,13 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
 
     // Si l'utilisateur est trouvé
     if ($user) {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Vérifier si des modifications sont soumises
-            if (isset($_POST['save_changes'])) {
-                // Mettre à jour les informations du profil dans la base de données
-                $new_username = htmlspecialchars($_POST['new_username']);
-                $new_email = htmlspecialchars($_POST['new_email']);
-                $new_phone = htmlspecialchars($_POST['new_phone']);
-                $new_password = password_hash($_POST['new_password'], PASSWORD_DEFAULT); // Assurez-vous de hacher le nouveau mot de passe
-                // Ajoutez les autres champs que vous souhaitez mettre à jour de la même manière
-
-                $updateStmt = $bdd->prepare("UPDATE client SET nom = :new_username, mail = :new_email, Num_Tel = :new_phone, MDP = :new_password WHERE mail = :mail AND token = :token");
-                $updateStmt->execute([
-                    'new_username' => $new_username,
-                    'new_email' => $new_email,
-                    'new_phone' => $new_phone,
-                    'new_password' => $new_password,
-                    'mail' => $mail,
-                    'token' => $token
-                ]);
-                if ($Etat_conducteur) {
-                    $new_modele = htmlspecialchars($user['Modele']);
-                    $new_plaque = htmlspecialchars($user['Plaque']);
-                    $updateStmt = $bdd->prepare("UPDATE client SET Modele = :new_modele, Plaque = :new_plaque WHERE mail = :mail AND token = :token");
-                    $updateStmt->execute([
-                        'new_modele' => $new_modele,
-                        'new_plaque' => $new_plaque
-                    ]);
-
-                }
-
-
-                // Rediriger après la mise à jour
-                header("Location: MonProfile.php");
-                exit();
-            } 
-        }
         $nom = htmlspecialchars($user['nom']);
         $Prenom = htmlspecialchars($user['Prenom']);
         $email = htmlspecialchars($user['mail']);
         $Num_Tel = htmlspecialchars($user['Num_Tel']);
         $MDP = htmlspecialchars($user['MDP']);
         $Photo = htmlspecialchars($user['Photo']); // Nouveau champ photo
+        $cagnotte = htmlspecialchars($user['cagnotte']);
         $Etat_conducteur = $user['Etat_conducteur']; // Vérifier si l'utilisateur est un conducteur
 
         // Si la photo n'existe pas, utilisez une image par défaut
@@ -72,6 +37,7 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
         if ($Etat_conducteur) {
             $Modele = htmlspecialchars($user['Modele']);
             $Plaque = htmlspecialchars($user['Plaque']);
+            $preferences= htmlspecialchars($user['preferences']);
             $PhotoV = htmlspecialchars($user['PhotoV']);
             $permis = htmlspecialchars($user['permis']);
         }
@@ -80,6 +46,40 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
         $photoPath2 = !empty($permis) ? "uploads/$permis" : "image/default.jpg";
 
 
+
+        
+    
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Récupérer les informations du formulaire
+            $username = $_POST['username'];
+            $email = $_POST['email'];
+            $Num_Tel = $_POST['Num_Tel'];
+            $password = $_POST['password'];
+            $cagnotte = $_POST['cagnotte'];
+            $modele = $_POST['modele'];
+            $plaque = $_POST['plaque'];
+            $preferences = $_POST['preferences'];
+        
+            // Préparer la requête SQL
+            $query = $bdd->prepare('
+                UPDATE client 
+                SET Prenom = :username, email = :email, Num_Tel = :Num_Tel, MDP = :password, cagnotte = :cagnotte, Modele = :modele, Plaque = :plaque, preferences = :preferences 
+                WHERE ID_client = :ID_client
+            ');
+        
+            // Exécuter la requête SQL
+            $query->execute([
+                ':username' => $username,
+                ':email' => $email,
+                ':Num_Tel' => $Num_Tel,
+                ':password' => $password,
+                ':cagnotte' => $cagnotte,
+                ':modele' => $modele,
+                ':plaque' => $plaque,
+                ':preferences' => $preferences,
+                ':ID_client' => $ID_client,  // Assurez-vous que $ID_client est défini
+            ]);
+        }
     } else {
         header("Location: SeConnecterTest.php");
         exit();
@@ -104,49 +104,60 @@ if (isset($_POST['suppr'])) {
     header("Location: clientdeconnecte.php");
     exit();
 }
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="MonProfile.css">
     <title>Mon profil</title>
 </head>
-
 <body>
     <div class="box">
         <div class="UserPicture">
             <img src="<?php echo $photoPath; ?>" alt="user">
         </div>
-        <input type="file" name="new_profile_pic" id="file" accept="image/*">
+        <input type="file" name="" id="file" accept="image/*">
         <label for="file">EDIT PIC</label>
         <form method="POST" action="">
-            <input type="text" name="new_username" placeholder="User Name" value="<?php echo $Prenom . ' ' . $nom; ?>">
-            <input type="email" name="new_email" placeholder="Email ID" value="<?php echo $email; ?>">
-            <input type="text" name="new_phone" placeholder="Phone Number" value="<?php echo $Num_Tel; ?>">
-            <input type="text" name="new_password" placeholder="Password" value="<?php echo $MDP; ?>">
-            <?php if ($Etat_conducteur): ?>
-                <div class="Carte">
-                    <img src="<?php echo $photoPath1; ?>" alt="user">
-                </div>
-                <input type="file" name="new_profile_pic" id="file" accept="image/*">
-                <div class="Carte">
-                    <img src="<?php echo $photoPath; ?>" alt="user">
-                </div>
-                <input type="file" name="new_profile_pic" id="file" accept="image/*">
-                <input type="text" name="new_modele" placeholder="Modèle de voiture" value="<?php echo $Modele; ?>">
-                <input type="text" name="new_plaque" placeholder="Plaque du véhicule" value="<?php echo $Plaque; ?>">
-            <?php endif; ?>
-            <button type="submit" name="save_changes">Save Changes</button>
-        </form>
-        <form method="POST" action="">
-            <button type="submit" name="deco">Se déconnecter</button>
-            <button type="submit" name="suppr">Supprimer</button>
-        </form>
+    <input type="text" name="username" placeholder="User Name" value="<?php echo $Prenom . ' ' . $nom; ?>">
+    <input type="email" name="email" placeholder="Email ID" value="<?php echo $email; ?>">
+    <input type="text" name="Num_Tel" placeholder="Num_Tel Number" value="<?php echo $Num_Tel; ?>">
+    <input type="text" name="password" placeholder="Password" value="<?php echo $MDP; ?>">
+    <input type="text" name="cagnotte" placeholder="cagnotte" value="<?php echo $cagnotte; ?>">
+
+    <?php if ($Etat_conducteur): ?>
+        <input type="text" name="modele" placeholder="Modèle de voiture" value="<?php echo $Modele; ?>">
+        <input type="text" name="plaque" placeholder="Plaque du véhicule" value="<?php echo $Plaque; ?>">
+        <input type="text" name="preferences" placeholder="Préférences" value="<?php echo $preferences; ?>">
+    <?php endif; ?>
+
+    <input type="submit" value="Mettre à jour le profil">
+</form>
+             <div class="Carte">
+            <img src="<?php echo $photoPath1; ?>" alt="user">
+        </div>
+        <input type="file" name="new_profile_pic" id="file" accept="image/*">
+        <div class="Carte">
+            <img src="<?php echo $photoPath; ?>" alt="user">
+        </div>
+        
+
+        <button onclick="window.location.href='logout.php'">CANCEL</button>
         <button><a href="main.php">MENU</a></button>
+        <form method="POST" action="">
+            <button>
+                <input type="submit" value="Se déconnecter" name="deco">
+            </button>
+            <button>
+                <input type="submit" value="Supprimer" name="suppr">
+            </button>
+        </form>
+        
     </div>
 </body>
-
 </html>
