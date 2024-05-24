@@ -17,10 +17,11 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
     if ($result) {
         $ID_client = $result['ID_client'];
 
-        if (isset($_POST['ok'])) {
+        if (isset($_POST['ok']) ) {
             // Récupération des données du formulaire
             $Modele = htmlspecialchars($_POST['Modele']);
             $Plaque = htmlspecialchars($_POST['Plaque']);
+            $preferences = htmlspecialchars($_POST['preferences']);
 
             // Gestion de l'upload de la photo
             $target_dir = "uploads/";
@@ -62,7 +63,7 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
             }
 
             // Préparation de la requête SQL pour mettre à jour le conducteur avec son ID client
-            $query = "UPDATE client SET permis = :Permis, Modele = :Modele, PhotoV = :PhotoV, Plaque = :Plaque, Etat_conducteur = 1 WHERE ID_client = :ID_client";
+            $query = "UPDATE client SET permis = :Permis, Modele = :Modele, PhotoV = :PhotoV, Plaque = :Plaque, preferences = :preferences WHERE ID_client = :ID_client";
             $stmt = $db->prepare($query);
 
             // Exécution de la requête avec les paramètres
@@ -71,7 +72,9 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
                 ':Modele' => $Modele,
                 ':PhotoV' => $PhotoV,
                 ':Plaque' => $Plaque,
-                ':ID_client' => $ID_client
+                ':ID_client' => $ID_client,
+                ':preferences' => $preferences
+
             ]);
 
             header("location: clientinscrit.php");
@@ -107,6 +110,9 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
         <br />
         <label>Plaque du véhicule</label>
         <input type="text" id="Plaque" name="Plaque" placeholder="Entrez votre plaque..." required>
+        <br />
+        <label>Preferences</label>
+        <input type="text" id="preferences" name="preferences" placeholder="Entrez vos preferences..." required>
         <br />
         <input type="submit" value="M'inscrire" name="ok">
     </form>
