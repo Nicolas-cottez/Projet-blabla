@@ -60,13 +60,19 @@ $trajets = $query->fetchAll(PDO::FETCH_ASSOC);
                         <img src="<?php echo 'uploads/' . htmlspecialchars($trajet['conducteurPhoto']); ?>" alt="Photo du conducteur" class="w-16 h-16 object-cover">
                     </td>
                     <td class="px-4 py-2">
-                        <button onclick="toggleDetails(<?php echo $index; ?>)" class="bg-blue-500 text-white px-2 py-1 rounded">Plus de détails</button>
+                        <button onclick="toggleDetails('<?php echo $index; ?>')" class="bg-blue-500 text-white px-4 py-2 rounded">Plus de détails</button>
+                        <button onclick="reserveTrajet('<?php echo $trajet['ID_trajet']; ?>')" class="bg-green-500 text-white px-4 py-2 rounded">Réserver</button>
                     </td>
                 </tr>
-                <tr id="details-<?php echo $index; ?>" class="border-t" style="display: none;">
-                    <td colspan="8" class="px-4 py-2 bg-gray-100">
-                        <strong>Modèle :</strong> <?php echo htmlspecialchars($trajet['Modele']); ?><br>
-                        <strong>Préférences :</strong> <?php echo htmlspecialchars($trajet['conducteurPreferences']); ?>
+                <tr id="details-<?php echo $index; ?>" style="display: none;">
+                    <td colspan="9" class="px-4 py-2">
+                        Modèle: <?php echo htmlspecialchars($trajet['Modele']); ?><br>
+                        Préférences Conducteur: <?php echo htmlspecialchars($trajet['conducteurPreferences']); ?>
+                    </td>
+                </tr>
+                <tr id="details-<?php echo $trajet; ?>" style="display: none;">
+                    <td colspan="9" class="px-4 py-2">
+                        
                     </td>
                 </tr>
                 <?php endforeach; ?>
