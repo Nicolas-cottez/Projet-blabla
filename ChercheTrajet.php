@@ -1,3 +1,42 @@
+<?php
+$servername = "localhost";
+$username = "root";
+$MDP = "";
+
+try {
+    $bdd = new PDO("mysql:host=$servername;dbname=projet_blablacar", $username, $MDP);
+    $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    echo "Erreur BDD : " . $e->getMessage();
+    exit();
+}
+
+// Vérifiez si les cookies sont définis
+if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
+    $token = $_COOKIE['token'];
+    $mail = $_COOKIE['mail'];
+
+    // Requête pour récupérer les informations de l'utilisateur
+    $stmt = $bdd->prepare("SELECT * FROM client WHERE mail = :mail AND token = :token");
+    $stmt->execute(['mail' => $mail, 'token' => $token]);
+    $user = $stmt->fetch();
+
+    // Si l'utilisateur est trouvé
+    if (!$user) {
+        header("Location: SeConnecterTest.php");
+        exit();
+    }
+} else {
+    header("Location: SeConnecterTest.php");
+    exit();
+}
+
+// Maintenant, vous pouvez inclure votre code de recherche de trajet ici
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
