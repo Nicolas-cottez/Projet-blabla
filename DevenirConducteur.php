@@ -17,7 +17,7 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
     if ($result) {
         $ID_client = $result['ID_client'];
 
-        if (isset($_POST['ok'])) {
+        if (isset($_POST['ok']) ) {
             // Récupération des données du formulaire
             $Modele = htmlspecialchars($_POST['Modele']);
             $Plaque = htmlspecialchars($_POST['Plaque']);

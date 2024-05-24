@@ -9,10 +9,42 @@ $query = $db->query('
     JOIN client ON trajet.ID_conducteur = client.ID_client
 ');
 $trajets = $query->fetchAll(PDO::FETCH_ASSOC);
+
+if (isset($_POST['reserve'])) {
+    $ID_trajet = htmlspecialchars($_POST['ID_trajet']);
+    $ID_conducteur = htmlspecialchars($_POST['ID_conducteur']);
+    $prix = htmlspecialchars($_POST['prix']);
+    $token = $_COOKIE['token'];
+
+    // Récupérer la cagnotte actuelle du conducteur
+    $query = $db->prepare('SELECT cagnotte FROM client WHERE ID_client = :ID_conducteur');
+    $query->execute([':ID_conducteur' => $ID_conducteur]);
+    $conducteur = $query->fetch(PDO::FETCH_ASSOC);
+
+    // Ajouter le prix du trajet à la cagnotte du conducteur
+    $nouvelle_cagnotte = $conducteur['cagnotte'] + $prix;
+
+    // Mettre à jour la cagnotte du conducteur dans la base de données
+    $query = $db->prepare('UPDATE client SET cagnotte = :nouvelle_cagnotte WHERE ID_client = :ID_conducteur');
+    $query->execute([':nouvelle_cagnotte' => $nouvelle_cagnotte, ':ID_conducteur' => $ID_conducteur]);
+
+    // Récupérer la cagnotte actuelle de l'utilisateur
+    $query = $db->prepare('SELECT cagnotte FROM client WHERE token = :token');
+    $query->execute([':token' => $token]);
+    $utilisateur = $query->fetch(PDO::FETCH_ASSOC);
+
+    // Soustraire le prix du trajet de la cagnotte de l'utilisateur
+    $nouvelle_cagnotte = $utilisateur['cagnotte'] - $prix;
+
+    // Mettre à jour la cagnotte de l'utilisateur dans la base de données
+    $query = $db->prepare('UPDATE client SET cagnotte = :nouvelle_cagnotte WHERE token = :token');
+    $query->execute([':nouvelle_cagnotte' => $nouvelle_cagnotte, ':token' => $token]);
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,6 +62,7 @@ $trajets = $query->fetchAll(PDO::FETCH_ASSOC);
         }
     </script>
 </head>
+
 <body>
     <?php include 'Header.php'; ?>
     <div class="container mx-auto px-4 py-8">
@@ -82,4 +115,5 @@ $trajets = $query->fetchAll(PDO::FETCH_ASSOC);
     <script src="search.js"></script>
     <?php include 'footer.php'; ?>
 </body>
+
 </html>
