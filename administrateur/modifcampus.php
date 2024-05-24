@@ -52,6 +52,7 @@ if(isset($_POST['supprimer'])) {
         }
     </style>
 </head>
+<a href="administrateur.php"><button>Retour au menu</button></a>
 <body>
     
     <table>

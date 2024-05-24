@@ -36,6 +36,8 @@
 </head>
 
 <body>
+<a href="administrateur.php"><button>Retour au menu</button></a>
+
     <h1>Ajouter ou modifier un client :</h1>
     <form method="POST" action="" enctype="multipart/form-data">
         <label>Son ID :</label>
@@ -62,8 +64,10 @@
         <label>La Photo de sa voiture :</label>
         <input type="file" id="PhotoV" name="PhotoV"><br>
         <label>La plaque de sa voiture :</label>
-        <input type="number" id="Plaque" name="Plaque"><br>
+        <input type="text" id="Plaque" name="Plaque"><br>
         <input type="submit" value="Ajouter" name="ajouter">
+        <label>Admin :</label>
+        <input type="checkbox" id="Admin" name="Admin" value="1"><br>
         <br>
     </form>
 
@@ -89,6 +93,7 @@
             <th>Modèle de la voiture</th>
             <th>Photo de la voiture</th>
             <th>Plaque de la voiture</th>
+            <th>Admin</th>
         </tr>
         <?php
 
@@ -120,6 +125,7 @@
             $Etat_conducteur = isset($_POST['Etat_conducteur']) ? htmlspecialchars($_POST['Etat_conducteur']) : 0;
             $Modele = htmlspecialchars($_POST['Modele']);
             $Plaque = htmlspecialchars($_POST['Plaque']);
+            $Admin = isset($_POST['Admin']) ? htmlspecialchars($_POST['Admin']) : 0;
 
 
 
@@ -127,7 +133,7 @@
                 // Si l'ID du client existe déjà, mettez à jour les informations du client
                 $query = 'UPDATE client SET ';
                 $params = [':ID_client' => $ID_client];
-                $fields = ['nom', 'Prenom', 'Num_Tel', 'mail', 'MDP', 'Etat_conducteur', 'Modele', 'Plaque', 'Photo', 'permis', 'PhotoV'];
+                $fields = ['nom', 'Prenom', 'Num_Tel', 'mail', 'MDP', 'Etat_conducteur', 'Modele', 'Plaque', 'Photo', 'permis', 'PhotoV', 'Admin'];
                 foreach ($fields as $field) {
                     if (!empty($_POST[$field])) {
                         $query .= "$field = :$field, ";
@@ -185,7 +191,7 @@
                         echo "Désolé, une erreur s'est produite lors du téléchargement de vos fichiers.";
                     }
                 }
-                $query = "INSERT INTO client (ID_client, nom, Prenom, mail, MDP, Photo, Num_Tel, Etat_conducteur, permis, Modele, PhotoV, Plaque) VALUES (:ID_client, :nom, :Prenom, :mail, :MDP, :Photo, :Num_Tel, :Etat_conducteur, :permis, :Modele, :PhotoV, :Plaque)";
+                $query = "INSERT INTO client (ID_client, nom, Prenom, mail, MDP, Photo, Num_Tel, Etat_conducteur, permis, Modele, PhotoV, Plaque, Admin) VALUES (:ID_client, :nom, :Prenom, :mail, :MDP, :Photo, :Num_Tel, :Etat_conducteur, :permis, :Modele, :PhotoV, :Plaque, :Admin)";
                 $stmt = $db->prepare($query);
 
                 // Exécution de la requête avec les paramètres
@@ -201,7 +207,8 @@
                     ':permis' => $permis,
                     ':Modele' => $Modele,
                     ':PhotoV' => $PhotoV,
-                    ':Plaque' => $Plaque
+                    ':Plaque' => $Plaque,
+                    ':Admin' => $Admin
                 ]);
 
 
@@ -232,6 +239,7 @@
             echo "<td>" . htmlspecialchars($row['Modele']) . "</td>";
             echo "<td><img src='" . $voiture_path . "' alt='Photo de la voiture'></td>";
             echo "<td>" . htmlspecialchars($row['Plaque']) . "</td>";
+            echo "<td>" . htmlspecialchars($row['Admin']) . "</td>";
             echo "</tr>";
         }
         ?>

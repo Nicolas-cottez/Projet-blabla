@@ -48,6 +48,7 @@
                     echo '<div class="grid-container">';
                     echo '<div class="grid-item item1"><h3>' . htmlspecialchars($trajet['Depart'] ?? '') . '<span> ==> </span>' . htmlspecialchars($trajet['arrivee'] ?? '') . '</h3></div>';
                     echo '<div class="grid-item item2">Date: ' . htmlspecialchars($trajet['Date'] ?? '') . '</div>';
+                    echo '<div class="grid-item item2">Heure de départ: ' . htmlspecialchars($trajet['heuredep'] ?? '') . '</div>';
                     echo '<div class="grid-item item3">Distance: ' . htmlspecialchars($trajet['Distance'] ?? '') . ' km</div>';
                     echo '<div class="grid-item item4">Prix: ' . htmlspecialchars($trajet['prix'] ?? '') . ' €</div>';
                     echo '</form>';
