@@ -116,7 +116,7 @@
             $Prenom = htmlspecialchars($_POST['Prenom']);
             $Num_Tel = htmlspecialchars($_POST['Num_Tel']);
             $mail = htmlspecialchars($_POST['mail']);
-            $MDP = htmlspecialchars($_POST['MDP']);
+            $MDP = password_hash($_POST['MDP'], PASSWORD_DEFAULT);
             $Etat_conducteur = isset($_POST['Etat_conducteur']) ? htmlspecialchars($_POST['Etat_conducteur']) : 0;
             $Modele = htmlspecialchars($_POST['Modele']);
             $Plaque = htmlspecialchars($_POST['Plaque']);
