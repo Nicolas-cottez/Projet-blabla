@@ -7,6 +7,7 @@ $query = $db->query('
     SELECT trajet.*, client.Photo AS conducteurPhoto, client.preferences AS conducteurPreferences, client.Modele AS Modele
     FROM trajet 
     JOIN client ON trajet.ID_conducteur = client.ID_client
+    WHERE trajet.Nb_personne > 0
 ');
 $trajets = $query->fetchAll(PDO::FETCH_ASSOC);
 
@@ -20,6 +21,17 @@ if (isset($_POST['reserve'])) {
     $query = $db->prepare('SELECT cagnotte FROM client WHERE ID_client = :ID_conducteur');
     $query->execute([':ID_conducteur' => $ID_conducteur]);
     $conducteur = $query->fetch(PDO::FETCH_ASSOC);
+
+    $query = $db->prepare('SELECT Nb_personne FROM trajet WHERE ID_trajet = :ID_trajet');
+    $query->execute([':ID_trajet' => $ID_trajet]);
+    $trajet = $query->fetch(PDO::FETCH_ASSOC);
+
+    // Soustraire une place du nombre total de places
+    $nouvelles_places = $trajet['Nb_personne'] - 1;
+
+    // Mettre à jour le nombre de places dans la base de données
+    $query = $db->prepare('UPDATE trajet SET Nb_personne = :nouvelles_places WHERE ID_trajet = :ID_trajet');
+    $query->execute([':nouvelles_places' => $nouvelles_places, ':ID_trajet' => $ID_trajet]);
 
     // Ajouter le prix du trajet à la cagnotte du conducteur
     $nouvelle_cagnotte = $conducteur['cagnotte'] + $prix;

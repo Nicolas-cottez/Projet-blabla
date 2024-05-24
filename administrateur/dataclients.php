@@ -36,7 +36,7 @@
 </head>
 
 <body>
-    <h1>Ajouter un client :</h1>
+    <h1>Ajouter ou modifier un client :</h1>
     <form method="POST" action="" enctype="multipart/form-data">
         <label>Son ID :</label>
         <input type="number" id="ID_client" name="ID_client">
@@ -106,83 +106,106 @@
         if (isset($_POST['ajouter'])) {
 
             $ID_client = htmlspecialchars($_POST['ID_client']);
+            // Vérifiez si l'ID du client existe déjà
+            $query = $db->prepare('SELECT * FROM client WHERE ID_client = :ID_client');
+            $query->execute([':ID_client' => $ID_client]);
+            $client = $query->fetch(PDO::FETCH_ASSOC);
+
+
             $nom = htmlspecialchars($_POST['nom']);
             $Prenom = htmlspecialchars($_POST['Prenom']);
             $Num_Tel = htmlspecialchars($_POST['Num_Tel']);
             $mail = htmlspecialchars($_POST['mail']);
-            $MDP = htmlspecialchars($_POST['MDP']);
-            $Etat_conducteur = htmlspecialchars($_POST['Etat_conducteur']);
+            $MDP = password_hash($_POST['MDP'], PASSWORD_DEFAULT);
+            $Etat_conducteur = isset($_POST['Etat_conducteur']) ? htmlspecialchars($_POST['Etat_conducteur']) : 0;
             $Modele = htmlspecialchars($_POST['Modele']);
             $Plaque = htmlspecialchars($_POST['Plaque']);
 
-            $target_dir = "../uploads/";
-            $PhotoV = basename($_FILES["PhotoV"]["name"]);
-            $permis = basename($_FILES["permis"]["name"]);
-            $Photo = basename($_FILES["Photo"]["name"]);
-            $target_file1 = $target_dir . $PhotoV;
-            $target_file2 = $target_dir . $permis;
-            $target_file3 = $target_dir . $Photo;
-            $uploadOk = 1;
-            $imageFileType1 = strtolower(pathinfo($target_file1, PATHINFO_EXTENSION));
-            $imageFileType2 = strtolower(pathinfo($target_file2, PATHINFO_EXTENSION));
-            $imageFileType3 = strtolower(pathinfo($target_file3, PATHINFO_EXTENSION));
 
-            $check1 = getimagesize($_FILES["PhotoV"]["tmp_name"]);
-            $check2 = getimagesize($_FILES["permis"]["tmp_name"]);
-            $check3 = getimagesize($_FILES["Photo"]["tmp_name"]);
-            if ($check1 !== false && $check2 !== false && $check3 !== false) {
-                $uploadOk = 1;
-            } else {
-                echo "Un des fichiers n'est pas une image.";
-                $uploadOk = 0;
-            }
 
-            // Limite les formats de fichier
-            if (
-                ($imageFileType1 != "jpg" && $imageFileType1 != "png" && $imageFileType1 != "jpeg" && $imageFileType1 != "gif") ||
-                ($imageFileType2 != "jpg" && $imageFileType2 != "png" && $imageFileType2 != "jpeg" && $imageFileType2 != "gif") ||
-                ($imageFileType3 != "jpg" && $imageFileType3 != "png" && $imageFileType3 != "jpeg" && $imageFileType3 != "gif")
-            ) {
-                echo "Désolé, seuls les fichiers JPG, JPEG, PNG et GIF sont autorisés.";
-                $uploadOk = 0;
-            }
-
-            // Vérifiez si $uploadOk est à 0 à cause d'une erreur
-            if ($uploadOk == 0) {
-                echo "Désolé, vos fichiers n'ont pas été téléchargés.";
-            } else {
-                if (move_uploaded_file($_FILES["PhotoV"]["tmp_name"], $target_file1) && move_uploaded_file($_FILES["permis"]["tmp_name"], $target_file2) && move_uploaded_file($_FILES["Photo"]["tmp_name"], $target_file3)) {
-                    echo "Le fichier " . htmlspecialchars(basename($_FILES["PhotoV"]["name"])) . " a été téléchargé.";
-                    echo "Le fichier " . htmlspecialchars(basename($_FILES["permis"]["name"])) . " a été téléchargé.";
-                    echo "Le fichier " . htmlspecialchars(basename($_FILES["Photo"]["name"])) . " a été téléchargé.";
-                } else {
-                    echo "Désolé, une erreur s'est produite lors du téléchargement de vos fichiers.";
+            if ($client) {
+                // Si l'ID du client existe déjà, mettez à jour les informations du client
+                $query = 'UPDATE client SET ';
+                $params = [':ID_client' => $ID_client];
+                $fields = ['nom', 'Prenom', 'Num_Tel', 'mail', 'MDP', 'Etat_conducteur', 'Modele', 'Plaque', 'Photo', 'permis', 'PhotoV'];
+                foreach ($fields as $field) {
+                    if (!empty($_POST[$field])) {
+                        $query .= "$field = :$field, ";
+                        $params[":$field"] = $_POST[$field];
+                    }
                 }
+                $query = rtrim($query, ', ') . ' WHERE ID_client = :ID_client';
+                $stmt = $db->prepare($query);
+                $stmt->execute($params);
+            } else {
+                // Si l'ID du client n'existe pas, ajoutez un nouveau client
+                // Votre code pour ajouter un nouveau client...
+                // Préparation de la requête SQL
+                $target_dir = "../uploads/";
+                $PhotoV = isset($_FILES["PhotoV"]["name"]) ? basename($_FILES["PhotoV"]["name"]) : null;
+                $permis = isset($_FILES["permis"]["name"]) ? basename($_FILES["permis"]["name"]) : null;
+                $Photo = isset($_FILES["Photo"]["name"]) ? basename($_FILES["Photo"]["name"]) : null;
+                $target_file1 = $target_dir . $PhotoV;
+                $target_file2 = $target_dir . $permis;
+                $target_file3 = $target_dir . $Photo;
+                $uploadOk = 1;
+                $imageFileType1 = strtolower(pathinfo($target_file1, PATHINFO_EXTENSION));
+                $imageFileType2 = strtolower(pathinfo($target_file2, PATHINFO_EXTENSION));
+                $imageFileType3 = strtolower(pathinfo($target_file3, PATHINFO_EXTENSION));
+
+                $check1 = isset($_FILES["PhotoV"]["tmp_name"]) ? getimagesize($_FILES["PhotoV"]["tmp_name"]) : false;
+                $check2 = isset($_FILES["permis"]["tmp_name"]) ? getimagesize($_FILES["permis"]["tmp_name"]) : false;
+                $check3 = isset($_FILES["Photo"]["tmp_name"]) ? getimagesize($_FILES["Photo"]["tmp_name"]) : false;
+                if ($check1 !== false && $check2 !== false && $check3 !== false) {
+                    $uploadOk = 1;
+                } else {
+                    echo "Un des fichiers n'est pas une image.";
+                    $uploadOk = 0;
+                }
+
+                // Limite les formats de fichier
+                if (
+                    ($imageFileType1 != "jpg" && $imageFileType1 != "png" && $imageFileType1 != "jpeg" && $imageFileType1 != "gif") ||
+                    ($imageFileType2 != "jpg" && $imageFileType2 != "png" && $imageFileType2 != "jpeg" && $imageFileType2 != "gif") ||
+                    ($imageFileType3 != "jpg" && $imageFileType3 != "png" && $imageFileType3 != "jpeg" && $imageFileType3 != "gif")
+                ) {
+                    echo "Désolé, seuls les fichiers JPG, JPEG, PNG et GIF sont autorisés.";
+                    $uploadOk = 0;
+                }
+
+                // Vérifiez si $uploadOk est à 0 à cause d'une erreur
+                if ($uploadOk == 0) {
+                    echo "Désolé, vos fichiers n'ont pas été téléchargés.";
+                } else {
+                    if (move_uploaded_file($_FILES["PhotoV"]["tmp_name"], $target_file1) && move_uploaded_file($_FILES["permis"]["tmp_name"], $target_file2) && move_uploaded_file($_FILES["Photo"]["tmp_name"], $target_file3)) {
+                        echo "Le fichier " . htmlspecialchars(basename($_FILES["PhotoV"]["name"])) . " a été téléchargé.";
+                        echo "Le fichier " . htmlspecialchars(basename($_FILES["permis"]["name"])) . " a été téléchargé.";
+                        echo "Le fichier " . htmlspecialchars(basename($_FILES["Photo"]["name"])) . " a été téléchargé.";
+                    } else {
+                        echo "Désolé, une erreur s'est produite lors du téléchargement de vos fichiers.";
+                    }
+                }
+                $query = "INSERT INTO client (ID_client, nom, Prenom, mail, MDP, Photo, Num_Tel, Etat_conducteur, permis, Modele, PhotoV, Plaque) VALUES (:ID_client, :nom, :Prenom, :mail, :MDP, :Photo, :Num_Tel, :Etat_conducteur, :permis, :Modele, :PhotoV, :Plaque)";
+                $stmt = $db->prepare($query);
+
+                // Exécution de la requête avec les paramètres
+                $stmt->execute([
+                    ':ID_client' => $ID_client,
+                    ':nom' => $nom,
+                    ':Prenom' => $Prenom,
+                    ':mail' => $mail,
+                    ':MDP' => $MDP,
+                    ':Photo' => $Photo,
+                    ':Num_Tel' => $Num_Tel,
+                    ':Etat_conducteur' => $Etat_conducteur,
+                    ':permis' => $permis,
+                    ':Modele' => $Modele,
+                    ':PhotoV' => $PhotoV,
+                    ':Plaque' => $Plaque
+                ]);
+
+
             }
-
-
-            // Préparation de la requête SQL
-            $query = "INSERT INTO client (ID_client, nom, Prenom, mail, MDP, Photo, Num_Tel, Etat_conducteur, permis, Modele, PhotoV, Plaque) VALUES (:ID_client, :nom, :Prenom, :mail, :MDP, :Photo, :Num_Tel, :Etat_conducteur, :permis, :Modele, :PhotoV, :Plaque)";
-            $stmt = $db->prepare($query);
-
-            // Exécution de la requête avec les paramètres
-            $stmt->execute([
-                ':ID_client' => $ID_client,
-                ':nom' => $nom,
-                ':Prenom' => $Prenom,
-                ':mail' => $mail,
-                ':MDP' => $MDP,
-                ':Photo' => $Photo,
-                ':Num_Tel' => $Num_Tel,
-                ':Etat_conducteur' => $Etat_conducteur,
-                ':permis' => $permis,
-                ':Modele' => $Modele,
-                ':PhotoV' => $PhotoV,
-                ':Plaque' => $Plaque
-            ]);
-
-
-
         }
 
 
