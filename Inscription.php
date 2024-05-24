@@ -32,8 +32,10 @@ if (isset($_POST['ok'])) {
     }
 
     // Limite les formats de fichier
-    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-        && $imageFileType != "gif") {
+    if (
+        $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+        && $imageFileType != "gif"
+    ) {
         echo "Désolé, seuls les fichiers JPG, JPEG, PNG et GIF sont autorisés.";
         $uploadOk = 0;
     }
@@ -58,44 +60,55 @@ if (isset($_POST['ok'])) {
         exit();
     }
 
-    // Préparation de la requête SQL
-    $query = "INSERT INTO client (nom, Prenom, mail, MDP, Num_Tel, Photo, cagnotte) VALUES (:nom, :Prenom, :mail, :MDP, :Num_Tel, :photo, 0) ";
+    $query = "SELECT * FROM client WHERE mail = :mail";
     $stmt = $db->prepare($query);
+    $stmt->execute([':mail' => $mail]);
+    $user = $stmt->fetch();
+    if ($user) {
+        // L'adresse e-mail existe déjà, affichez un message d'erreur
+        echo "L'adresse e-mail est déjà utilisée.";
+    } else {
+        // Préparation de la requête SQL
+        $query = "INSERT INTO client (nom, Prenom, mail, MDP, Num_Tel, Photo, cagnotte) VALUES (:nom, :Prenom, :mail, :MDP, :Num_Tel, :photo, 0) ";
+        $stmt = $db->prepare($query);
 
-    // Exécution de la requête avec les paramètres
-    $stmt->execute([
-        ':nom' => $nom,
-        ':Prenom' => $Prenom,
-        ':mail' => $mail,
-        ':MDP' => $MDP,
-        ':Num_Tel' => $Num_Tel,
-        ':photo' => $photo
-    ]);
+        // Exécution de la requête avec les paramètres
+        $stmt->execute([
+            ':nom' => $nom,
+            ':Prenom' => $Prenom,
+            ':mail' => $mail,
+            ':MDP' => $MDP,
+            ':Num_Tel' => $Num_Tel,
+            ':photo' => $photo
+        ]);
 
-    // Gestion des cookies pour maintenir l'utilisateur connecté
-    $token = bin2hex(random_bytes(16));
+        // Gestion des cookies pour maintenir l'utilisateur connecté
+        $token = bin2hex(random_bytes(16));
 
-    // Mise à jour du token dans la base de données
-    $updateStmt = $db->prepare("UPDATE client SET token = :token WHERE mail = :mail");
-    $updateStmt->execute(['token' => $token, 'mail' => $mail]);
+        // Mise à jour du token dans la base de données
+        $updateStmt = $db->prepare("UPDATE client SET token = :token WHERE mail = :mail");
+        $updateStmt->execute(['token' => $token, 'mail' => $mail]);
 
-    // Définir les cookies
-    setcookie("token", $token, time() + 10800, "/", "", false, true);
-    setcookie("mail", $mail, time() + 10800, "/", "", false, true);
+        // Définir les cookies
+        setcookie("token", $token, time() + 10800, "/", "", false, true);
+        setcookie("mail", $mail, time() + 10800, "/", "", false, true);
 
-    // Redirection après l'inscription
-    header("location: clientinscrit.php");
-    exit();
+        // Redirection après l'inscription
+        header("location: clientinscrit.php");
+        exit();
+    }
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription - Blabla Omnes</title>
 </head>
+
 <body>
     <form method="POST" action="" enctype="multipart/form-data">
         <label>Votre nom</label>
@@ -120,4 +133,5 @@ if (isset($_POST['ok'])) {
         <label><a href="SeConnecterTest.php">Se connecter</a></label>
     </form>
 </body>
+
 </html>
