@@ -77,41 +77,87 @@ if (isset($_POST['suppr'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="MonProfile.css">
     <title>Mon profil</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: auto;
+        }
+        .container {
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .box {
+            width: 300px;
+            margin-top: 20px;
+        }
+        .UserPicture img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+        .box div {
+            margin-bottom: 10px;
+        }
+        .box label {
+            font-size: 10px;
+            display: block;
+            margin-bottom: 2px;
+        }
+        .box input[type="text"],
+        .box input[type="email"],
+        .box input[type="file"] {
+            width: 100%;
+            padding: 5px;
+        }
+        .box button {
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-    <div class="box">
-        <div class="UserPicture">
-            <img src="<?php echo $photoPath; ?>" alt="user">
-        </div>
-        <input type="file" name="" id="file" accept="image/*">
-        <label for="file">EDIT PIC</label>
-        <input type="text" name="username" placeholder="User Name" value="<?php echo $Prenom . ' ' . $nom; ?>" readonly>
-        <input type="email" name="email" placeholder="Email ID" value="<?php echo $email; ?>" readonly>
-        <input type="text" name="phone" placeholder="Phone Number" value="<?php echo $Num_Tel; ?>" readonly>
-        <input type="text" name="password" placeholder="Password" value="<?php echo $MDP; ?>" readonly>
+    <div class="container">
+        <div class="box">
+            <div class="UserPicture">
+                <img src="<?php echo $photoPath; ?>" alt="user">
+            </div>
+            <label for="username">Nom d'utilisateur</label>
+            <input type="text" name="username" id="username" placeholder="User Name" value="<?php echo $Prenom . ' ' . $nom; ?>" readonly>
 
-        <?php if ($Etat_conducteur): ?>
-            <input type="text" name="modele" placeholder="Modèle de voiture" value="<?php echo $Modele; ?>" readonly>
-            <input type="text" name="plaque" placeholder="Plaque du véhicule" value="<?php echo $Plaque; ?>" readonly>
-            <div class="Carte">
-            <img src="<?php echo $photoPath1; ?>" alt="user">
-        </div>
-        <input type="file" name="new_profile_pic" id="file" accept="image/*">
-        <div class="Carte">
-            <img src="<?php echo $photoPath; ?>" alt="user">
-        </div>
-        <?php endif; ?>
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" placeholder="Email ID" value="<?php echo $email; ?>" readonly>
 
-        <button onclick="window.location.href='logout.php'">CANCEL</button>
-        <button><a href="main.php">MENU</a></button>
-        <form method="POST" action="">
-            <button>
-                <input type="submit" value="Se déconnecter" name="deco">
-            </button>
-            <button>
-                <input type="submit" value="Supprimer" name="suppr">
-            </button>
-        </form>
+            <label for="phone">Numéro de téléphone</label>
+            <input type="text" name="phone" id="phone" placeholder="Phone Number" value="<?php echo $Num_Tel; ?>" readonly>
+
+            <label for="password">Mot de passe</label>
+            <input type="text" name="password" id="password" placeholder="Password" value="<?php echo $MDP; ?>" readonly>
+
+            <?php if ($Etat_conducteur): ?>
+                <label for="modele">Modèle de voiture</label>
+                <input type="text" name="modele" id="modele" placeholder="Modèle de voiture" value="<?php echo $Modele; ?>" readonly>
+
+                <label for="plaque">Plaque du véhicule</label>
+                <input type="text" name="plaque" id="plaque" placeholder="Plaque du véhicule" value="<?php echo $Plaque; ?>" readonly>
+
+                <label for="new_profile_pic">Photo de véhicule</label>
+                <div class="Carte">
+                    <img src="<?php echo $photoPath1; ?>" alt="photo du véhicule">
+                </div>
+                <label for="permis">Permis de conduire</label>
+                <div class="Carte">
+                    <img src="<?php echo $photoPath2; ?>" alt="photo du permis">
+                </div>
+            <?php endif; ?>
+            <button><a href="main.php">MENU</a></button>
+            <form method="POST" action="">
+                <button type="submit" name="deco">Se déconnecter</button>
+                <button type="submit" name="suppr">Supprimer</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>
