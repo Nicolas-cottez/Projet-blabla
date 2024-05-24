@@ -28,6 +28,7 @@
     </style>
 </head>
 <body>
+<a href="administrateur.php"><button>Retour au menu</button></a>
     
 <h1> Voulez vous valider le permis d'un client ?</h1>
 <form method="POST" action="">

@@ -7,7 +7,7 @@ $query = $db->query('
     SELECT trajet.*, client.Photo AS conducteurPhoto, client.preferences AS conducteurPreferences, client.Modele AS Modele
     FROM trajet 
     JOIN client ON trajet.ID_conducteur = client.ID_client
-    WHERE trajet.Nb_personne > 0
+    WHERE trajet.Nb_personne > 0 AND trajet.heuredep > CURTIME() AND trajet.Date >= CURDATE()
 ');
 $trajets = $query->fetchAll(PDO::FETCH_ASSOC);
 
@@ -99,6 +99,7 @@ if (isset($_POST['reserve'])) {
                     <th class="px-4 py-2">Date</th>
                     <th class="px-4 py-2">Prix</th>
                     <th class="px-4 py-2">Nombre de places</th>
+                    <th class="px-4 py-2">Heure</th>
                     <th class="px-4 py-2">Photo Conducteur</th>
                     <th class="px-4 py-2">Détails</th>
                 </tr>
@@ -112,6 +113,7 @@ if (isset($_POST['reserve'])) {
                         <td class="px-4 py-2"><?php echo htmlspecialchars($trajet['Date']); ?></td>
                         <td class="px-4 py-2"><?php echo htmlspecialchars($trajet['prix']); ?></td>
                         <td class="px-4 py-2"><?php echo htmlspecialchars($trajet['Nb_personne']); ?></td>
+                        <td class="px-4 py-2"><?php echo htmlspecialchars($trajet['heuredep']); ?></td>
 
 
                         <td class="px-4 py-2">

@@ -46,9 +46,10 @@ if ($result) {
             $prix = htmlspecialchars($_POST['prix']);
             $nom_campus = htmlspecialchars($_POST['nom_campus']);
             $Nb_personne = htmlspecialchars($_POST['Nb_personne']);
+            $heuredep = htmlspecialchars($_POST['heuredep']);
 
             // Préparation de la requête SQL pour insérer le trajet
-            $query = "INSERT INTO trajet (ID_conducteur, Depart, arrivee, Distance, Duree, Date, prix, nom_campus, Nb_personne) VALUES (:ID_conducteur, :Depart, :arrivee, :Distance, :Duree, :Date, :prix, :nom_campus, :Nb_personne)";
+            $query = "INSERT INTO trajet (ID_conducteur, Depart, arrivee, Distance, Duree, Date, prix, nom_campus, Nb_personne, heuredep) VALUES (:ID_conducteur, :Depart, :arrivee, :Distance, :Duree, :Date, :prix, :nom_campus, :Nb_personne, :heuredep)";
             $stmt = $db->prepare($query);
 
             // Exécution de la requête avec les paramètres
@@ -61,7 +62,8 @@ if ($result) {
                 ':Date' => $Date,
                 ':prix' => $prix,
                 ':nom_campus' => $nom_campus,
-                ':Nb_personne' => $Nb_personne
+                ':Nb_personne' => $Nb_personne,
+                ':heuredep' => $heuredep
             ]);
 
             // Redirection après la publication du trajet
@@ -105,11 +107,15 @@ if ($result) {
             </div>
             <div class="mb-4">
                 <label for="Duree" class="block text-gray-700 text-sm font-bold mb-2">Durée:</label>
-                <input type="number" id="Duree" name="Duree" placeholder="Durée du trajet en min" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <input type="Time" id="Duree" name="Duree" placeholder="Durée du trajet : HH:MM:SS" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             </div>
             <div class="mb-4">
                 <label for="Date" class="block text-gray-700 text-sm font-bold mb-2">Date:</label>
                 <input type="Date" id="Date" name="Date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="mb-4">
+                <label for="heuredep" class="block text-gray-700 text-sm font-bold mb-2">Heure de départ:</label>
+                <input type="Time" id="heuredep" name="heuredep" placeholder="Heure de départ : HH:MM:SS" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             </div>
             <div class="mb-4">
                 <label for="prix" class="block text-gray-700 text-sm font-bold mb-2">Prix du trajet:</label>
