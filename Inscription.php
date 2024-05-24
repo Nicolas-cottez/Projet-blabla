@@ -1,4 +1,5 @@
-<?php include 'backend.php'; ?>
+<?php include 'backend.php';
+?>
 
 <?php
 if (isset($_POST['ok'])) {
@@ -82,6 +83,7 @@ if (isset($_POST['ok'])) {
             ':photo' => $photo
         ]);
 
+
         // Gestion des cookies pour maintenir l'utilisateur connecté
         $token = bin2hex(random_bytes(16));
 
@@ -94,9 +96,11 @@ if (isset($_POST['ok'])) {
         setcookie("mail", $mail, time() + 10800, "/", "", false, true);
 
         // Redirection après l'inscription
-        header("location: clientinscrit.php");
         exit();
+
     }
+
+
 }
 ?>
 
