@@ -8,6 +8,17 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> <!--inclu jquery-->
     <link rel="stylesheet" href="Trajet.css">
     <title>Mes trajets - Blabla Omnes</title>
+
+    <script>
+        function toggleDetails(id) {
+            var details = document.getElementById('details-' + id);
+            if (details.style.display === 'none') {
+                details.style.display = 'table-row';
+            } else {
+                details.style.display = 'none';
+            }
+        }
+    </script>
 </head>
 
 
@@ -21,22 +32,42 @@
         <div class="flex-item">
             <h2>Trajets passés :</h2>
             <?php
-            $requete = $db->query("SELECT * FROM trajet WHERE Date <= CURDATE() ORDER BY `trajet`.`Date` ASC");
-            $requete->execute();
-            $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
+            try {
+                // Requête pour sélectionner les trajets et les informations du conducteur
+                $requete = $db->query("
+                    SELECT trajet.*, client.Photo AS conducteurPhoto, client.preferences AS conducteurPreferences, client.Modele AS Modele, client.Num_Tel as Num_Tel
+                    FROM trajet
+                    JOIN client ON trajet.ID_conducteur = client.ID_client
+                    WHERE trajet.Date <= CURDATE()
+                    ORDER BY trajet.Date ASC
+                ");
+                $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
+            
             if ($resultat) {
-                foreach ($resultat as $trajet) {
+                foreach ($resultat as $index => $trajet) {
                     echo '<div class="grid-container">';
                     echo '<div class="grid-item item1"><h3>' . htmlspecialchars($trajet['Depart'] ?? '') . '<span> ==> </span>' . htmlspecialchars($trajet['arrivee'] ?? '') . '</h3></div>';
                     echo '<div class="grid-item item2">Date: ' . htmlspecialchars($trajet['Date'] ?? '') . '</div>';
                     echo '<div class="grid-item item3">Distance: ' . htmlspecialchars($trajet['Distance'] ?? '') . ' km</div>';
                     echo '<div class="grid-item item4">Prix: ' . htmlspecialchars($trajet['prix'] ?? '') . ' €</div>';
-                    echo '</div>';
+                    echo '</form>';
+                        echo '<button onclick="toggleDetails(\'' . $index . '\')" class="btn-details">Détails</button>';
+                        echo '</div>';
+                        echo '</div>';
+                        echo '<div id="details-' . $index . '" class="details" style="display: none;">';
+                        echo '<div class="grid-item item6">Modèle: ' . htmlspecialchars($trajet['Modele'] ?? '') . '</div>';
+                        echo '<div class="grid-item item7">Préférences Conducteur: ' . htmlspecialchars($trajet['conducteurPreferences'] ?? '') . '</div>';
+                        echo '<div class="grid-item item7">Numero de tel: ' . htmlspecialchars($trajet['Num_Tel'] ?? '') . '</div>';
+                        echo '<div class="grid-item item8"><img src="uploads/' . htmlspecialchars($trajet['conducteurPhoto'] ?? '') . '" alt="Photo du conducteur" class="conducteur-photo"></div>';
+                        echo '</div>';
                 }
             } else {
                 echo '<p>Aucun trajet passé.</p>';
             }
-            ?>
+        } catch (PDOException $e) {
+            echo '<p>Erreur : ' . htmlspecialchars($e->getMessage()) . '</p>';
+        }
+        ?>
         </div>
 
     </div>
