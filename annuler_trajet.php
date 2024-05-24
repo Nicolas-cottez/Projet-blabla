@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $requete->execute();
 
             // Redirige vers la page des trajets après la suppression
-            header("Location: mestrajets.php");
+            header("Location: MesTrajet.php");
             exit();
         } catch (PDOException $e) {
             echo "Erreur : " . $e->getMessage();

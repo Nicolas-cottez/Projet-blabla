@@ -1,11 +1,34 @@
-<?php include 'backend.php';
+<?php
+include 'backend.php';
 
+// Vérifier si l'utilisateur est connecté et obtenir l'ID_client
+if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
+    $token = $_COOKIE['token'];
+    $mail = $_COOKIE['mail'];
+
+    // Vérifier le token dans la base de données
+    $query = "SELECT ID_client FROM client WHERE mail = :mail AND token = :token";
+    $stmt = $db->prepare($query);
+    $stmt->execute([
+        ':mail' => $mail,
+        ':token' => $token
+    ]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($result) {
+        $ID_client = $result['ID_client'];
+    } else {
+        echo "Vous devez être connecté pour publier un trajet.";
+        exit();
+    }
+} else {
+    echo "Vous devez être connecté pour publier un trajet.";
+    exit();
+}
 
 $query = "SELECT Etat_conducteur FROM client WHERE ID_client = :ID_client";
 $stmt = $db->prepare($query);
-$stmt->execute([
-    ':ID_client' => $ID_client
-]);
+$stmt->execute([':ID_client' => $ID_client]);
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($result) {
@@ -14,61 +37,36 @@ if ($result) {
     // Vérifier si l'état du conducteur est à 1
     if ($Etat_conducteur == 1) {
         if (isset($_POST['ok'])) {
-            // Vérifier si l'utilisateur est connecté et est un conducteur
-            if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
-                $token = $_COOKIE['token'];
-                $mail = $_COOKIE['mail'];
-        
-                // Vérifier le token dans la base de données
-                $query = "SELECT ID_client FROM client WHERE mail = :mail AND token = :token";
-                $stmt = $db->prepare($query);
-                $stmt->execute([
-                    ':mail' => $mail,
-                    ':token' => $token
-                ]);
-                $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-                if ($result) {
-                    $ID_client = $result['ID_client'];
-        
-                    // Récupération des données du formulaire
-                    $Depart = htmlspecialchars($_POST['Depart']);
-                    $arrivee = htmlspecialchars($_POST['arrivee']);
-                    $Distance = htmlspecialchars($_POST['Distance']);
-                    $Duree = htmlspecialchars($_POST['Duree']);
-                    $Date = htmlspecialchars($_POST['Date']);
-                    $prix = htmlspecialchars($_POST['prix']);
-                    $nom_campus = htmlspecialchars($_POST['nom_campus']);
-                    $Nb_personne = htmlspecialchars($_POST['Nb_personne']);
-        
-                    // Préparation de la requête SQL pour insérer le trajet
-                    $query = "INSERT INTO trajet (ID_conducteur, Depart, arrivee, Distance, Duree, Date, prix, nom_campus, Nb_personne) VALUES (:ID_conducteur, :Depart, :arrivee, :Distance, :Duree, :Date, :prix, :nom_campus, :Nb_personne)";
-                    $stmt = $db->prepare($query);
-        
-                    // Exécution de la requête avec les paramètres
-                    $stmt->execute([
-                        ':ID_conducteur' => $ID_client,
-                        ':Depart' => $Depart,
-                        ':arrivee' => $arrivee,
-                        ':Distance' => $Distance,
-                        ':Duree' => $Duree,
-                        ':Date' => $Date,
-                        ':prix' => $prix,
-                        ':nom_campus' => $nom_campus,
-                        ':Nb_personne' => $Nb_personne
-                    ]);
-        
-                    // Redirection après la publication du trajet
-                    header("Location: ResultatRecherche.php");
-                    exit();
-                } else {
-                    echo "Vous devez être connecté pour publier un trajet.";
-                    exit();
-                }
-            } else {
-                echo "Vous devez être connecté pour publier un trajet.";
-                exit();
-            }
+            // Récupération des données du formulaire
+            $Depart = htmlspecialchars($_POST['Depart']);
+            $arrivee = htmlspecialchars($_POST['arrivee']);
+            $Distance = htmlspecialchars($_POST['Distance']);
+            $Duree = htmlspecialchars($_POST['Duree']);
+            $Date = htmlspecialchars($_POST['Date']);
+            $prix = htmlspecialchars($_POST['prix']);
+            $nom_campus = htmlspecialchars($_POST['nom_campus']);
+            $Nb_personne = htmlspecialchars($_POST['Nb_personne']);
+
+            // Préparation de la requête SQL pour insérer le trajet
+            $query = "INSERT INTO trajet (ID_conducteur, Depart, arrivee, Distance, Duree, Date, prix, nom_campus, Nb_personne) VALUES (:ID_conducteur, :Depart, :arrivee, :Distance, :Duree, :Date, :prix, :nom_campus, :Nb_personne)";
+            $stmt = $db->prepare($query);
+
+            // Exécution de la requête avec les paramètres
+            $stmt->execute([
+                ':ID_conducteur' => $ID_client,
+                ':Depart' => $Depart,
+                ':arrivee' => $arrivee,
+                ':Distance' => $Distance,
+                ':Duree' => $Duree,
+                ':Date' => $Date,
+                ':prix' => $prix,
+                ':nom_campus' => $nom_campus,
+                ':Nb_personne' => $Nb_personne
+            ]);
+
+            // Redirection après la publication du trajet
+            header("Location: ResultatRecherche.php");
+            exit();
         }
     } else {
         echo "Vous n'êtes pas autorisé à publier un trajet.";
@@ -78,13 +76,7 @@ if ($result) {
     echo "Erreur lors de la récupération de l'état du conducteur.";
     exit();
 }
-
-
-
-
-
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -135,7 +127,6 @@ if ($result) {
                 <input type="submit" value="Publier" name="ok" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
             </div>
         </form>
-    
     </div>
 
     <script src="search.js"></script>
