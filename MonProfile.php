@@ -57,13 +57,7 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
                 // Rediriger après la mise à jour
                 header("Location: MonProfile.php");
                 exit();
-            } else {
-                header("Location: SeConnecterTest.php");
-                exit();
-            }
-        }else {
-            header("Location: SeConnecterTest.php");
-            exit();
+            } 
         }
         $nom = htmlspecialchars($user['nom']);
         $Prenom = htmlspecialchars($user['Prenom']);
