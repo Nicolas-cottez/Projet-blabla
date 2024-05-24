@@ -51,6 +51,17 @@ if (isset($_POST['reserve'])) {
     // Mettre à jour la cagnotte de l'utilisateur dans la base de données
     $query = $db->prepare('UPDATE client SET cagnotte = :nouvelle_cagnotte WHERE token = :token');
     $query->execute([':nouvelle_cagnotte' => $nouvelle_cagnotte, ':token' => $token]);
+
+    // Récupérer l'ID de l'utilisateur
+    $query = $db->prepare('SELECT ID_client FROM client WHERE token = :token');
+    $query->execute([':token' => $token]);
+    $user = $query->fetch(PDO::FETCH_ASSOC);
+    $ID_client = $user['ID_client'];
+
+    // Insérer une nouvelle ligne dans la table participe
+    $query = $db->prepare('INSERT INTO participe (ID_client, ID_trajet) VALUES (:ID_client, :ID_trajet)');
+    $query->execute([':ID_client' => $ID_client, ':ID_trajet' => $ID_trajet]);
+
 }
 ?>
 
@@ -114,8 +125,7 @@ if (isset($_POST['reserve'])) {
                                     value="<?php echo htmlspecialchars($trajet['ID_trajet']); ?>">
                                 <input type="hidden" name="ID_conducteur"
                                     value="<?php echo htmlspecialchars($trajet['ID_conducteur']); ?>">
-                                    <input type="hidden" name="prix"
-                                    value="<?php echo htmlspecialchars($trajet['prix']); ?>">
+                                <input type="hidden" name="prix" value="<?php echo htmlspecialchars($trajet['prix']); ?>">
                                 <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded"
                                     name="reserve">Réserver</button>
                             </form>

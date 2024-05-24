@@ -96,6 +96,7 @@ if (isset($_POST['ok'])) {
         setcookie("mail", $mail, time() + 10800, "/", "", false, true);
 
         // Redirection après l'inscription
+        header("Location: main.php");
         exit();
 
     }
