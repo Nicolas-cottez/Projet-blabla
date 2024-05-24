@@ -59,7 +59,7 @@ if (isset($_POST['ok'])) {
     }
 
     // Préparation de la requête SQL
-    $query = "INSERT INTO client (nom, Prenom, mail, MDP, Num_Tel, Photo) VALUES (:nom, :Prenom, :mail, :MDP, :Num_Tel, :photo)";
+    $query = "INSERT INTO client (nom, Prenom, mail, MDP, Num_Tel, Photo, cagnotte) VALUES (:nom, :Prenom, :mail, :MDP, :Num_Tel, :photo, 0) ";
     $stmt = $db->prepare($query);
 
     // Exécution de la requête avec les paramètres
