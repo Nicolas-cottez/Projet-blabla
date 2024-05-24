@@ -23,42 +23,6 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
 
     // Si l'utilisateur est trouvé
     if ($user) {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Vérifier si des modifications sont soumises
-            if (isset($_POST['save_changes'])) {
-                // Mettre à jour les informations du profil dans la base de données
-                $new_username = htmlspecialchars($_POST['new_username']);
-                $new_email = htmlspecialchars($_POST['new_email']);
-                $new_phone = htmlspecialchars($_POST['new_phone']);
-                $new_password = password_hash($_POST['new_password'], PASSWORD_DEFAULT); // Assurez-vous de hacher le nouveau mot de passe
-                // Ajoutez les autres champs que vous souhaitez mettre à jour de la même manière
-
-                $updateStmt = $bdd->prepare("UPDATE client SET nom = :new_username, mail = :new_email, Num_Tel = :new_phone, MDP = :new_password WHERE mail = :mail AND token = :token");
-                $updateStmt->execute([
-                    'new_username' => $new_username,
-                    'new_email' => $new_email,
-                    'new_phone' => $new_phone,
-                    'new_password' => $new_password,
-                    'mail' => $mail,
-                    'token' => $token
-                ]);
-                if ($Etat_conducteur) {
-                    $new_modele = htmlspecialchars($user['Modele']);
-                    $new_plaque = htmlspecialchars($user['Plaque']);
-                    $updateStmt = $bdd->prepare("UPDATE client SET Modele = :new_modele, Plaque = :new_plaque WHERE mail = :mail AND token = :token");
-                    $updateStmt->execute([
-                        'new_modele' => $new_modele,
-                        'new_plaque' => $new_plaque
-                    ]);
-
-                }
-
-
-                // Rediriger après la mise à jour
-                header("Location: MonProfile.php");
-                exit();
-            } 
-        }
         $nom = htmlspecialchars($user['nom']);
         $Prenom = htmlspecialchars($user['Prenom']);
         $email = htmlspecialchars($user['mail']);
@@ -79,7 +43,8 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
         $photoPath1 = !empty($PhotoV) ? "uploads/$PhotoV" : "image/default.jpg";
         $photoPath2 = !empty($permis) ? "uploads/$permis" : "image/default.jpg";
 
-
+        
+        
     } else {
         header("Location: SeConnecterTest.php");
         exit();
@@ -107,46 +72,46 @@ if (isset($_POST['suppr'])) {
 ?>
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="MonProfile.css">
     <title>Mon profil</title>
 </head>
-
 <body>
     <div class="box">
         <div class="UserPicture">
             <img src="<?php echo $photoPath; ?>" alt="user">
         </div>
-        <input type="file" name="new_profile_pic" id="file" accept="image/*">
+        <input type="file" name="" id="file" accept="image/*">
         <label for="file">EDIT PIC</label>
-        <form method="POST" action="">
-            <input type="text" name="new_username" placeholder="User Name" value="<?php echo $Prenom . ' ' . $nom; ?>">
-            <input type="email" name="new_email" placeholder="Email ID" value="<?php echo $email; ?>">
-            <input type="text" name="new_phone" placeholder="Phone Number" value="<?php echo $Num_Tel; ?>">
-            <input type="text" name="new_password" placeholder="Password" value="<?php echo $MDP; ?>">
-            <?php if ($Etat_conducteur): ?>
-                <div class="Carte">
-                    <img src="<?php echo $photoPath1; ?>" alt="user">
-                </div>
-                <input type="file" name="new_profile_pic" id="file" accept="image/*">
-                <div class="Carte">
-                    <img src="<?php echo $photoPath; ?>" alt="user">
-                </div>
-                <input type="file" name="new_profile_pic" id="file" accept="image/*">
-                <input type="text" name="new_modele" placeholder="Modèle de voiture" value="<?php echo $Modele; ?>">
-                <input type="text" name="new_plaque" placeholder="Plaque du véhicule" value="<?php echo $Plaque; ?>">
-            <?php endif; ?>
-            <button type="submit" name="save_changes">Save Changes</button>
-        </form>
-        <form method="POST" action="">
-            <button type="submit" name="deco">Se déconnecter</button>
-            <button type="submit" name="suppr">Supprimer</button>
-        </form>
+        <input type="text" name="username" placeholder="User Name" value="<?php echo $Prenom . ' ' . $nom; ?>" readonly>
+        <input type="email" name="email" placeholder="Email ID" value="<?php echo $email; ?>" readonly>
+        <input type="text" name="phone" placeholder="Phone Number" value="<?php echo $Num_Tel; ?>" readonly>
+        <input type="text" name="password" placeholder="Password" value="<?php echo $MDP; ?>" readonly>
+
+        <?php if ($Etat_conducteur): ?>
+            <input type="text" name="modele" placeholder="Modèle de voiture" value="<?php echo $Modele; ?>" readonly>
+            <input type="text" name="plaque" placeholder="Plaque du véhicule" value="<?php echo $Plaque; ?>" readonly>
+            <div class="Carte">
+            <img src="<?php echo $photoPath1; ?>" alt="user">
+        </div>
+        <input type="file" name="new_profile_pic" id="file" accept="image/*">
+        <div class="Carte">
+            <img src="<?php echo $photoPath; ?>" alt="user">
+        </div>
+        <?php endif; ?>
+
+        <button onclick="window.location.href='logout.php'">CANCEL</button>
         <button><a href="main.php">MENU</a></button>
+        <form method="POST" action="">
+            <button>
+                <input type="submit" value="Se déconnecter" name="deco">
+            </button>
+            <button>
+                <input type="submit" value="Supprimer" name="suppr">
+            </button>
+        </form>
     </div>
 </body>
-
 </html>

@@ -25,8 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $updateStmt = $bdd->prepare("UPDATE client SET token = :token WHERE mail = :mail");
             $updateStmt->execute(['token' => $token, 'mail' => $mail]);
 
-            setcookie("token", $token, time() + 3600, "/", "", false, true);
-            setcookie("mail", $mail, time() + 3600, "/", "", false, true);
+            setcookie("token", $token, time() + 10800, "/", "", false, true);
+            setcookie("mail", $mail, time() + 10800, "/", "", false, true);
             header("Location: main.php");
             exit();
         } else {
