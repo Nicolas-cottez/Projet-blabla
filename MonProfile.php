@@ -46,18 +46,24 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
                     $new_modele = htmlspecialchars($user['Modele']);
                     $new_plaque = htmlspecialchars($user['Plaque']);
                     $updateStmt = $bdd->prepare("UPDATE client SET Modele = :new_modele, Plaque = :new_plaque WHERE mail = :mail AND token = :token");
-                $updateStmt->execute([
-                    'new_modele' => $new_modele,
-                    'new_plaque' => $new_plaque
-                ]);
-                    
+                    $updateStmt->execute([
+                        'new_modele' => $new_modele,
+                        'new_plaque' => $new_plaque
+                    ]);
+
                 }
 
-                
+
                 // Rediriger après la mise à jour
                 header("Location: MonProfile.php");
                 exit();
+            } else {
+                header("Location: SeConnecterTest.php");
+                exit();
             }
+        }else {
+            header("Location: SeConnecterTest.php");
+            exit();
         }
         $nom = htmlspecialchars($user['nom']);
         $Prenom = htmlspecialchars($user['Prenom']);
@@ -79,7 +85,7 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
         $photoPath1 = !empty($PhotoV) ? "uploads/$PhotoV" : "image/default.jpg";
         $photoPath2 = !empty($permis) ? "uploads/$permis" : "image/default.jpg";
 
-        
+
     } else {
         header("Location: SeConnecterTest.php");
         exit();
@@ -107,12 +113,14 @@ if (isset($_POST['suppr'])) {
 ?>
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="MonProfile.css">
     <title>Mon profil</title>
 </head>
+
 <body>
     <div class="box">
         <div class="UserPicture">
@@ -127,13 +135,13 @@ if (isset($_POST['suppr'])) {
             <input type="text" name="new_password" placeholder="Password" value="<?php echo $MDP; ?>">
             <?php if ($Etat_conducteur): ?>
                 <div class="Carte">
-            <img src="<?php echo $photoPath1; ?>" alt="user">
-        </div>
-        <input type="file" name="new_profile_pic" id="file" accept="image/*">
-        <div class="Carte">
-            <img src="<?php echo $photoPath; ?>" alt="user">
-        </div>
-        <input type="file" name="new_profile_pic" id="file" accept="image/*">
+                    <img src="<?php echo $photoPath1; ?>" alt="user">
+                </div>
+                <input type="file" name="new_profile_pic" id="file" accept="image/*">
+                <div class="Carte">
+                    <img src="<?php echo $photoPath; ?>" alt="user">
+                </div>
+                <input type="file" name="new_profile_pic" id="file" accept="image/*">
                 <input type="text" name="new_modele" placeholder="Modèle de voiture" value="<?php echo $Modele; ?>">
                 <input type="text" name="new_plaque" placeholder="Plaque du véhicule" value="<?php echo $Plaque; ?>">
             <?php endif; ?>
@@ -146,4 +154,5 @@ if (isset($_POST['suppr'])) {
         <button><a href="main.php">MENU</a></button>
     </div>
 </body>
+
 </html>
