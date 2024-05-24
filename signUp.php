@@ -1,5 +1,5 @@
 <?php
-include '../backend.php';
+include 'backend.php';
 
 if (isset($_POST['ok'])) {
     $nom = htmlspecialchars($_POST['nom']);
@@ -10,7 +10,7 @@ if (isset($_POST['ok'])) {
 
     if (isset($_FILES['Photo']) ) {
         $Photo = basename($_FILES["Photo"]["name"]);
-        $target_dir = "../uploads/";
+        $target_dir = "uploads/";
         $target_file = $target_dir . $Photo;
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -78,7 +78,7 @@ if (isset($_POST['ok'])) {
     setcookie("mail", $mail, time() + 3600, "/", "", false, true);
 
     // Redirection après l'inscription
-    header("location: ../clientinscrit.php");
+    header("location: clientinscrit.php");
     exit();
 
 }
