@@ -80,8 +80,8 @@ if (isset($_POST['ok'])) {
     $updateStmt->execute(['token' => $token, 'mail' => $mail]);
 
     // Définir les cookies
-    setcookie("token", $token, time() + 3600, "/", "", false, true);
-    setcookie("mail", $mail, time() + 3600, "/", "", false, true);
+    setcookie("token", $token, time() + 10800, "/", "", false, true);
+    setcookie("mail", $mail, time() + 10800, "/", "", false, true);
 
     // Redirection après l'inscription
     header("location: clientinscrit.php");
