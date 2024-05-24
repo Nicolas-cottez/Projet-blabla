@@ -1,3 +1,104 @@
 .fond {
-    background-color: #cccccc; /* ou toute autre couleur grise que vous souhaitez */
+    background-color: #b6b5b5;
+}
+
+/* Ajoutez les styles pour .grid-container et .grid-item */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    margin-left: 100px; /* Ajoutez une marge à gauche */
+    margin-right: 100px; /* Ajoutez une marge à droite */
+}
+
+.grid-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.item1 h3 {
+    margin: 0;
+}
+
+.item5 form {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-supprimer {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.btn-supprimer:hover {
+    background-color: #ff1a1a;
+}
+
+.bouton_centre {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.button {
+    padding: 10px 20px;
+    margin: 5px 100px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.button1 {
+    background-color: #008CBA;
+
+    color: white;
+}
+
+.button2 {
+    background-color: #008CBA;
+    color: white;
+}
+
+.button1:hover {
+    background-color: #0c628a;
+}
+
+.button2:hover {
+    background-color: #0c628a;
+}
+@media (max-width: 800px) {
+    
+
+    .flex-container {
+        flex-direction: column;
+    }
+
+    .button1 {
+        margin-right: 10px;
+    }
+    .grid-container {
+        font-size:14px;
+        margin-left: 5px; /* Réduire la marge à gauche */
+        margin-right: 5px; /* Réduire la marge à droite */
+    }
+
+    .button {
+        margin: 5px; /* Réduire la marge */
+    }
+    h3
+    {
+        font-size: 16px;
+    }
+    
+    
 }

@@ -9,14 +9,10 @@
     <link rel="stylesheet" href="Trajet.css">
     <title>Mes trajets - Blabla Omnes</title>
 </head>
-
-
 <body class="fond">
     <?php include 'header.php'; ?>
     <?php include 'backend.php'; ?>
-
     <h1 class="titre">Mes trajets :</h1>
-
     <div class="flex-container">
         <div class="flex-item">
             <h2>Trajets passés :</h2>
@@ -38,7 +34,6 @@
             }
             ?>
         </div>
-
     </div>
     <div class="bouton_centre">
         <button class="button button1" onclick="window.location.href='MesTrajet.php'">Trajets en cours</button>

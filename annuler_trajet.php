@@ -10,8 +10,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $requete = $db->prepare("DELETE FROM trajet WHERE ID_trajet = :id");
             $requete->bindParam(':id', $id, PDO::PARAM_INT);
             $requete->execute();
-
-            // Redirige vers la page des trajets après la suppression
             header("Location: mestrajets.php");
             exit();
         } catch (PDOException $e) {
