@@ -31,6 +31,7 @@ $trajets = $query->fetchAll(PDO::FETCH_ASSOC);
     </script>
 </head>
 <body>
+    <?php include 'Header.php'; ?>
     <div class="container mx-auto px-4 py-8">
         <h1 class="text-2xl font-semibold text-gray-800 mb-6">Liste des trajets</h1>
         <table class="min-w-full bg-white border">
@@ -72,5 +73,7 @@ $trajets = $query->fetchAll(PDO::FETCH_ASSOC);
             </tbody>
         </table>
     </div>
+    <script src="search.js"></script>
+    <?php include 'footer.php'; ?>
 </body>
 </html>
