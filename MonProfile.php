@@ -28,7 +28,8 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
         $email = htmlspecialchars($user['mail']);
         $Num_Tel = htmlspecialchars($user['Num_Tel']);
         $MDP = htmlspecialchars($user['MDP']);
-        $Photo = htmlspecialchars($user['Photo']); // Nouveau champ photo
+        $Photo = htmlspecialchars($user['Photo']);
+        $cagnotte = htmlspecialchars($user['cagnotte']); // Nouveau champ photo
         $Etat_conducteur = $user['Etat_conducteur']; // Vérifier si l'utilisateur est un conducteur
 
         // Si la photo n'existe pas, utilisez une image par défaut
@@ -38,6 +39,8 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
             $Plaque = htmlspecialchars($user['Plaque']);
             $PhotoV = htmlspecialchars($user['PhotoV']);
             $permis = htmlspecialchars($user['permis']);
+            $preferences = htmlspecialchars($user['preferences']);
+
         }
 
         $photoPath1 = !empty($PhotoV) ? "uploads/$PhotoV" : "image/default.jpg";
@@ -72,7 +75,7 @@ if (isset($_POST['suppr'])) {
 
 if (isset($_POST['modif'])) {
     // Récupérez les nouvelles informations de l'utilisateur à partir du formulaire
-    
+
     $nom = $_POST['nom'];
     $Prenom = $_POST['Prenom'];
     $email = $_POST['email'];
@@ -80,9 +83,10 @@ if (isset($_POST['modif'])) {
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $modele = isset($_POST['modele']) ? $_POST['modele'] : null;
     $plaque = isset($_POST['plaque']) ? $_POST['plaque'] : null;
+    $preferences = $_POST['preferences'];
 
     // Préparez la requête SQL pour mettre à jour les informations de l'utilisateur
-    $query = "UPDATE client SET Prenom = :Prenom, nom = :nom, mail = :email, Num_Tel = :phone, MDP = :password, Modele = :modele, Plaque = :plaque WHERE token = :token";
+    $query = "UPDATE client SET Prenom = :Prenom, nom = :nom, mail = :email, Num_Tel = :phone, MDP = :password, Modele = :modele, Plaque = :plaque, preferences = :preferences WHERE token = :token";
     $stmt = $bdd->prepare($query);
 
     // Exécutez la requête avec les nouvelles informations de l'utilisateur
@@ -94,6 +98,7 @@ if (isset($_POST['modif'])) {
         ':password' => $password,
         ':modele' => $modele,
         ':plaque' => $plaque,
+        ':preferences' => $preferences,
         ':token' => $token // Assurez-vous que $token contient le token de l'utilisateur actuel
     ]);
 }
@@ -164,10 +169,9 @@ if (isset($_POST['modif'])) {
             </div>
             <form method="POST" action="">
                 <label for="Prenom">Nom d'utilisateur</label>
-                <input type="text" name="Prenom" id="Prenom" placeholder="Prenom"
-                    value="<?php echo $Prenom; ?>" autocomplete="off">
-                <input type="text" name="nom" id="nom" placeholder="nom"
-                value="<?php echo $nom; ?>">
+                <input type="text" name="Prenom" id="Prenom" placeholder="Prenom" value="<?php echo $Prenom; ?>"
+                    autocomplete="off">
+                <input type="text" name="nom" id="nom" placeholder="nom" value="<?php echo $nom; ?>">
 
                 <label for="email">Email</label>
                 <input type="email" name="email" id="email" placeholder="Email ID" autocomplete="off"
@@ -178,15 +182,14 @@ if (isset($_POST['modif'])) {
                     value="<?php echo $Num_Tel; ?>">
 
                 <label for="password">Mot de passe</label>
-                <input type="text" name="password" id="password" placeholder="Password" autocomplete="off"
-                    value="<?php echo $MDP; ?>">
+                <input type="text" name="password" id="password" placeholder="Password" autocomplete="off" value="">
 
                 <?php if ($Etat_conducteur): ?>
                     <label for="modele">Modèle de voiture</label>
                     <input type="text" name="modele" id="modele" autocomplete="off" placeholder="Modèle de voiture"
                         value="<?php echo $Modele; ?>">
 
-                    <label for="plaque">Plaque du véhicule</label>
+
                     <input type="text" name="plaque" id="plaque" autocomplete="off" placeholder="Plaque du véhicule"
                         value="<?php echo $Plaque; ?>">
 
@@ -198,6 +201,12 @@ if (isset($_POST['modif'])) {
                     <div class="Carte">
                         <img src="<?php echo $photoPath2; ?>" alt="photo du permis">
                     </div>
+                    <label for="permis">Préférences</label>
+                    <input type="text" name="preferences" id="preferences" autocomplete="off" placeholder="preferences"
+                        value="<?php echo $preferences; ?>">
+                    <label for="modele">Cagnotte</label>
+                    <input type="text" name="" id="" autocomplete="off" placeholder="Cagnotte"
+                        value="<?php echo $cagnotte; ?> €" readonly>
                 <?php endif; ?>
                 <button><a href="main.php">MENU</a></button>
 
