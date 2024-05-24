@@ -1,7 +1,7 @@
 <?php
 include 'backend.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (isset($_POST['trajetId'])) {
     $trajetId = $_POST['trajetId'];
 
     // Récupérer le nombre de places actuelles
@@ -20,8 +20,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Envoyer une réponse indiquant que la réservation a échoué
         echo 'Échec de la réservation : aucune place disponible';
     }
-} else {
-    // Envoyer une réponse indiquant une requête invalide
-    echo 'Requête invalide';
 }
 ?>

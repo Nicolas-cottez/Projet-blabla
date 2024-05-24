@@ -61,7 +61,7 @@ $trajets = $query->fetchAll(PDO::FETCH_ASSOC);
                     </td>
                     <td class="px-4 py-2">
                         <button onclick="toggleDetails('<?php echo $index; ?>')" class="bg-blue-500 text-white px-4 py-2 rounded">Plus de détails</button>
-                        <button onclick="reserveTrajet('<?php echo $trajet['ID_trajet']; ?>')" class="bg-green-500 text-white px-4 py-2 rounded">Réserver</button>
+                        <button onclick="reserver(<?php echo $trajet['ID_trajet']; ?>)" class="bg-green-500 text-white px-4 py-2 rounded">Réserver</button>
                     </td>
                 </tr>
                 <tr id="details-<?php echo $index; ?>" style="display: none;">
