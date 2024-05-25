@@ -167,7 +167,7 @@
     }
 
 
-</style>;
+</style>
 
 <footer class="footer">
     <div class="footer-contenu">

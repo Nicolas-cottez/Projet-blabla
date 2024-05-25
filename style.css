@@ -1,16 +1,16 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900');
 
-body, html {
+body,
+html {
     height: 100%;
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
-    background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 1)), url("image/fondtest.jpg") center / cover no-repeat;
+    background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 1)), url("image/fondtest4.jpg") center / cover no-repeat;
     background-repeat: no-repeat;
     background-color: black;
-    font-family: 'Poppins', sans-serif;
-    /* background-attachment: fixed; */   /*a voir*/
+    font-family: "Roboto Slab", serif;
 }
 
 button {
@@ -40,139 +40,149 @@ button:active {
 /*--------------------------titre et haut----------------------*/
 article {
     padding: 20px;
-    margin: 20px auto;
-    text-align: center;
+    margin: 400px 0 300px 0;
 }
 
-article h2 {
-    font-size: 2.5rem;
-    color: #f5d742a9;
-    margin-bottom: 20px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    letter-spacing: 1.5px;
-    font-weight: 600;
+article h1 {
+    font-size: 25px;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    letter-spacing: 2px;
+    line-height: 1.8;
+    font-weight: bold;
+    text-align: left;
 }
 
-article p {
-    font-size: 1.2rem;
-    line-height: 1.6;
-    color: #FFFFFF;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+/*---------------- text effet -------------------*/
+section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+    margin: 100px 0 200px 0;
 }
+
+.textH1,
+.textP {
+    max-width: 80%;
+    overflow: hidden;
+    margin: 20px 0;
+    color: white;
+}
+
+.textH1 {
+    font-size: 1.5rem;
+    line-height: 1.5em;
+    font-weight: 400;
+    ;
+}
+
+.textH1 span,
+.textP span {
+    display: inline-flex;
+    color: transparent;
+    transition: all 0.5s ease-out;
+    opacity: 0;
+    transform: translateY(500px) rotate(360deg) scale(0.9);
+}
+
+.textH1 span.reveal {
+    color: white;
+    opacity: 1;
+    transform: translateY(0px) rotate(0deg) scale(1);
+}
+
+.textH1 span.revealjaune {
+    color: rgb(226, 230, 81);
+    opacity: 1;
+    transform: translateY(0px) rotate(0deg) scale(1);
+}
+
+
+.textP span.reveal {
+    color: #bfbfbf;
+    opacity: 1;
+    transform: translateY(0px) rotate(0deg) scale(1);
+}
+
 
 /*---------------- Bar de Recherche -------------------*/
 .search-bar {
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 20px;
-    border-radius: 20px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    background-color: black;
     width: 90%;
-    margin: 20px auto;
+    margin: 20px auto 300px auto;
+    box-shadow: none;
 }
 
 .search-input {
-    border: 2px solid #F5D742;
+    background-color: black;
+    color: #bfbfbf;
+    border: none;
+    border-bottom: 3px solid rgb(226, 230, 81);
     padding: 12px 15px;
-    border-radius: 20px;
-    margin-bottom: 15px;
+    margin-bottom: 40px;
     outline: none;
     transition: all 0.3s ease;
     width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 20 20"><polygon points="0,0 10,10 20,0" style="fill:rgb(226, 230, 81);"/></svg>') no-repeat right 10px center;
+    background-size: 10px;
+    font-size: 1.3rem;
+}
 
+.search-input::-ms-expand {
+    display: none;
+    /* Remove default arrow in Internet Explorer */
 }
 
 .search-input:focus {
-    border-color: #F5D742;
-    box-shadow: 0 3px 12px rgba(255, 165, 0, 0.5);
+    border-bottom: 2px solid #ffcc00;
+    box-shadow: none;
 }
 
 .search-button {
     padding: 12px 15px;
     border-radius: 20px;
-    margin-bottom: 15px;
+    margin: 15px 0;
     outline: none;
     width: 100%;
-    background-image: linear-gradient(to right, #ffae00, #F5C242, #ffae00);
+    background-image: linear-gradient(to right, #ffcc00, #e1e651, #ffcc00);
     color: white;
-}
-
-
-
-/*---------------- Covoiturage Highlight -------------------*/
-.covoiturage-highlight {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 30px;
-    margin: 25px;
-    font-size: 2rem;
-    color: rgba(255, 255, 255, 0.9);
-    text-align: center;
-    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.6);
-}
-
-.covoiturage-highlight h1 {
-    opacity: 0;
-    animation: effet 2s ease-out forwards;
-}
-
-@keyframes effet {
-    0% {
-        transform: translateY(-20px);
-        opacity: 0;
-
-    }
-
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-
-    }
 }
 
 /*---------------- Story Section -------------------*/
 .story-section {
     display: flex;
     flex-direction: column;
-    text-align: center;
+    text-align: left;
     align-items: center;
     justify-content: center;
-    padding: 24px;
-    background-color: rgba(230, 230, 230, 0.3);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    margin-bottom: 150px;
+    background-color: black;
     gap: 20px;
     font-size: 1.8rem;
-    border-radius: 25px;
-    margin-left: 25px;
-    margin-right: 25px;
 }
 
 .story-image img {
     width: 100%;
     height: auto;
-    border-radius: 10px;
     max-width: 600px;
     margin-bottom: 10px;
 }
 
 .story-content {
     padding: 20px;
-    color: #333;
+    color: #bfbfbf;
     font-size: 16px;
     line-height: 1.6;
 }
 
-.story-content h2 {
-    color: #F5D742;
-    font-size: 1.8em;
-    margin-bottom: 10px;
-    text-shadow: 4px 4px 6px rgba(0, 0, 0, 0.7);
-    font-weight: bold;
-}
-
 .story-content button {
+    margin-top: 20px;
     padding: 10px 20px;
     font-size: 16px;
-    background-image: linear-gradient(to right, #ffae00, #F5C242, #ffae00);
+    background-image: linear-gradient(to right, #ffcc00, #e1e651, #ffcc00);
     color: white;
 }
