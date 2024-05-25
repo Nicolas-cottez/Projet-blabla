@@ -71,7 +71,7 @@ if ($result) {
             exit();
         }
     } else {
-        echo "Vous n'êtes pas autorisé à publier un trajet.";
+        header("Location: DevenirConducteur.php");
         exit();
     }
 } else {

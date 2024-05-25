@@ -11,17 +11,14 @@ try {
     exit();
 }
 
-// Vérifiez si les cookies sont définis
 if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
     $token = $_COOKIE['token'];
     $mail = $_COOKIE['mail'];
 
-    // Requête pour récupérer les informations de l'utilisateur
     $stmt = $bdd->prepare("SELECT * FROM client WHERE mail = :mail AND token = :token");
     $stmt->execute(['mail' => $mail, 'token' => $token]);
     $user = $stmt->fetch();
 
-    // Si l'utilisateur est trouvé
     if (!$user) {
         header("Location: SeConnecterTest.php");
         exit();
@@ -31,153 +28,50 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
     exit();
 }
 
-// Maintenant, vous pouvez inclure votre code de recherche de trajet ici
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $Depart = $_POST['depart'];
+    $arrivee = $_POST['arrivee'];
+    $date = $_POST['date'];
+    $heuredep = $_POST['heuredep'];
+    $nom_campus = $_POST['nom_campus'];
+
+    header("Location: ResultatRecherche.php?depart=$Depart&arrivee=$arrivee&date=$date&heuredep=$heuredep&nom_campus=$nom_campus");
+    exit();
+}
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <?php include 'backend.php'; ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chercher un trajet - Blabla Omnes</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="Trajet.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title>Recherche de trajet - Blabla Omnes</title>
 </head>
-<body class="bg-gray-400">
-    <?php include 'Header.php'; ?>
-    <div class="container mx-auto px-4 py-8">
-        <h1 class="text-2xl font-semibold text-gray-800 mb-6">Chercher un trajet</h1>
-        <form id="searchForm" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-            <!-- Departure Select -->
-            <div class="mb-4">
-                <label for="departure" class="block text-gray-700 text-sm font-bold mb-2">Départ:</label>
-                <select name="departure" id="departure" class="destination-select shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                <?php
-                $reponse = $db->query('       SELECT Depart AS adresse FROM trajet
-                UNION
-                SELECT Arrivee AS adresse FROM trajet
-                UNION
-                SELECT adresse FROM campus
-                WHERE nom_campus NOT IN (SELECT DISTINCT nom_campus FROM trajet)');
-                while ($donnees = $reponse->fetch()) {
-                ?>
-                    <option value="<?php echo htmlspecialchars($donnees['adresse']); ?>">
-                        <?php echo htmlspecialchars($donnees['adresse']); ?>
-                    </option>
-                <?php
-                }
-                $reponse->closeCursor();
-                ?>
-            </select>
-            </div>
-            <!-- Destination Select -->
-            <div class="mb-4">
-                <label for="destination" class="block text-gray-700 text-sm font-bold mb-2">Destination:</label>
-                <select id="destination" name="destination" class="destination-select shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                <?php
-                $reponse = $db->query('SELECT Depart AS adresse FROM trajet UNION SELECT Arrivee AS adresse FROM trajet
-                UNION SELECT adresse FROM campus
-                WHERE nom_campus NOT IN (SELECT DISTINCT nom_campus FROM trajet)');
-                while ($donnees = $reponse->fetch()) {
-                ?>
-                    <option value="<?php echo htmlspecialchars($donnees['adresse']); ?>">
-                        <?php echo htmlspecialchars($donnees['adresse']); ?>
-                    </option>
-                <?php
-                }
-                $reponse->closeCursor();
-                ?>
-            </select>
-            <!-- Other form elements -->
-            <div class="mb-4">
-                <label for="date" class="block text-gray-700 text-sm font-bold mb-2">Date:</label>
-                <input type="date" id="date" name="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            </div>
-            <div class="flex items-center justify-between">
-                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                    Rechercher
-                </button>
-            </div>
-        </form>
-        <div id="results" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-            <!-- Les résultats de la recherche seront affichés ici -->
+<body class="fond">
+    <?php include 'header.php'; ?>
+    <?php include 'backend.php'; ?>
+
+    <h1 class="titre">Recherche de trajet :</h1>
+    <div class="flex-container">
+        <div class="flex-item">
+            <form method="post" action="">
+                <label for="depart">Départ :</label>
+                <input type="text" id="depart" name="depart" required>
+                <label for="arrivee">Arrivée :</label>
+                <input type="text" id="arrivee" name="arrivee" required>
+                <label for="date">Date :</label>
+                <input type="date" id="date" name="date" required>
+                <label for="heuredep">Heure de départ :</label>
+                <input type="time" id="heuredep" name="heuredep" required>
+                <label for="nom_campus">ID Campus :</label>
+                <input type="text" id="nom_campus" name="nom_campus" required>
+                <input type="submit" value="Rechercher">
+            </form>
         </div>
     </div>
-    <script>
-    $(document).ready(function() {
-        $('.destination-select').select2({
-            placeholder: "Tapez ou sélectionnez une option",
-            allowClear: true
-        });
-    });
-    $(document).ready(function() {
-            $('#searchForm').on('submit', function(event) {
-                event.preventDefault(); // Empêche le rechargement de la page
-                var formData = $(this).serialize(); // Sérialise les données du formulaire
-
-                console.log("Formulaire soumis"); // Vérifie que le formulaire est soumis
-                console.log("Form data: " + formData); // Vérifie les données du formulaire
-
-                $.ajax({
-                    url: 'test.php',
-                    type: 'POST',
-                    data: formData,
-                    success: function(response) {
-                        console.log("Réponse du serveur : " + response); // Vérifie la réponse du serveur
-                        var data = JSON.parse(response);
-                        if (data.status === 'error') {
-                            alert(data.message); // Affiche le message d'erreur
-                        } else {
-                    // Rediriger vers une nouvelle page PHP si la recherche est réussie
-                    window.location.href = 'ResultatRecherche.php';
-                
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("Erreur AJAX : " + status + " " + error);
-                    }
-                });
-            });
-        });
-    </script>
     <?php include 'footer.php'; ?>
-
-    <<style>
-    .select2-container--default .select2-selection--single {
-        background-color: #fff; /* bg-white */
-        border: 1px solid #d1d5db; /* border-gray-300 */
-        border-radius: 0.375rem; /* rounded-md */
-        height: 2.875rem; /* hauteur totale pour aligner le texte verticalement */
-        padding-top: 0.5rem; /* py-2 */
-        padding-bottom: 0.5rem; /* py-2 */
-        padding-left: 1rem; /* pl-4 */
-        padding-right: 1rem; /* pr-4 */
-    }
-    .select2-container--default .select2-selection--single .select2-selection__rendered {
-        color: #4b5563; /* text-gray-700 */
-        line-height: 1.75rem; /* leading-tight */
-    }
-    .select2-container--default .select2-selection--single .select2-selection__arrow {
-        top: 50%;
-        right: 1rem; /* pr-4 */
-        transform: translateY(-50%);
-    }
-    .select2-container .select2-dropdown {
-        border-color: #d1d5db; /* border-gray-300 */
-        border-radius: 0.375rem; /* rounded-md */
-    }
-    .select2-container .select2-search--dropdown .select2-search__field {
-        border-radius: 0.375rem; /* rounded-md */
-    }
-</style>
 </body>
 </html>
-
-   

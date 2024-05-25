@@ -12,13 +12,13 @@
     <title>Mes trajets - Blabla Omnes</title>
     <script>
         function toggleDetails(id, type) {
-    var details = document.getElementById('details-' + type + '-' + id);
-    if (details.style.display === 'none') {
-        details.style.display = 'table-row';
-    } else {
-        details.style.display = 'none';
-    }
-}
+            var details = document.getElementById('details-' + type + '-' + id);
+            if (details.style.display === 'none') {
+                details.style.display = 'table-row';
+            } else {
+                details.style.display = 'none';
+            }
+        }
     </script>
 </head>
 
@@ -32,6 +32,30 @@
         <div class="flex-item">
             <h2>Trajets en cours (client) :</h2>
             <?php
+            // Vérifier si l'utilisateur est connecté et obtenir l'ID_client
+            if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
+                $token = $_COOKIE['token'];
+                $mail = $_COOKIE['mail'];
+
+                // Vérifier le token dans la base de données
+                $query = "SELECT ID_client FROM client WHERE mail = :mail AND token = :token";
+                $stmt = $db->prepare($query);
+                $stmt->execute([
+                    ':mail' => $mail,
+                    ':token' => $token
+                ]);
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                if ($result) {
+                    $ID_client = $result['ID_client'];
+                } else {
+                    echo "Vous devez être connecté pour publier un trajet.";
+                    exit();
+                }
+            } else {
+                echo "Vous devez être connecté pour publier un trajet.";
+                exit();
+            }
             $token = $_COOKIE['token'];
 
             // Récupérer l'ID de l'utilisateur
@@ -42,13 +66,13 @@
 
             // Requête pour sélectionner les trajets auxquels le client est associé
             $requete = $db->prepare("
-            SELECT trajet.*, client.Photo AS conducteurPhoto, client.preferences AS conducteurPreferences, client.Modele AS Modele, client.Num_Tel as Num_Tel
-            FROM trajet
-            JOIN client ON trajet.ID_conducteur = client.ID_client
-            JOIN participe ON trajet.ID_trajet = participe.ID_trajet
-            WHERE trajet.Date >= CURDATE() AND participe.ID_client = :ID_client
-            ORDER BY trajet.Date ASC
-            ");
+SELECT trajet.*, client.Photo AS conducteurPhoto, client.preferences AS conducteurPreferences, client.Modele AS Modele, client.Num_Tel as Num_Tel
+FROM trajet
+JOIN client ON trajet.ID_conducteur = client.ID_client
+JOIN participe ON trajet.ID_trajet = participe.ID_trajet
+WHERE trajet.Date >= CURDATE() AND participe.ID_client = :ID_client
+ORDER BY trajet.Date ASC
+");
             $requete->execute([':ID_client' => $ID_client]);
             $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
             if ($resultat) {
@@ -72,7 +96,7 @@
                     echo '<div class="grid-item item9">Numero de tel: ' . htmlspecialchars($trajet['Num_Tel'] ?? '') . '</div>';
                     echo '<div class="grid-item item10"><img src="uploads/' . htmlspecialchars($trajet['conducteurPhoto'] ?? '') . '" alt="Photo du conducteur" class="conducteur-photo"></div>';
                     echo '</div>';
-                        
+
                 }
             } else {
                 echo '<p>Aucun trajet en cours.</p>';
@@ -100,12 +124,15 @@
 
                 // Requête pour sélectionner les trajets où le client est le conducteur
                 $requete = $db->prepare("
-                SELECT trajet.*, client.Photo AS conducteurPhoto, client.preferences AS conducteurPreferences, client.Modele AS Modele, client.Num_Tel as Num_Tel
-                FROM trajet
-                JOIN client ON trajet.ID_conducteur = client.ID_client
-                WHERE trajet.Date >= CURDATE() AND trajet.ID_conducteur = :ID_client
-                ORDER BY trajet.Date ASC
-                ");
+SELECT trajet.*, client.Photo AS conducteurPhoto, client.preferences AS conducteurPreferences, client.Modele AS Modele, client.Num_Tel as Num_Tel, GROUP_CONCAT(reservant.Num_Tel) as ReservantNums
+FROM trajet
+JOIN client ON trajet.ID_conducteur = client.ID_client
+LEFT JOIN participe ON trajet.ID_trajet = participe.ID_trajet
+LEFT JOIN client as reservant ON participe.ID_client = reservant.ID_client
+WHERE trajet.Date >= CURDATE() AND trajet.ID_conducteur = :ID_client
+GROUP BY trajet.ID_trajet
+ORDER BY trajet.Date ASC
+");
                 $requete->execute([':ID_client' => $ID_client]);
                 $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
                 if ($resultat) {
@@ -127,6 +154,7 @@
                         echo '<div class="grid-item item7">Modèle: ' . htmlspecialchars($trajet['Modele'] ?? '') . '</div>';
                         echo '<div class="grid-item item8">Préférences Conducteur: ' . htmlspecialchars($trajet['conducteurPreferences'] ?? '') . '</div>';
                         echo '<div class="grid-item item9">Numero de tel: ' . htmlspecialchars($trajet['Num_Tel'] ?? '') . '</div>';
+                        echo '<div class="grid-item">Numéros de téléphone des clients : ' . htmlspecialchars($trajet['ReservantNums'] ?? '') . '</div>';
                         echo '<div class="grid-item item10"><img src="uploads/' . htmlspecialchars($trajet['conducteurPhoto'] ?? '') . '" alt="Photo du conducteur" class="conducteur-photo"></div>';
                         echo '</div>';
                     }
@@ -141,6 +169,7 @@
 
             ?>
         </div>
+        <a href="TrajetPasse.php"><button> Mes trajets passés</button></a>
     </div>
     </div>
     <?php include 'footer.php'; ?>
