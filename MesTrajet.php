@@ -145,6 +145,7 @@ ORDER BY trajet.Date ASC
 
             ?>
         </div>
+        <a href="TrajetPasse.php"><button> Mes trajets passés</button></a>
     </div>
     </div>
     <?php include 'footer.php'; ?>
