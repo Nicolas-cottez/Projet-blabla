@@ -77,7 +77,7 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
 
             ]);
 
-            header("location: clientinscrit.php");
+            header("location: fin_de_requete/clientinscrit.php");
             exit();
         }
     } else {
