@@ -18,12 +18,12 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
     if ($result) {
         $ID_client = $result['ID_client'];
     } else {
-        echo "Vous devez être connecté pour publier un trajet.";
-        exit();
+        header("Location: SeConnecterTest.php");
+            exit();
     }
 } else {
-    echo "Vous devez être connecté pour publier un trajet.";
-    exit();
+    header("Location: SeConnecterTest.php");
+            exit();
 }
 
 $query = "SELECT Etat_conducteur FROM client WHERE ID_client = :ID_client";
@@ -67,7 +67,7 @@ if ($result) {
             ]);
 
             // Redirection après la publication du trajet
-            header("Location: ResultatRecherche.php");
+            header("Location: MesTrajet.php");
             exit();
         }
     } else {

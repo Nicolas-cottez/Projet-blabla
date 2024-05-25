@@ -81,12 +81,12 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
             exit();
         }
     } else {
-        echo "Identification de l'utilisateur échouée.";
-        exit();
+        header("Location: SeConnecterTest.php");
+            exit();
     }
 } else {
-    echo "Vous devez être connecté pour accéder à cette page.";
-    exit();
+    header("Location: SeConnecterTest.php");
+            exit();
 }
 ?>
 

@@ -23,15 +23,14 @@
 </head>
 
 <body class="fond">
-    <?php include 'header.php'; ?>
-    <?php include 'backend.php'; ?>
 
     <h1 class="titre">Mes trajets :</h1>
 
     <div class="flex-container">
         <div class="flex-item">
             <h2>Trajets en cours (client) :</h2>
-            <?php
+            <?php include 'backend.php';
+
             // Vérifier si l'utilisateur est connecté et obtenir l'ID_client
             if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
                 $token = $_COOKIE['token'];
@@ -49,13 +48,15 @@
                 if ($result) {
                     $ID_client = $result['ID_client'];
                 } else {
-                    echo "Vous devez être connecté pour publier un trajet.";
-                    exit();
+                    header("Location: SeConnecterTest.php");
+            exit();
                 }
             } else {
-                echo "Vous devez être connecté pour publier un trajet.";
-                exit();
+                header("Location: SeConnecterTest.php");
+            exit();
             }
+            include 'header.php'; ?>
+
             $token = $_COOKIE['token'];
 
             // Récupérer l'ID de l'utilisateur
@@ -64,14 +65,13 @@
             $user = $query->fetch(PDO::FETCH_ASSOC);
             $ID_client = $user['ID_client'];
 
-            // Requête pour sélectionner les trajets auxquels le client est associé
             $requete = $db->prepare("
 SELECT trajet.*, client.Photo AS conducteurPhoto, client.preferences AS conducteurPreferences, client.Modele AS Modele, client.Num_Tel as Num_Tel
 FROM trajet
 JOIN client ON trajet.ID_conducteur = client.ID_client
 JOIN participe ON trajet.ID_trajet = participe.ID_trajet
-WHERE trajet.Date >= CURDATE() AND participe.ID_client = :ID_client
-ORDER BY trajet.Date ASC
+WHERE trajet.Date >= CURDATE() AND TIME(trajet.HeureDep) >= TIME(NOW()) AND participe.ID_client = :ID_client
+ORDER BY trajet.Date ASC, trajet.HeureDep ASC
 ");
             $requete->execute([':ID_client' => $ID_client]);
             $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
@@ -122,16 +122,15 @@ ORDER BY trajet.Date ASC
                 $user = $query->fetch(PDO::FETCH_ASSOC);
                 $ID_client = $user['ID_client'];
 
-                // Requête pour sélectionner les trajets où le client est le conducteur
                 $requete = $db->prepare("
 SELECT trajet.*, client.Photo AS conducteurPhoto, client.preferences AS conducteurPreferences, client.Modele AS Modele, client.Num_Tel as Num_Tel, GROUP_CONCAT(reservant.Num_Tel) as ReservantNums
 FROM trajet
 JOIN client ON trajet.ID_conducteur = client.ID_client
 LEFT JOIN participe ON trajet.ID_trajet = participe.ID_trajet
 LEFT JOIN client as reservant ON participe.ID_client = reservant.ID_client
-WHERE trajet.Date >= CURDATE() AND trajet.ID_conducteur = :ID_client
+WHERE trajet.Date >= CURDATE() AND TIME(trajet.HeureDep) >= TIME(NOW()) AND trajet.ID_conducteur = :ID_client
 GROUP BY trajet.ID_trajet
-ORDER BY trajet.Date ASC
+ORDER BY trajet.Date ASC, trajet.HeureDep ASC
 ");
                 $requete->execute([':ID_client' => $ID_client]);
                 $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
@@ -169,7 +168,7 @@ ORDER BY trajet.Date ASC
 
             ?>
         </div>
-        <a href="TrajetPasse.php"><button> Mes trajets passés</button></a>
+        <a href="TrajetPasse.php"><button>Mes trajets passés</button></a>
     </div>
     </div>
     <?php include 'footer.php'; ?>

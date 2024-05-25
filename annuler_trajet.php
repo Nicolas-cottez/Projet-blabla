@@ -13,7 +13,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
             if ($checkQuery->rowCount() > 0) {
                 // Des réservations existent pour ce trajet, ne le supprimez pas
-                echo "Le trajet ne peut pas être annulé car il y a des réservations.";
+                // Redirige vers la page des trajets après la suppression
+                header("Location: ./fin_de_requete/annulationimpossible.php");
             } else {
                 // Aucune réservation pour ce trajet, procédez à la suppression
                 $requete = $db->prepare("DELETE FROM trajet WHERE ID_trajet = :id");

@@ -1,61 +1,81 @@
 <?php
 include 'backend.php';
 
+// Récupération des paramètres de recherche
 $Depart = isset($_GET['depart']) ? $_GET['depart'] : null;
 $arrivee = isset($_GET['arrivee']) ? $_GET['arrivee'] : null;
 $date = isset($_GET['date']) ? $_GET['date'] : null;
 $heuredep = isset($_GET['heuredep']) ? $_GET['heuredep'] : null;
 $nom_campus = isset($_GET['nom_campus']) ? $_GET['nom_campus'] : null;
 
-$query = $db->prepare('
-    SELECT trajet.*, client.Photo AS conducteurPhoto, client.preferences AS conducteurPreferences, client.Modele AS Modele
-    FROM trajet
-    JOIN client ON trajet.ID_conducteur = client.ID_client
-    JOIN campus ON trajet.nom_campus = campus.nom_campus
-    WHERE trajet.Depart = :Depart AND trajet.arrivee = :arrivee AND trajet.Date = :date AND trajet.heuredep >= :heuredep AND trajet.nom_campus = :nom_campus
-');
-$query->execute([
-    ':Depart' => $Depart,
-    ':arrivee' => $arrivee,
-    ':date' => $date,
-    ':heuredep' => $heuredep,
-    ':nom_campus' => $nom_campus
-]);
-$trajets = $query->fetchAll(PDO::FETCH_ASSOC);
+// Vérification de la validité des paramètres
+if ($Depart && $arrivee && $date && $heuredep && $nom_campus) {
+    // Conversion de l'heure de départ en objet DateTime pour comparaison
+    $heuredepDateTime = DateTime::createFromFormat('H:i', $heuredep);
+    
+    // Préparation de la requête SQL pour rechercher les trajets
+    $query = $db->prepare('
+        SELECT trajet.*, client.Photo AS conducteurPhoto, client.preferences AS conducteurPreferences, client.Modele AS Modele
+        FROM trajet
+        JOIN client ON trajet.ID_conducteur = client.ID_client
+        JOIN campus ON trajet.nom_campus = campus.nom_campus
+        WHERE trajet.Depart = :Depart 
+        AND trajet.arrivee = :arrivee 
+        AND trajet.Date = :date 
+        AND TIME(trajet.heuredep) > TIME(:heuredep)
+        AND trajet.nom_campus = :nom_campus
+    ');
+    
+    // Exécution de la requête avec les paramètres de recherche
+    $query->execute([
+        ':Depart' => $Depart,
+        ':arrivee' => $arrivee,
+        ':date' => $date,
+        ':heuredep' => $heuredep,
+        ':nom_campus' => $nom_campus
+    ]);
+    
+    // Récupération des résultats
+    $trajets = $query->fetchAll(PDO::FETCH_ASSOC);
+} else {
+    $trajets = [];
+}
 
+// Gestion de la réservation de trajet
 if (isset($_POST['reserve'])) {
     $ID_trajet = htmlspecialchars($_POST['ID_trajet']);
     $ID_conducteur = htmlspecialchars($_POST['ID_conducteur']);
     $prix = htmlspecialchars($_POST['prix']);
     $token = $_COOKIE['token'];
 
-    $query = $db->prepare('SELECT cagnotte FROM client WHERE ID_client = :ID_conducteur');
-    $query->execute([':ID_conducteur' => $ID_conducteur]);
-    $conducteur = $query->fetch(PDO::FETCH_ASSOC);
-
+    // Mise à jour du nombre de places disponibles
     $query = $db->prepare('SELECT Nb_personne FROM trajet WHERE ID_trajet = :ID_trajet');
     $query->execute([':ID_trajet' => $ID_trajet]);
     $trajet = $query->fetch(PDO::FETCH_ASSOC);
-
     $nouvelles_places = $trajet['Nb_personne'] - 1;
 
     $query = $db->prepare('UPDATE trajet SET Nb_personne = :nouvelles_places WHERE ID_trajet = :ID_trajet');
     $query->execute([':nouvelles_places' => $nouvelles_places, ':ID_trajet' => $ID_trajet]);
 
+    // Mise à jour de la cagnotte du conducteur
+    $query = $db->prepare('SELECT cagnotte FROM client WHERE ID_client = :ID_conducteur');
+    $query->execute([':ID_conducteur' => $ID_conducteur]);
+    $conducteur = $query->fetch(PDO::FETCH_ASSOC);
     $nouvelle_cagnotte = $conducteur['cagnotte'] + $prix;
 
     $query = $db->prepare('UPDATE client SET cagnotte = :nouvelle_cagnotte WHERE ID_client = :ID_conducteur');
     $query->execute([':nouvelle_cagnotte' => $nouvelle_cagnotte, ':ID_conducteur' => $ID_conducteur]);
 
+    // Mise à jour de la cagnotte de l'utilisateur
     $query = $db->prepare('SELECT cagnotte FROM client WHERE token = :token');
     $query->execute([':token' => $token]);
     $utilisateur = $query->fetch(PDO::FETCH_ASSOC);
-
     $nouvelle_cagnotte = $utilisateur['cagnotte'] - $prix;
 
     $query = $db->prepare('UPDATE client SET cagnotte = :nouvelle_cagnotte WHERE token = :token');
     $query->execute([':nouvelle_cagnotte' => $nouvelle_cagnotte, ':token' => $token]);
 
+    // Ajout de l'utilisateur dans la table des participants
     $query = $db->prepare('SELECT ID_client FROM client WHERE token = :token');
     $query->execute([':token' => $token]);
     $user = $query->fetch(PDO::FETCH_ASSOC);
