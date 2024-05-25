@@ -61,7 +61,7 @@ if (isset($_POST['deco'])) {
     $stmt = $bdd->prepare("UPDATE client SET token = NULL WHERE mail = :mail AND token = :token");
     $stmt->execute(['mail' => $_COOKIE['mail'], 'token' => $_COOKIE['token']]);
 
-    header("Location: clientdeconnecte.php");
+    header("Location: fin_de_requete/clientdeconnecte.php");
     exit();
 }
 
@@ -69,7 +69,7 @@ if (isset($_POST['suppr'])) {
     $stmt = $bdd->prepare("DELETE FROM client WHERE mail = :mail AND token = :token");
     $stmt->execute(['mail' => $_COOKIE['mail'], 'token' => $_COOKIE['token']]);
 
-    header("Location: clientdeconnecte.php");
+    header("Location: fin_de_requete/clientdeconnecte.php");
     exit();
 }
 

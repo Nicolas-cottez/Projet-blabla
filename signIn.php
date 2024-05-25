@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
             setcookie("token", $token, time() + 3600, "/", "", false, true);
             setcookie("mail", $mail, time() + 3600, "/", "", false, true);
-            header("Location: clientconnecte.php");
+            header("Location: fin_de_requete/clientconnecte.php");
             exit();
         } else {
             echo 'Email ou mot de passe incorrect';
