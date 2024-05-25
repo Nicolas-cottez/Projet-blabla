@@ -22,10 +22,14 @@ if (isset($_POST['deco'])) {
     <br>
     <a href="modifcampus.php"><button> Modifier un campus</button></a>
     <br>
-    <a href="validationpermis.php"> <button> Vérifier un permis ?</button></a>
+    <br>
+    <a href="validationpermis.php"> <button> Vérifier un permis </button></a>
+    <br>
     <br>
     <a href="dataclients.php"> <button> Modification des clients</button></a>
-
+    <br>
+    <br>
+    <a href="datatrajet.php"> <button> Visualiser des trajets</button></a>
 
 </body>
 </html>

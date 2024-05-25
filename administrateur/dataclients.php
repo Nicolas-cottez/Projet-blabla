@@ -65,9 +65,13 @@
         <input type="file" id="PhotoV" name="PhotoV"><br>
         <label>La plaque de sa voiture :</label>
         <input type="text" id="Plaque" name="Plaque"><br>
-        <input type="submit" value="Ajouter" name="ajouter">
+        <label>Ses préférences :</label>
+        <input type="preferences" id="preferences" name="preferences"><br>
+        <label>Sa cagnotte :</label>
+        <input type="cagnotte" id="cagnotte" name="cagnotte"><br>
         <label>Admin :</label>
         <input type="checkbox" id="Admin" name="Admin" value="1"><br>
+        <input type="submit" value="Ajouter" name="ajouter">
         <br>
     </form>
 
@@ -93,6 +97,8 @@
             <th>Modèle de la voiture</th>
             <th>Photo de la voiture</th>
             <th>Plaque de la voiture</th>
+            <th>Préférences</th>
+            <th>Cagnotte</th>
             <th>Admin</th>
         </tr>
         <?php
@@ -125,6 +131,8 @@
             $Etat_conducteur = isset($_POST['Etat_conducteur']) ? htmlspecialchars($_POST['Etat_conducteur']) : 0;
             $Modele = htmlspecialchars($_POST['Modele']);
             $Plaque = htmlspecialchars($_POST['Plaque']);
+            $preferences = htmlspecialchars($_POST['preferences']);
+            $cagnotte = htmlspecialchars($_POST['cagnotte']);
             $Admin = isset($_POST['Admin']) ? htmlspecialchars($_POST['Admin']) : 0;
 
 
@@ -133,7 +141,7 @@
                 // Si l'ID du client existe déjà, mettez à jour les informations du client
                 $query = 'UPDATE client SET ';
                 $params = [':ID_client' => $ID_client];
-                $fields = ['nom', 'Prenom', 'Num_Tel', 'mail', 'MDP', 'Etat_conducteur', 'Modele', 'Plaque', 'Photo', 'permis', 'PhotoV', 'Admin'];
+                $fields = ['nom', 'Prenom', 'Num_Tel', 'mail', 'MDP', 'Etat_conducteur', 'Modele', 'Plaque', 'Photo', 'permis', 'PhotoV', 'Admin', 'preferences', 'cagnotte'];
                 foreach ($fields as $field) {
                     if (!empty($_POST[$field])) {
                         $query .= "$field = :$field, ";
@@ -208,6 +216,8 @@
                     ':Modele' => $Modele,
                     ':PhotoV' => $PhotoV,
                     ':Plaque' => $Plaque,
+                    ':preferences' => $preferences,
+                    ':cagnotte' => $cagnotte,
                     ':Admin' => $Admin
                 ]);
 
@@ -215,7 +225,7 @@
             }
         }
 
-
+        
         // Requête pour récupérer les clients en attente de validation du permis
         $query = "SELECT * FROM client";
         $stmt = $db->query($query);
@@ -239,6 +249,8 @@
             echo "<td>" . htmlspecialchars($row['Modele']) . "</td>";
             echo "<td><img src='" . $voiture_path . "' alt='Photo de la voiture'></td>";
             echo "<td>" . htmlspecialchars($row['Plaque']) . "</td>";
+            echo "<td>" . htmlspecialchars($row['preferences']) . "</td>";
+            echo "<td>" . htmlspecialchars($row['cagnotte']) . "</td>";
             echo "<td>" . htmlspecialchars($row['Admin']) . "</td>";
             echo "</tr>";
         }

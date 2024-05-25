@@ -61,7 +61,7 @@
     }
     
     // Requête pour récupérer les clients en attente de validation du permis
-    $query = "SELECT ID_client, nom, Prenom, Photo, permis, Modele, Plaque FROM client WHERE Etat_conducteur = 0";
+    $query = "SELECT ID_client, nom, Prenom, Photo, permis, Modele, Plaque FROM client WHERE Etat_conducteur = 0 AND (Modele <> '' OR Plaque <> '')";
     $stmt = $db->query($query);
 
 
