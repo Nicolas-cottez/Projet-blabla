@@ -12,13 +12,13 @@
     <title>Mes trajets - Blabla Omnes</title>
     <script>
         function toggleDetails(id, type) {
-    var details = document.getElementById('details-' + type + '-' + id);
-    if (details.style.display === 'none') {
-        details.style.display = 'table-row';
-    } else {
-        details.style.display = 'none';
-    }
-}
+            var details = document.getElementById('details-' + type + '-' + id);
+            if (details.style.display === 'none') {
+                details.style.display = 'table-row';
+            } else {
+                details.style.display = 'none';
+            }
+        }
     </script>
 </head>
 
@@ -32,6 +32,30 @@
         <div class="flex-item">
             <h2>Trajets en cours (client) :</h2>
             <?php
+            // Vérifier si l'utilisateur est connecté et obtenir l'ID_client
+            if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
+                $token = $_COOKIE['token'];
+                $mail = $_COOKIE['mail'];
+
+                // Vérifier le token dans la base de données
+                $query = "SELECT ID_client FROM client WHERE mail = :mail AND token = :token";
+                $stmt = $db->prepare($query);
+                $stmt->execute([
+                    ':mail' => $mail,
+                    ':token' => $token
+                ]);
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                if ($result) {
+                    $ID_client = $result['ID_client'];
+                } else {
+                    echo "Vous devez être connecté pour publier un trajet.";
+                    exit();
+                }
+            } else {
+                echo "Vous devez être connecté pour publier un trajet.";
+                exit();
+            }
             $token = $_COOKIE['token'];
 
             // Récupérer l'ID de l'utilisateur
@@ -72,7 +96,7 @@ ORDER BY trajet.Date ASC
                     echo '<div class="grid-item item9">Numero de tel: ' . htmlspecialchars($trajet['Num_Tel'] ?? '') . '</div>';
                     echo '<div class="grid-item item10"><img src="uploads/' . htmlspecialchars($trajet['conducteurPhoto'] ?? '') . '" alt="Photo du conducteur" class="conducteur-photo"></div>';
                     echo '</div>';
-                        
+
                 }
             } else {
                 echo '<p>Aucun trajet en cours.</p>';
