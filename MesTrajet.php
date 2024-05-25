@@ -42,13 +42,13 @@
 
             // Requête pour sélectionner les trajets auxquels le client est associé
             $requete = $db->prepare("
-            SELECT trajet.*, client.Photo AS conducteurPhoto, client.preferences AS conducteurPreferences, client.Modele AS Modele, client.Num_Tel as Num_Tel
-            FROM trajet
-            JOIN client ON trajet.ID_conducteur = client.ID_client
-            JOIN participe ON trajet.ID_trajet = participe.ID_trajet
-            WHERE trajet.Date >= CURDATE() AND participe.ID_client = :ID_client
-            ORDER BY trajet.Date ASC
-            ");
+SELECT trajet.*, client.Photo AS conducteurPhoto, client.preferences AS conducteurPreferences, client.Modele AS Modele, client.Num_Tel as Num_Tel
+FROM trajet
+JOIN client ON trajet.ID_conducteur = client.ID_client
+JOIN participe ON trajet.ID_trajet = participe.ID_trajet
+WHERE trajet.Date >= CURDATE() AND participe.ID_client = :ID_client
+ORDER BY trajet.Date ASC
+");
             $requete->execute([':ID_client' => $ID_client]);
             $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
             if ($resultat) {
@@ -100,12 +100,15 @@
 
                 // Requête pour sélectionner les trajets où le client est le conducteur
                 $requete = $db->prepare("
-                SELECT trajet.*, client.Photo AS conducteurPhoto, client.preferences AS conducteurPreferences, client.Modele AS Modele, client.Num_Tel as Num_Tel
-                FROM trajet
-                JOIN client ON trajet.ID_conducteur = client.ID_client
-                WHERE trajet.Date >= CURDATE() AND trajet.ID_conducteur = :ID_client
-                ORDER BY trajet.Date ASC
-                ");
+SELECT trajet.*, client.Photo AS conducteurPhoto, client.preferences AS conducteurPreferences, client.Modele AS Modele, client.Num_Tel as Num_Tel, GROUP_CONCAT(reservant.Num_Tel) as ReservantNums
+FROM trajet
+JOIN client ON trajet.ID_conducteur = client.ID_client
+LEFT JOIN participe ON trajet.ID_trajet = participe.ID_trajet
+LEFT JOIN client as reservant ON participe.ID_client = reservant.ID_client
+WHERE trajet.Date >= CURDATE() AND trajet.ID_conducteur = :ID_client
+GROUP BY trajet.ID_trajet
+ORDER BY trajet.Date ASC
+");
                 $requete->execute([':ID_client' => $ID_client]);
                 $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
                 if ($resultat) {
@@ -127,6 +130,7 @@
                         echo '<div class="grid-item item7">Modèle: ' . htmlspecialchars($trajet['Modele'] ?? '') . '</div>';
                         echo '<div class="grid-item item8">Préférences Conducteur: ' . htmlspecialchars($trajet['conducteurPreferences'] ?? '') . '</div>';
                         echo '<div class="grid-item item9">Numero de tel: ' . htmlspecialchars($trajet['Num_Tel'] ?? '') . '</div>';
+                        echo '<div class="grid-item">Numéros de téléphone des clients : ' . htmlspecialchars($trajet['ReservantNums'] ?? '') . '</div>';
                         echo '<div class="grid-item item10"><img src="uploads/' . htmlspecialchars($trajet['conducteurPhoto'] ?? '') . '" alt="Photo du conducteur" class="conducteur-photo"></div>';
                         echo '</div>';
                     }
