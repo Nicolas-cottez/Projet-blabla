@@ -11,14 +11,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <title>Mes trajets - Blabla Omnes</title>
     <script>
-        function toggleDetails(id) {
-            var details = document.getElementById('details-' + id);
-            if (details.style.display === 'none') {
-                details.style.display = 'table-row';
-            } else {
-                details.style.display = 'none';
-            }
-        }
+        function toggleDetails(id, type) {
+    var details = document.getElementById('details-' + type + '-' + id);
+    if (details.style.display === 'none') {
+        details.style.display = 'table-row';
+    } else {
+        details.style.display = 'none';
+    }
+}
     </script>
 </head>
 
@@ -56,22 +56,23 @@
                     echo '<div class="grid-container">';
                     echo '<div class="grid-item item1"><h3>' . htmlspecialchars($trajet['Depart'] ?? '') . '<span> ==> </span>' . htmlspecialchars($trajet['arrivee'] ?? '') . '</h3></div>';
                     echo '<div class="grid-item item2">Date: ' . htmlspecialchars($trajet['Date'] ?? '') . '</div>';
-                    echo '<div class="grid-item item3">Distance: ' . htmlspecialchars($trajet['Distance'] ?? '') . ' km</div>';
-                    echo '<div class="grid-item item4">Prix: ' . htmlspecialchars($trajet['prix'] ?? '') . ' €</div>';
-                    echo '<div class="grid-item item5">';
+                    echo '<div class="grid-item item4">Distance: ' . htmlspecialchars($trajet['Distance'] ?? '') . ' km</div>';
+                    echo '<div class="grid-item item5">Prix: ' . htmlspecialchars($trajet['prix'] ?? '') . ' €</div>';
+                    echo '<div class="grid-item item6">';
                     echo '<form method="post" action="annuler_trajet.php">';
                     echo '<input type="hidden" name="ID_trajet" value="' . htmlspecialchars($trajet['ID_trajet'] ?? '') . '">';
                     echo '<button type="submit" class="btn-supprimer">Annuler</button>';
                     echo '</form>';
-                    echo '<button onclick="toggleDetails(\'' . $index . '\')" class="btn-details">Détails</button>';
+                    echo '<button onclick="toggleDetails(\'' . $trajet['ID_trajet'] . '\', \'client\')" class="btn-details">Détails</button>';
                     echo '</div>';
                     echo '</div>';
-                    echo '<div id="details-' . $index . '" class="details" style="display: none;">';
-                    echo '<div class="grid-item item6">Modèle: ' . htmlspecialchars($trajet['Modele'] ?? '') . '</div>';
-                    echo '<div class="grid-item item7">Préférences Conducteur: ' . htmlspecialchars($trajet['conducteurPreferences'] ?? '') . '</div>';
-                    echo '<div class="grid-item item7">Numero de tel: ' . htmlspecialchars($trajet['Num_Tel'] ?? '') . '</div>';
-                    echo '<div class="grid-item item8"><img src="uploads/' . htmlspecialchars($trajet['conducteurPhoto'] ?? '') . '" alt="Photo du conducteur" class="conducteur-photo"></div>';
+                    echo '<div id="details-client-' . $trajet['ID_trajet'] . '" class="details" style="display: none;">';
+                    echo '<div class="grid-item item7">Modèle: ' . htmlspecialchars($trajet['Modele'] ?? '') . '</div>';
+                    echo '<div class="grid-item item8">Préférences Conducteur: ' . htmlspecialchars($trajet['conducteurPreferences'] ?? '') . '</div>';
+                    echo '<div class="grid-item item9">Numero de tel: ' . htmlspecialchars($trajet['Num_Tel'] ?? '') . '</div>';
+                    echo '<div class="grid-item item10"><img src="uploads/' . htmlspecialchars($trajet['conducteurPhoto'] ?? '') . '" alt="Photo du conducteur" class="conducteur-photo"></div>';
                     echo '</div>';
+                        
                 }
             } else {
                 echo '<p>Aucun trajet en cours.</p>';
@@ -104,7 +105,7 @@
                 JOIN client ON trajet.ID_conducteur = client.ID_client
                 WHERE trajet.Date >= CURDATE() AND trajet.ID_conducteur = :ID_client
                 ORDER BY trajet.Date ASC
-        ");
+                ");
                 $requete->execute([':ID_client' => $ID_client]);
                 $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
                 if ($resultat) {
@@ -112,7 +113,6 @@
                         echo '<div class="grid-container">';
                         echo '<div class="grid-item item1"><h3>' . htmlspecialchars($trajet['Depart'] ?? '') . '<span> ==> </span>' . htmlspecialchars($trajet['arrivee'] ?? '') . '</h3></div>';
                         echo '<div class="grid-item item2">Date: ' . htmlspecialchars($trajet['Date'] ?? '') . '</div>';
-                        echo '<div class="grid-item item3">Heure de départ: ' . htmlspecialchars($trajet['heuredep'] ?? '') . '</div>';
                         echo '<div class="grid-item item4">Distance: ' . htmlspecialchars($trajet['Distance'] ?? '') . ' km</div>';
                         echo '<div class="grid-item item5">Prix: ' . htmlspecialchars($trajet['prix'] ?? '') . ' €</div>';
                         echo '<div class="grid-item item6">';
@@ -120,10 +120,10 @@
                         echo '<input type="hidden" name="ID_trajet" value="' . htmlspecialchars($trajet['ID_trajet'] ?? '') . '">';
                         echo '<button type="submit" class="btn-supprimer">Annuler</button>';
                         echo '</form>';
-                        echo '<button onclick="toggleDetails(\'' . $index . '\')" class="btn-details">Détails</button>';
+                        echo '<button onclick="toggleDetails(\'' . $index . '\', \'client\')" class="btn-details">Détails</button>';
                         echo '</div>';
                         echo '</div>';
-                        echo '<div id="details-' . $index . '" class="details" style="display: none;">';
+                        echo '<div id="details-client-' . $index . '" class="details" style="display: none;">';
                         echo '<div class="grid-item item7">Modèle: ' . htmlspecialchars($trajet['Modele'] ?? '') . '</div>';
                         echo '<div class="grid-item item8">Préférences Conducteur: ' . htmlspecialchars($trajet['conducteurPreferences'] ?? '') . '</div>';
                         echo '<div class="grid-item item9">Numero de tel: ' . htmlspecialchars($trajet['Num_Tel'] ?? '') . '</div>';
@@ -142,9 +142,6 @@
             ?>
         </div>
     </div>
-    <div class="bouton_centre">
-        <button class="button button1" onclick="window.location.href='TrajetPasse.php'">Trajets passés</button>
-        <button class="button button2" onclick="window.location.href='main.php'">Retour menu</button>
     </div>
     <?php include 'footer.php'; ?>
 </body>
