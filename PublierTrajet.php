@@ -1,11 +1,6 @@
 <?php
 include 'backend.php';
 
-
-
-
-
-
 // Vérifier si l'utilisateur est connecté et obtenir l'ID_client
 if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
     $token = $_COOKIE['token'];
@@ -95,6 +90,7 @@ if (!$resultDepart && !$resultArrivee) {
             header("Location: MesTrajet.php");
             exit();
         }
+    }
     } else {
         header("Location: DevenirConducteur.php");
         exit();
@@ -106,7 +102,6 @@ if (!$resultDepart && !$resultArrivee) {
 ?>
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -114,24 +109,9 @@ if (!$resultDepart && !$resultArrivee) {
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script><!--inclu tailwind-->
 </head>
-
-<body class="bg-gray-400">
+<body class="bg-gray-400" >
     <?php include 'Header.php'; ?>
-    <div class="container mx-auto px-4 py-8">
-        <h1 class="text-2xl font-semibold text-gray-800 mb-6">Publier un trajet</h1>
-        <form id="searchForm" method="POST" action="" enctype="multipart/form-data"
-            class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-            <div class="mb-4">
-                <label for="Depart" class="block text-gray-700 text-sm font-bold mb-2">Départ:</label>
-                <input list="adresses" name="Depart" id="Depart" placeholder="Ville de départ"
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                <datalist id="adresses">
-                    <?php foreach ($adresses as $adresse): ?>
-                        <option value="<?= $adresse['adresse'] ?>">
-                        <?php endforeach; ?>
-                </datalist>
-            </div>
-            <div class="mb-4">
+    <div class="mb-4">
                 <label for="arrivee" class="block text-gray-700 text-sm font-bold mb-2">Arrivée:</label>
                 <input list="adresses" name="arrivee" id="arrivee" placeholder="Ville d'arrivée"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
@@ -181,5 +161,4 @@ if (!$resultDepart && !$resultArrivee) {
     <script src="search.js"></script>
     <?php include 'footer.php'; ?>
 </body>
-
 </html>

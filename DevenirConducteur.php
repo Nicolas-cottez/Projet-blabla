@@ -16,7 +16,6 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
 
     if ($result) {
         $ID_client = $result['ID_client'];
-
         // Vérifier l'état du conducteur
         $query = "SELECT Etat_conducteur FROM client WHERE ID_client = :ID_client";
         $stmt = $db->prepare($query);
@@ -27,7 +26,7 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
             header("Location: main.php");
             exit;
         }
-        if (isset($_POST['ok'])) {
+        if (isset($_POST['ok']) ) {
             // Récupération des données du formulaire
             $Modele = htmlspecialchars($_POST['Modele']);
             $Plaque = htmlspecialchars($_POST['Plaque']);
@@ -54,10 +53,8 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
             }
 
             // Limite les formats de fichier
-            if (
-                ($imageFileType1 != "jpg" && $imageFileType1 != "png" && $imageFileType1 != "jpeg" && $imageFileType1 != "gif") ||
-                ($imageFileType2 != "jpg" && $imageFileType2 != "png" && $imageFileType2 != "jpeg" && $imageFileType2 != "gif")
-            ) {
+            if (($imageFileType1 != "jpg" && $imageFileType1 != "png" && $imageFileType1 != "jpeg" && $imageFileType1 != "gif") || 
+                ($imageFileType2 != "jpg" && $imageFileType2 != "png" && $imageFileType2 != "jpeg" && $imageFileType2 != "gif")) {
                 echo "Désolé, seuls les fichiers JPG, JPEG, PNG et GIF sont autorisés.";
                 $uploadOk = 0;
             }
@@ -104,13 +101,11 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
 
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Devenir Conducteur</title>
 </head>
-
 <body>
     <form method="POST" action="" enctype="multipart/form-data">
         <label>Votre permis</label>
@@ -132,5 +127,4 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
         <a href="main.php"><button type="button">Menu</button></a>
     </form>
 </body>
-
 </html>
