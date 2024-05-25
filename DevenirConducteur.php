@@ -115,6 +115,7 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
         <input type="text" id="preferences" name="preferences" placeholder="Entrez vos preferences..." required>
         <br />
         <input type="submit" value="M'inscrire" name="ok">
+        <a href="main.php"><button type="button">Menu</button></a>
     </form>
 </body>
 </html>

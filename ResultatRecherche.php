@@ -12,7 +12,7 @@ $query = $db->prepare('
     FROM trajet
     JOIN client ON trajet.ID_conducteur = client.ID_client
     JOIN campus ON trajet.nom_campus = campus.nom_campus
-    WHERE trajet.Depart = :Depart AND trajet.arrivee = :arrivee AND trajet.Date = :date AND trajet.heuredep = :heuredep AND trajet.nom_campus = :nom_campus
+    WHERE trajet.Depart = :Depart AND trajet.arrivee = :arrivee AND trajet.Date = :date AND trajet.heuredep >= :heuredep AND trajet.nom_campus = :nom_campus
 ');
 $query->execute([
     ':Depart' => $Depart,
