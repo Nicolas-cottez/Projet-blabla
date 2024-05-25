@@ -3,12 +3,15 @@
 include 'backend.php';
 
 // Requête pour sélectionner les trajets et les informations du conducteur
-$query = $db->query('
+$heuredep = isset($_POST['heuredep']) ? $_POST['heuredep'] : null;
+
+$query = $bdd->prepare('
     SELECT trajet.*, client.Photo AS conducteurPhoto, client.preferences AS conducteurPreferences, client.Modele AS Modele
-    FROM trajet 
+    FROM trajet
     JOIN client ON trajet.ID_conducteur = client.ID_client
-    WHERE trajet.Nb_personne > 0 AND trajet.Date >= CURDATE()
+    WHERE trajet.Nb_personne > 0 AND trajet.Date = CURDATE() AND TIME(trajet.heuredep) >= TIME(NOW()) AND trajet.Depart = :Depart AND trajet.arrivee = :arrivee
 ');
+$query->execute([':Depart' => $Depart, ':arrivee' => $arrivee]);
 $trajets = $query->fetchAll(PDO::FETCH_ASSOC);
 
 if (isset($_POST['reserve'])) {
@@ -113,6 +116,7 @@ if (isset($_POST['reserve'])) {
                         <td class="px-4 py-2"><?php echo htmlspecialchars($trajet['Date']); ?></td>
                         <td class="px-4 py-2"><?php echo htmlspecialchars($trajet['prix']); ?></td>
                         <td class="px-4 py-2"><?php echo htmlspecialchars($trajet['Nb_personne']); ?></td>
+                        <td class="px-4 py-2"><?php echo htmlspecialchars($trajet['heuredep']); ?></td>
 
 
                         <td class="px-4 py-2">
