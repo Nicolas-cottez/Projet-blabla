@@ -32,4 +32,3 @@ if (isset($_POST['deco'])) {
     <a href="datatrajet.php"> <button> Visualiser des trajets</button></a>
 
 </body>
-</html>

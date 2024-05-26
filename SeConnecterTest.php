@@ -25,20 +25,42 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $updateStmt = $bdd->prepare("UPDATE client SET token = :token WHERE mail = :mail");
             $updateStmt->execute(['token' => $token, 'mail' => $mail]);
 
-            setcookie("token", $token, time() + 3600, "/", "", false, true);
-            setcookie("mail", $mail, time() + 3600, "/", "", false, true);
+            setcookie("token", $token, time() + 10800, "/", "", false, true);
+            setcookie("mail", $mail, time() + 10800, "/", "", false, true);
 
-            // VÃ©rifier si l'utilisateur est administrateur
             if ($user['Admin'] == 1) {
-                header("Location: ./administrateur/administrateur.php");
-            } else {
-                header("Location: main.php");
-            }
-
+                header("Location: ./administrateur/administrateur.php");}else{
+                    header("Location: main.php");
+                }
+                
             exit();
+        
         } else {
             echo 'Email ou mot de passe incorrect';
         }
     }
 }
+
 ?>
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion</title>
+</head>
+
+<body>
+    <form method="POST" action="">
+        <label for="mail">mail</label>
+        <input type="text" placeholder="Entrez votre e-mail..." id="mail" name="mail" required>
+        <label for="MDP">Mot de passe</label>
+        <input type="password" placeholder="Entrez votre MDP..." id="MDP" name="MDP" required>
+        <input type="submit" value="Se connecter" name="ok">
+        <label><a href="inscription.php">S'inscrire</a></label>
+    </form>
+</body>
+</html>

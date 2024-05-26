@@ -90,11 +90,11 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
             exit();
         }
     } else {
-        header("Location: SeConnecterTest.php");
+        header("Location: SignInUp.php");
             exit();
     }
 } else {
-    header("Location: SeConnecterTest.php");
+    header("Location: SignInUp.php");
             exit();
 }
 ?>

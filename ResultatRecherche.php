@@ -21,6 +21,7 @@ if ($Depart && $arrivee && $date && $heuredep) {
         AND trajet.arrivee = :arrivee 
         AND trajet.Date = :date 
         AND TIME(trajet.heuredep) > TIME(:heuredep)
+        AND trajet.Nb_personne > 0
     ');
     
     // Exécution de la requête avec les paramètres de recherche
@@ -79,7 +80,7 @@ if (isset($_POST['reserve'])) {
 
     $query = $db->prepare('INSERT INTO participe (ID_client, ID_trajet) VALUES (:ID_client, :ID_trajet)');
     $query->execute([':ID_client' => $ID_client, ':ID_trajet' => $ID_trajet]);
-    header("Location: fin_de_requete/clientconnecte.php");
+    header("Location: fin_de_requete/trajetreserve.php");
 }
 ?>
 

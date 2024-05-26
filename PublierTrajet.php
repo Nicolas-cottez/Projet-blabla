@@ -22,11 +22,11 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
     if ($result) {
         $ID_client = $result['ID_client'];
     } else {
-        header("Location: SeConnecterTest.php");
+        header("Location: SignInUp.php");
         exit();
     }
 } else {
-    header("Location: SeConnecterTest.php");
+    header("Location: SignInUp.php");
     exit();
 }
 
@@ -91,7 +91,7 @@ if ($result) {
                 ]);
 
                 // Redirection après la publication du trajet
-                header("Location: ResultatRecherche.php");
+                header("Location: MesTrajet.php");
                 exit();
             }
         }
