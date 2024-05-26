@@ -65,7 +65,7 @@ try {
 <style>
     body {
         font-family: 'Poppins', sans-serif;
-        background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 1)), url("image/fondtest.jpg") center / cover no-repeat;
+        background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 1)), url("../image/fondtest4.jpg") center / cover no-repeat;
     }
     article {
         padding: 20px;
@@ -89,13 +89,14 @@ try {
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
     }
     .yellow-button {
+        display: flex;
+        justify-content: center;
         background-color: #f5d742a9;
         color: black;
         border: none;
         padding: 15px 30px;
         text-align: center;
         text-decoration: none;
-        display: inline-block;
         font-size: 16px;
         margin: 10px 2px;
         cursor: pointer;

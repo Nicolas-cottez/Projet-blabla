@@ -65,7 +65,7 @@ try {
 <style>
     body {
         font-family: 'Poppins', sans-serif;
-        background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 1)), url("image/fondtest.jpg") center / cover no-repeat;
+        background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 1)), url("../image/fondtest4.jpg") center / cover no-repeat;
     }
     article {
         padding: 20px;

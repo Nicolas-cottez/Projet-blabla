@@ -189,7 +189,6 @@ if ($result) {
     </div>
 
     <script src="prix.js"></script>
-    <script src="search.js"></script>
     <?php include 'footer.php'; ?>
 </body>
 

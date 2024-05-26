@@ -29,7 +29,7 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
         $Num_Tel = htmlspecialchars($user['Num_Tel']);
         $MDP = htmlspecialchars($user['MDP']);
         $Photo = htmlspecialchars($user['Photo']);
-        $cagnotte = htmlspecialchars($user['cagnotte']); // Nouveau champ photo
+        $cagnotte = htmlspecialchars($user['cagnotte']);
         $Etat_conducteur = $user['Etat_conducteur']; // Vérifier si l'utilisateur est un conducteur
 
         // Si la photo n'existe pas, utilisez une image par défaut
@@ -224,6 +224,10 @@ if (isset($_POST['modif'])) {
 
                 <label for="password">Mot de passe</label>
                 <input type="text" name="password" id="password" placeholder="Password" autocomplete="off" value="">
+
+                <label for="cagnotte">Cagnotte</label>
+                <input type="text" name="cagnotte" id="cagnotte" autocomplete="off"
+                    value="<?php echo $cagnotte; ?>">
 
                 <?php if ($Etat_conducteur): ?>
                     <label for="modele">Modèle de voiture</label>
