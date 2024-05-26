@@ -20,11 +20,11 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
     $user = $stmt->fetch();
 
     if (!$user) {
-        header("Location: SeConnecterTest.php");
+        header("Location: SignInUp.php");
         exit();
     }
 } else {
-    header("Location: SeConnecterTest.php");
+    header("Location: SignInUp.php");
     exit();
 }
 

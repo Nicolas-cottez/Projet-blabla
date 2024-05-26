@@ -27,7 +27,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
             setcookie("token", $token, time() + 3600, "/", "", false, true);
             setcookie("mail", $mail, time() + 3600, "/", "", false, true);
-            header("Location: fin_de_requete/clientconnecte.php");
+
+            // Vérifier si l'utilisateur est administrateur
+            if ($user['Admin'] == 1) {
+                header("Location: ./administrateur/administrateur.php");
+            } else {
+                header("Location: main.php");
+            }
+
             exit();
         } else {
             echo 'Email ou mot de passe incorrect';

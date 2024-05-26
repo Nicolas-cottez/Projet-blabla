@@ -1,3 +1,34 @@
+
+    <?php
+    include 'backend.php';
+
+    // Vérifier si l'utilisateur est connecté et obtenir l'ID_client
+    if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
+        $token = $_COOKIE['token'];
+        $mail = $_COOKIE['mail'];
+
+        // Vérifier le token dans la base de données
+        $query = "SELECT ID_client FROM client WHERE mail = :mail AND token = :token";
+        $stmt = $db->prepare($query);
+        $stmt->execute([
+            ':mail' => $mail,
+            ':token' => $token
+        ]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($result) {
+            $ID_client = $result['ID_client'];
+        } else {
+            header("Location: SignInUp.php");
+            exit();
+        }
+    } else {
+        header("Location: SignInUp.php");
+        exit();
+    }
+    include 'header.php';
+    ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -21,41 +52,14 @@
 </head>
 
 <body class="fond">
-    <?php include 'header.php'; ?>
-    <?php include 'backend.php'; ?>
     <h1 class="titre">Mes trajets :</h1>
 
     <div class="flex-container">
         <div class="flex-item">
             <h2>Trajets en cours (client) :</h2>
+            
+            
             <?php
-            include 'backend.php';
-
-            // Vérifier si l'utilisateur est connecté et obtenir l'ID_client
-            if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
-                $token = $_COOKIE['token'];
-                $mail = $_COOKIE['mail'];
-
-                // Vérifier le token dans la base de données
-                $query = "SELECT ID_client FROM client WHERE mail = :mail AND token = :token";
-                $stmt = $db->prepare($query);
-                $stmt->execute([
-                    ':mail' => $mail,
-                    ':token' => $token
-                ]);
-                $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                if ($result) {
-                    $ID_client = $result['ID_client'];
-                } else {
-                    header("Location: SeConnecterTest.php");
-                    exit();
-                }
-            } else {
-                header("Location: SeConnecterTest.php");
-                exit();
-            }
-
             // Récupérer les trajets en cours en tant que client
             $requete = $db->prepare("
                 SELECT trajet.*, client.Photo AS conducteurPhoto, client.preferences AS conducteurPreferences, client.Modele AS Modele, client.Num_Tel as Num_Tel
@@ -75,7 +79,8 @@
                     echo '<div class="grid-item item2">Date: ' . htmlspecialchars($trajet['Date'] ?? '') . '</div>';
                     echo '<div class="grid-item item4">Distance: ' . htmlspecialchars($trajet['Distance'] ?? '') . ' km</div>';
                     echo '<div class="grid-item item5">Prix: ' . htmlspecialchars($trajet['prix'] ?? '') . ' €</div>';
-                    echo '<div class="grid-item item6">';
+                    echo '<div class="grid-item item6"><img src="uploads/' . htmlspecialchars($trajet['conducteurPhoto'] ?? '') . '" alt="Photo du conducteur" class="conducteur-photo -"></div>';
+                    echo '<div class="grid-item item7">';
                     echo '<form method="post" action="annuler_trajet.php">';
                     echo '<input type="hidden" name="ID_trajet" value="' . htmlspecialchars($trajet['ID_trajet'] ?? '') . '">';
                     echo '<button type="submit" class="btn-supprimer">Annuler</button>';
@@ -84,10 +89,9 @@
                     echo '</div>';
                     echo '</div>';
                     echo '<div id="details-client-' . $trajet['ID_trajet'] . '" class="details" style="display: none;">';
-                    echo '<div class="grid-item item7">Modèle: ' . htmlspecialchars($trajet['Modele'] ?? '') . '</div>';
-                    echo '<div class="grid-item item8">Préférences Conducteur: ' . htmlspecialchars($trajet['conducteurPreferences'] ?? '') . '</div>';
-                    echo '<div class="grid-item item9">Numéro de tel: ' . htmlspecialchars($trajet['Num_Tel'] ?? '') . '</div>';
-                    echo '<div class="grid-item item10"><img src="uploads/' . htmlspecialchars($trajet['conducteurPhoto'] ?? '') . '" alt="Photo du conducteur" class="conducteur-photo"></div>';
+                    echo '<div class="grid-item item8">Modèle: ' . htmlspecialchars($trajet['Modele'] ?? '') . '</div>';
+                    echo '<div class="grid-item item9">Préférences Conducteur: ' . htmlspecialchars($trajet['conducteurPreferences'] ?? '') . '</div>';
+                    echo '<div class="grid-item item10">Numéro de tel: ' . htmlspecialchars($trajet['Num_Tel'] ?? '') . '</div>';
                     echo '</div>';
                 }
             } else {
@@ -126,7 +130,8 @@
                         echo '<div class="grid-item item2">Date: ' . htmlspecialchars($trajet['Date'] ?? '') . '</div>';
                         echo '<div class="grid-item item4">Distance: ' . htmlspecialchars($trajet['Distance'] ?? '') . ' km</div>';
                         echo '<div class="grid-item item5">Prix: ' . htmlspecialchars($trajet['prix'] ?? '') . ' €</div>';
-                        echo '<div class="grid-item item6">';
+                        echo '<div class="grid-item item6"><img src="uploads/' . htmlspecialchars($trajet['conducteurPhoto'] ?? '') . '" alt="Photo du conducteur" class="conducteur-photo UserPicture"></div>';
+                        echo '<div class="grid-item item7">';
                         echo '<form method="post" action="annuler_trajet.php">';
                         echo '<input type="hidden" name="ID_trajet" value="' . htmlspecialchars($trajet['ID_trajet'] ?? '') . '">';
                         echo '<button type="submit" class="btn-supprimer">Annuler</button>';
@@ -135,11 +140,10 @@
                         echo '</div>';
                         echo '</div>';
                         echo '<div id="details-conducteur-' . $index . '" class="details" style="display: none;">';
-                        echo '<div class="grid-item item7">Modèle: ' . htmlspecialchars($trajet['Modele'] ?? '') . '</div>';
-                        echo '<div class="grid-item item8">Préférences Conducteur: ' . htmlspecialchars($trajet['conducteurPreferences'] ?? '') . '</div>';
-                        echo '<div class="grid-item item9">Numéro de tel: ' . htmlspecialchars($trajet['Num_Tel'] ?? '') . '</div>';
+                        echo '<div class="grid-item item8">Modèle: ' . htmlspecialchars($trajet['Modele'] ?? '') . '</div>';
+                        echo '<div class="grid-item item9">Préférences Conducteur: ' . htmlspecialchars($trajet['conducteurPreferences'] ?? '') . '</div>';
+                        echo '<div class="grid-item item10">Numéro de tel: ' . htmlspecialchars($trajet['Num_Tel'] ?? '') . '</div>';
                         echo '<div class="grid-item">Numéros de téléphone des clients : ' . htmlspecialchars($trajet['ReservantNums'] ?? '') . '</div>';
-                        echo '<div class="grid-item item10"><img src="uploads/' . htmlspecialchars($trajet['conducteurPhoto'] ?? '') . '" alt="Photo du conducteur" class="conducteur-photo"></div>';
                         echo '</div>';
                     }
                 } else {

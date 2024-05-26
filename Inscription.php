@@ -135,7 +135,7 @@ if (isset($_POST['ok'])) {
         <input type="password" id="MDP" name="MDP" placeholder="Entrez votre mot de passe..." required>
         <br />
         <input type="submit" value="M'inscrire" name="ok">
-        <label><a href="SeConnecterTest.php">Se connecter</a></label>
+        <label><a href="SignInUp.php">Se connecter</a></label>
     </form>
 </body>
 

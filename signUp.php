@@ -77,6 +77,7 @@ if (isset($_POST['ok'])) {
     setcookie("token", $token, time() + 3600, "/", "", false, true);
     setcookie("mail", $mail, time() + 3600, "/", "", false, true);
 
+    
     // Redirection après l'inscription
     header("location: fin_de_requete/clientinscrit.php");
     exit();
