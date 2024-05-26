@@ -1,11 +1,78 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: gray;
+    margin: 0;
+    padding: 0;
+}
+
 .fond {
-    background-color: #cccccc; /* ou toute autre couleur grise que vous souhaitez */
+    background-color: gray;
 }
 
-.UserPicture {
-    width: 50px; /* Ajustez la taille comme vous le souhaitez */
-    height: 50px; /* Ajustez la taille comme vous le souhaitez */
-    border-radius: 50%; /* Cela rend l'image ronde */
-    object-fit: cover; /* Cela garantit que l'image couvre toute la zone, même si elle est ronde */
+.titre {
+    text-align: center;
+    color: #333;
+    margin-top: 50px;
 }
 
+.flex-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.flex-item {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    padding: 20px;
+    width: calc(95% - 40px);
+    box-sizing: border-box;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 50px;
+}
+
+.grid-item {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn-supprimer, .btn-details {
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.btn-details {
+    background-color: #4CAF50;
+}
+
+.conducteur-photo {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+}
+
+.details {
+    background-color: #eee;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

@@ -38,7 +38,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             exit();
         } else {
             echo 'Email ou mot de passe incorrect';
+            header("Location: SignInUp.php");
         }
+            
     }
 }
+header("Location: SignInUp.php");
 ?>

@@ -21,7 +21,6 @@ if ($Depart && $arrivee && $date && $heuredep) {
         AND trajet.arrivee = :arrivee 
         AND trajet.Date = :date 
         AND TIME(trajet.heuredep) > TIME(:heuredep)
-        AND trajet.Nb_personne > 0
     ');
     
     // Exécution de la requête avec les paramètres de recherche
@@ -91,6 +90,7 @@ if (isset($_POST['reserve'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des trajets</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="Trajet.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         function toggleDetails(id) {

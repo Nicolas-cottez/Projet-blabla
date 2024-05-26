@@ -41,35 +41,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="Trajet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="ChercheTrajet.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <title>Recherche de trajet - Blabla Omnes</title>
 </head>
+
 <body class="fond">
     <?php include 'header.php'; ?>
     <?php include 'backend.php'; ?>
 
     <h1 class="titre">Recherche de trajet :</h1>
-    <div class="flex-container">
-        <div class="flex-item">
-            <form method="post" action="">
+    <div class="form-container">
+        <form method="post" action="">
+            <div class="form-item">
                 <label for="depart">Départ :</label>
                 <input type="text" id="depart" name="depart" required>
-                <div id="suggestions" class="suggestions"></div>
+            </div>
+            <div class="form-item">
                 <label for="arrivee">Arrivée :</label>
                 <input type="text" id="arrivee" name="arrivee" required>
+            </div>
+            <div class="form-item">
                 <label for="date">Date :</label>
                 <input type="date" id="date" name="date" required>
+            </div>
+            <div class="form-item">
                 <label for="heuredep">Heure de départ :</label>
                 <input type="time" id="heuredep" name="heuredep" required>
+            </div>
+            <div class="form-item">
                 <input type="submit" value="Rechercher">
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
     <?php include 'footer.php'; ?>
 </body>
+
 </html>
