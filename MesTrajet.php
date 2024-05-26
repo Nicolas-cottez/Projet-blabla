@@ -1,4 +1,5 @@
-<?php
+
+    <?php
     include 'backend.php';
 
     // Vérifier si l'utilisateur est connecté et obtenir l'ID_client
