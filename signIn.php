@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             setcookie("token", $token, time() + 3600, "/", "", false, true);
             setcookie("mail", $mail, time() + 3600, "/", "", false, true);
 
-            // Vérifier si l'utilisateur est administrateur
+            // VÃ©rifier si l'utilisateur est administrateur
             if ($user['Admin'] == 1) {
                 header("Location: ./administrateur/administrateur.php");
             } else {

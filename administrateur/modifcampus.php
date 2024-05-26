@@ -75,7 +75,7 @@ if(isset($_POST['supprimer'])) {
         <input type="submit" value="Supprimer" name="supprimer">
         </form>
 
-        <h1>Liste des différents campus :</h1>
+        <h1>Liste des diffÃ©rents campus :</h1>
         </body>
         </html>
 
