@@ -64,7 +64,16 @@
         <label>L'ID du conducteur :</label>
         <input type="number" id="ID_conducteur" name="ID_conducteur"><br>
 
-        <input type="submit" value="Ajouter" name="ajouter">
+        <input type="submit" value="Ajouter/Modifier" name="ajouter">
+        <br>
+    </form>
+    
+    <h1> Supprimer un trajet :</h1>
+    <form method="POST" action="" enctype="multipart/form-data">
+        <label>L'ID du trajet :</label>
+        <input type="number" id="ID_trajet" name="ID_trajet">
+        <br>
+        <input type="submit" value="Supprimer" name="supprimer_trajet">
         <br>
     </form>
 
@@ -129,6 +138,29 @@
                 echo "Erreur : Le trajet ou le client n'existe pas.";
             }
 
+        }
+
+        if (isset($_POST['supprimer_trajet'])) {
+            $ID_trajet = htmlspecialchars($_POST['ID_trajet']);
+        
+            // Vérifiez si le trajet existe
+            $query = $db->prepare('SELECT * FROM trajet WHERE ID_trajet = :ID_trajet');
+            $query->execute([':ID_trajet' => $ID_trajet]);
+            $trajet = $query->fetch(PDO::FETCH_ASSOC);
+        
+            if ($trajet) {
+                // Si le trajet existe, supprimez tous les passagers du trajet
+                $query = $db->prepare('DELETE FROM participe WHERE ID_trajet = :ID_trajet');
+                $query->execute([':ID_trajet' => $ID_trajet]);
+        
+                // Ensuite, supprimez le trajet lui-même
+                $query = $db->prepare('DELETE FROM trajet WHERE ID_trajet = :ID_trajet');
+                $query->execute([':ID_trajet' => $ID_trajet]);
+        
+                echo "Le trajet et tous les passagers ont été supprimés.";
+            } else {
+                echo "Erreur : Le trajet n'existe pas.";
+            }
         }
 
         if (isset($_POST['ajouter_passager'])) {

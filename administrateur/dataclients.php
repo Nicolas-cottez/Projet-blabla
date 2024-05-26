@@ -113,6 +113,7 @@
                 ':ID_client' => $ID_client
             ]);
         }
+        
 
         if (isset($_POST['ajouter'])) {
 
@@ -240,7 +241,8 @@
                         echo "Désolé, une erreur s'est produite lors du téléchargement de vos fichiers.";
                     }
                 }
-                $query = "INSERT INTO client (ID_client, nom, Prenom, mail, MDP, Photo, Num_Tel, Etat_conducteur, permis, Modele, PhotoV, Plaque, Admin, preferences, cagnotte) VALUES (:ID_client, :nom, :Prenom, :mail, :MDP, :Photo, :Num_Tel, :Etat_conducteur, :permis, :Modele, :PhotoV, :Plaque, :Admin, :preferences, :cagnotte)";                $stmt = $db->prepare($query);
+                $query = "INSERT INTO client (ID_client, nom, Prenom, mail, MDP, Photo, Num_Tel, Etat_conducteur, permis, Modele, PhotoV, Plaque, Admin, preferences, cagnotte) VALUES (:ID_client, :nom, :Prenom, :mail, :MDP, :Photo, :Num_Tel, :Etat_conducteur, :permis, :Modele, :PhotoV, :Plaque, :Admin, :preferences, :cagnotte)";                
+                $stmt = $db->prepare($query);
 
                 // Exécution de la requête avec les paramètres
                 $stmt->execute([

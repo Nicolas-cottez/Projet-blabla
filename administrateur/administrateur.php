@@ -18,7 +18,7 @@ if (isset($_POST['deco'])) {
 </head>
 <body>
 <a href="../SeConnecterTest.php"><button type="submit" name="deco">Se déconnecter</button></a>
-    <h1> Que voulais vous faire ?</h1>
+    <h1> Que voulez vous faire ?</h1>
     <br>
     <a href="modifcampus.php"><button> Modifier un campus</button></a>
     <br>
