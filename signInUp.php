@@ -39,8 +39,7 @@
                           <input type="password" class="form-style" placeholder="Mot De Passe" id="MDP" name="MDP">
                           <i class="input-icon uil uil-lock-alt"></i>
                         </div>
-                        <input type="submit" value="Se connecter" name="ok">
-                        <a href="#" class="btn mt-4">Se Connecter</a>
+                        <input class="btn mt-4" type="submit" value="Se connecter" name="ok">
                         <p class="mb-0 mt-4 text-center"><a href="#" class="link">Mot de passe oublié?</a></p>
                       </form>
 
@@ -80,8 +79,7 @@
                           <input type="file" id="Photo" name="Photo" class="form-style" placeholder="Ajouter Une Photo" required>
                           <i class="input-icon uil uil-upload"></i>
                         </div>
-                        <input type="submit" value="M'inscrire" name="ok">
-                        <a class="btn mt-4">S'inscrire</a>
+                        <input class="btn mt-4" type="submit" value="M'inscrire" name="ok">
                       </form>
 
                     </div>

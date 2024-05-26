@@ -71,9 +71,6 @@ CREATE TABLE `client` (
 -- Déchargement des données de la table `client`
 --
 
-INSERT INTO `client` (`ID_client`, `nom`, `Prenom`, `mail`, `MDP`, `Photo`, `Num_Tel`, `token`, `Etat_conducteur`, `permis`, `Modele`, `PhotoV`, `Plaque`, `Admin`, `preferences`, `cagnotte`) VALUES
-(1, 'MR', 'Admin', 'admin@ece.fr', '$2y$10$CgkrvtHUVl2zxn9ALfr5V.nbQ/aPmxeqXICWBA.s3KVCSoRQ2eGXS', 'logoblablaomnes.jpg', '0651104599', '', 1, 'image0 (18).jpeg', 'FERRARI', 'image1 (6).jpeg', 'MRADMIN666', 1, 'Pas de fumeurs', 0);
-
 -- --------------------------------------------------------
 
 --

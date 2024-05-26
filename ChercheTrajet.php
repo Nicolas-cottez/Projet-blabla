@@ -1,39 +1,48 @@
 <?php
+// Définition des paramètres de connexion à la base de données
 $servername = "localhost";
 $username = "root";
 $MDP = "";
 
+// Tentative de connexion à la base de données
 try {
     $bdd = new PDO("mysql:host=$servername;dbname=projet_blablacar", $username, $MDP);
     $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
+    // En cas d'erreur de connexion, affichez l'erreur et terminez le script
     echo "Erreur BDD : " . $e->getMessage();
     exit();
 }
 
+// Vérifiez si les cookies 'token' et 'mail' sont définis
 if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
     $token = $_COOKIE['token'];
     $mail = $_COOKIE['mail'];
 
+    // Récupérez l'utilisateur correspondant au mail et au token
     $stmt = $bdd->prepare("SELECT * FROM client WHERE mail = :mail AND token = :token");
     $stmt->execute(['mail' => $mail, 'token' => $token]);
     $user = $stmt->fetch();
 
+    // Si aucun utilisateur ne correspond, redirigez vers SignInUp.php
     if (!$user) {
         header("Location: SignInUp.php");
         exit();
     }
 } else {
+    // Si les cookies ne sont pas définis, redirigez vers SignInUp.php
     header("Location: SignInUp.php");
     exit();
 }
 
+// Si la méthode de la requête est POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $Depart = $_POST['depart'];
     $arrivee = $_POST['arrivee'];
     $date = $_POST['date'];
     $heuredep = $_POST['heuredep'];
 
+    // Redirigez vers ResultatRecherche.php avec les paramètres de la requête
     header("Location: ResultatRecherche.php?depart=$Depart&arrivee=$arrivee&date=$date&heuredep=$heuredep");
     exit();
 }
