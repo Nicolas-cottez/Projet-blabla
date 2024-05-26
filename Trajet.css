@@ -8,3 +8,4 @@
     border-radius: 50%; /* Cela rend l'image ronde */
     object-fit: cover; /* Cela garantit que l'image couvre toute la zone, même si elle est ronde */
 }
+

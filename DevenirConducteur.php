@@ -26,7 +26,7 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
             header("Location: main.php");
             exit;
         }
-        if (isset($_POST['ok']) ) {
+        if (isset($_POST['ok'])) {
             // Récupération des données du formulaire
             $Modele = htmlspecialchars($_POST['Modele']);
             $Plaque = htmlspecialchars($_POST['Plaque']);
@@ -53,8 +53,9 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
             }
 
             // Limite les formats de fichier
-            if (($imageFileType1 != "jpg" && $imageFileType1 != "png" && $imageFileType1 != "jpeg" && $imageFileType1 != "gif") || 
-                ($imageFileType2 != "jpg" && $imageFileType2 != "png" && $imageFileType2 != "jpeg" && $imageFileType2 != "gif")) {
+            if (($imageFileType1 != "jpg" && $imageFileType1 != "png" && $imageFileType1 != "jpeg" && $imageFileType1 != "gif") ||
+                ($imageFileType2 != "jpg" && $imageFileType2 != "png" && $imageFileType2 != "jpeg" && $imageFileType2 != "gif")
+            ) {
                 echo "Désolé, seuls les fichiers JPG, JPEG, PNG et GIF sont autorisés.";
                 $uploadOk = 0;
             }
@@ -91,40 +92,44 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
         }
     } else {
         header("Location: SignInUp.php");
-            exit();
+        exit();
     }
 } else {
     header("Location: SignInUp.php");
-            exit();
+    exit();
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="DevenirConducteur.css">
     <title>Devenir Conducteur</title>
 </head>
+
 <body>
     <form method="POST" action="" enctype="multipart/form-data">
         <label>Votre permis</label>
-        <input type="file" id="Permis" name="Permis" required>
-        <br />
+        <input type="file" class="formInput" id="Permis" name="Permis" required>
+
         <label>Votre Modèle de voiture</label>
-        <input type="text" id="Modele" name="Modele" placeholder="Entrez le modèle..." required>
-        <br />
+        <input type="text" class="formInput" id="Modele" name="Modele" placeholder="Entrez le modèle..." required>
+
         <label>Photo de la voiture</label>
-        <input type="file" id="PhotoV" name="PhotoV" placeholder="Photo voiture" required>
-        <br />
+        <input type="file" class="formInput" id="PhotoV" name="PhotoV" placeholder="Photo voiture" required>
+
         <label>Plaque du véhicule</label>
-        <input type="text" id="Plaque" name="Plaque" placeholder="Entrez votre plaque..." required>
-        <br />
+        <input type="text" class="formInput" id="Plaque" name="Plaque" placeholder="Entrez votre plaque..." required>
+
         <label>Preferences</label>
-        <input type="text" id="preferences" name="preferences" placeholder="Entrez vos preferences..." required>
-        <br />
+        <input type="text" class="formInput" id="preferences" name="preferences" placeholder="Entrez vos preferences..." required>
+
         <input type="submit" value="M'inscrire" name="ok">
         <a href="main.php"><button type="button">Menu</button></a>
     </form>
 </body>
+
 </html>
