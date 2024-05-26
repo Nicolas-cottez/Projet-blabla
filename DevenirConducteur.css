@@ -2,7 +2,7 @@ body {
     font-family: 'Poppins', sans-serif;
     font-weight: 300;
     color: #F5D742;
-    background: linear-gradient(to bottom, #020307 0%, #e6be51 50%, #020307 100%);
+    background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 1)), url("image/fondtest4.jpg") center / cover no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,7 +14,7 @@ body {
 form {
     width: 100%;
     max-width: 500px;
-    background-image: url('image/fond_patern_green.jpg');
+    background-color: black;
     background-size: cover;
     border-radius: 8px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
