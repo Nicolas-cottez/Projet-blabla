@@ -5,7 +5,7 @@ body {
   font-weight: 300;
   line-height: 1.7;
   color: #F5D742;
-  background-image: linear-gradient(to bottom, #020307, #1b3e28, #020307);
+  background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 1)), url("image/fondtest4.jpg") center / cover no-repeat;
   background-position: center;
   background-repeat: none;
 }

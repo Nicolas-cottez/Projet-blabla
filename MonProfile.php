@@ -186,6 +186,7 @@ if (isset($_POST['modif'])) {
 </head>
 
 <body>
+    
     <div class="container">
         <div class="box">
             <form method="POST" action="">
@@ -212,7 +213,7 @@ if (isset($_POST['modif'])) {
 
                 <label for="cagnotte">Cagnotte</label>
                 <input type="text" name="cagnotte" id="cagnotte" autocomplete="off"
-                    value="<?php echo $cagnotte; ?>">
+                    value="<?php echo $cagnotte; ?> €" readonly>
 
                 <?php if ($Etat_conducteur): ?>
                     <label for="modele">Modèle de voiture</label>
@@ -238,9 +239,7 @@ if (isset($_POST['modif'])) {
                             value="<?php echo $preferences; ?>">
                         
                     <?php endif; ?>
-                    <label for="modele">Cagnotte</label>
-                    <input type="text" name="" id="" autocomplete="off" placeholder="Cagnotte"
-                        value="<?php echo $cagnotte; ?> €" readonly>
+                    
                 <?php endif; ?>
                 <button><a href="main.php">MENU</a></button>
 

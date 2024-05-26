@@ -13,6 +13,7 @@
 </head>
 
 <body>
+<?php include 'Header.php'; ?>
   <div class="section">
     <div class="mx-auto">
       <div class="full-height flex justify-center">
