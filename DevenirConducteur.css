@@ -1,0 +1,78 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    color: #F5D742;
+    background: linear-gradient(to bottom, #020307 0%, #e6be51 50%, #020307 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+form {
+    width: 100%;
+    max-width: 500px;
+    background-image: url('image/fond_patern_green.jpg');
+    background-size: cover;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+label {
+    color: #c4c3ca;
+    font-size: 14px;
+    font-weight: 800;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.formInput {
+    padding: 15px 0 15px 5px;
+    width: 100%;
+    font-size: 16px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid #F5D742;
+    color: #F5D742;
+    font-size: 16px;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.formInput:focus {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #e1e651;
+}
+
+
+button,
+input[type="submit"] {
+    padding: 15px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    background-color: #F5D742;
+    color: #000;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+}
+
+button:hover,
+input[type="submit"]:hover {
+    background-color: #e1e651;
+    color: #000;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
