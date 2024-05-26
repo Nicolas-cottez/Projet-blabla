@@ -57,10 +57,38 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
     exit();
 }
 
-if (isset($_FILES['new_profile_pic'])) {
+if (isset($_POST['deco'])) {
+    $stmt = $bdd->prepare("UPDATE client SET token = NULL WHERE mail = :mail AND token = :token");
+    $stmt->execute(['mail' => $_COOKIE['mail'], 'token' => $_COOKIE['token']]);
+
+    header("Location: fin_de_requete/clientdeconnecte.php");
+    exit();
+}
+
+if (isset($_POST['suppr'])) {
+    $stmt = $bdd->prepare("DELETE FROM client WHERE mail = :mail AND token = :token");
+    $stmt->execute(['mail' => $_COOKIE['mail'], 'token' => $_COOKIE['token']]);
+
+    header("Location: fin_de_requete/clientdeconnecte.php");
+    exit();
+}
+
+
+if (isset($_POST['modif'])) {
+    // Récupérez les nouvelles informations de l'utilisateur à partir du formulaire
     $target_dir = "../uploads/";
-    $Photonew = isset($_FILES["new_profile_pic"]["name"]) ? basename($_FILES["new_profile_pic"]["name"]) : null;
-    $target_file1 = $target_dir . $Photonew;
+    $Photo = isset($_FILES['new_profile_pic']) ? basename($_FILES['new_profile_pic']['name']) : null;
+    $nom = $_POST['nom'];
+    $Prenom = $_POST['Prenom'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $modele = isset($_POST['modele']) ? $_POST['modele'] : null;
+    $plaque = isset($_POST['plaque']) ? $_POST['plaque'] : null;
+    $preferences = $_POST['preferences'];
+
+    //condition pour les photos
+    $target_file1 = $target_dir . $Photo;
     $uploadOk = 1;
     $imageFileType1 = strtolower(pathinfo($target_file1, PATHINFO_EXTENSION));
 
@@ -90,42 +118,9 @@ if (isset($_FILES['new_profile_pic'])) {
             echo "Désolé, une erreur s'est produite lors du téléchargement de vos fichiers.";
         }
     }
-    // Mettez à jour le chemin de l'image dans la base de données
-    $stmt = $bdd->prepare("UPDATE client SET Photo = :photo WHERE token = :token");
-    $stmt->execute([':photo' => $newFileName]);
-}
-
-if (isset($_POST['deco'])) {
-    $stmt = $bdd->prepare("UPDATE client SET token = NULL WHERE mail = :mail AND token = :token");
-    $stmt->execute(['mail' => $_COOKIE['mail'], 'token' => $_COOKIE['token']]);
-
-    header("Location: fin_de_requete/clientdeconnecte.php");
-    exit();
-}
-
-if (isset($_POST['suppr'])) {
-    $stmt = $bdd->prepare("DELETE FROM client WHERE mail = :mail AND token = :token");
-    $stmt->execute(['mail' => $_COOKIE['mail'], 'token' => $_COOKIE['token']]);
-
-    header("Location: fin_de_requete/clientdeconnecte.php");
-    exit();
-}
-
-
-if (isset($_POST['modif'])) {
-    // Récupérez les nouvelles informations de l'utilisateur à partir du formulaire
-
-    $nom = $_POST['nom'];
-    $Prenom = $_POST['Prenom'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    $modele = isset($_POST['modele']) ? $_POST['modele'] : null;
-    $plaque = isset($_POST['plaque']) ? $_POST['plaque'] : null;
-    $preferences = $_POST['preferences'];
 
     // Préparez la requête SQL pour mettre à jour les informations de l'utilisateur
-    $query = "UPDATE client SET Prenom = :Prenom, nom = :nom, mail = :email, Num_Tel = :phone, MDP = :password, Modele = :modele, Plaque = :plaque, preferences = :preferences WHERE token = :token";
+    $query = "UPDATE client SET Prenom = :Prenom, nom = :nom, mail = :email, Num_Tel = :phone, MDP = :password, Modele = :modele, Plaque = :plaque, preferences = :preferences, Photo =:Photo WHERE token = :token";
     $stmt = $bdd->prepare($query);
 
     // Exécutez la requête avec les nouvelles informations de l'utilisateur
@@ -138,6 +133,7 @@ if (isset($_POST['modif'])) {
         ':modele' => $modele,
         ':plaque' => $plaque,
         ':preferences' => $preferences,
+        ':Photo' => $Photo,
         ':token' => $token // Assurez-vous que $token contient le token de l'utilisateur actuel
     ]);
 }
