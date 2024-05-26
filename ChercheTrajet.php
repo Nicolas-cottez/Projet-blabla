@@ -59,6 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form method="post" action="">
                 <label for="depart">Départ :</label>
                 <input type="text" id="depart" name="depart" required>
+                <div id="suggestions" class="suggestions"></div>
                 <label for="arrivee">Arrivée :</label>
                 <input type="text" id="arrivee" name="arrivee" required>
                 <label for="date">Date :</label>

@@ -79,6 +79,7 @@ if (isset($_POST['reserve'])) {
 
     $query = $db->prepare('INSERT INTO participe (ID_client, ID_trajet) VALUES (:ID_client, :ID_trajet)');
     $query->execute([':ID_client' => $ID_client, ':ID_trajet' => $ID_trajet]);
+    header("Location: fin_de_requete/clientconnecte.php");
 }
 ?>
 

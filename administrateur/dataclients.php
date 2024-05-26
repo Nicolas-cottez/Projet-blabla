@@ -36,7 +36,7 @@
 </head>
 
 <body>
-<a href="administrateur.php"><button>Retour au menu</button></a>
+    <a href="administrateur.php"><button>Retour au menu</button></a>
 
     <h1>Ajouter ou modifier un client :</h1>
     <form method="POST" action="" enctype="multipart/form-data">
@@ -148,6 +148,47 @@
                         $params[":$field"] = $_POST[$field];
                     }
                 }
+                // Gestion des fichiers téléchargés
+                $target_dir = "../uploads/";
+                $PhotoV = isset($_FILES["PhotoV"]["name"]) ? basename($_FILES["PhotoV"]["name"]) : null;
+                $permis = isset($_FILES["permis"]["name"]) ? basename($_FILES["permis"]["name"]) : null;
+                $Photo = isset($_FILES["Photo"]["name"]) ? basename($_FILES["Photo"]["name"]) : null;
+                $target_file1 = $target_dir . $PhotoV;
+                $target_file2 = $target_dir . $permis;
+                $target_file3 = $target_dir . $Photo;
+
+                // Ajoutez votre code pour gérer le téléchargement des fichiers ici...
+                // Par exemple, vous pouvez utiliser move_uploaded_file pour déplacer les fichiers téléchargés vers le répertoire cible
+        
+                // Ajoutez les noms des fichiers aux paramètres de la requête
+                if ($PhotoV) {
+                    if (move_uploaded_file($_FILES["PhotoV"]["tmp_name"], $target_file1)) {
+                        echo "Le fichier " . htmlspecialchars(basename($_FILES["PhotoV"]["name"])) . " a été téléchargé.";
+                    } else {
+                        echo "Désolé, une erreur s'est produite lors du téléchargement de vos fichiers.";
+                    }
+                    $query .= "PhotoV = :PhotoV, ";
+                    $params[":PhotoV"] = $PhotoV;
+                }
+                if ($permis) {
+                    if (move_uploaded_file($_FILES["permis"]["tmp_name"], $target_file2)) {
+                        echo "Le fichier " . htmlspecialchars(basename($_FILES["permis"]["name"])) . " a été téléchargé.";
+                    } else {
+                        echo "Désolé, une erreur s'est produite lors du téléchargement de vos fichiers.";
+                    }
+                    $query .= "permis = :permis, ";
+                    $params[":permis"] = $permis;
+                }
+                if ($Photo) {
+                    if (move_uploaded_file($_FILES["Photo"]["tmp_name"], $target_file3)) {
+                        echo "Le fichier " . htmlspecialchars(basename($_FILES["Photo"]["name"])) . " a été téléchargé.";
+                    } else {
+                        echo "Désolé, une erreur s'est produite lors du téléchargement de vos fichiers.";
+                    }
+                    $query .= "Photo = :Photo, ";
+                    $params[":Photo"] = $Photo;
+                }
+
                 $query = rtrim($query, ', ') . ' WHERE ID_client = :ID_client';
                 $stmt = $db->prepare($query);
                 $stmt->execute($params);
@@ -199,8 +240,7 @@
                         echo "Désolé, une erreur s'est produite lors du téléchargement de vos fichiers.";
                     }
                 }
-                $query = "INSERT INTO client (ID_client, nom, Prenom, mail, MDP, Photo, Num_Tel, Etat_conducteur, permis, Modele, PhotoV, Plaque, Admin) VALUES (:ID_client, :nom, :Prenom, :mail, :MDP, :Photo, :Num_Tel, :Etat_conducteur, :permis, :Modele, :PhotoV, :Plaque, :Admin)";
-                $stmt = $db->prepare($query);
+                $query = "INSERT INTO client (ID_client, nom, Prenom, mail, MDP, Photo, Num_Tel, Etat_conducteur, permis, Modele, PhotoV, Plaque, Admin, preferences, cagnotte) VALUES (:ID_client, :nom, :Prenom, :mail, :MDP, :Photo, :Num_Tel, :Etat_conducteur, :permis, :Modele, :PhotoV, :Plaque, :Admin, :preferences, :cagnotte)";                $stmt = $db->prepare($query);
 
                 // Exécution de la requête avec les paramètres
                 $stmt->execute([
@@ -225,7 +265,7 @@
             }
         }
 
-        
+
         // Requête pour récupérer les clients en attente de validation du permis
         $query = "SELECT * FROM client";
         $stmt = $db->query($query);

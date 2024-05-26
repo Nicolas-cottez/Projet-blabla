@@ -57,6 +57,44 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
     exit();
 }
 
+if (isset($_FILES['new_profile_pic'])) {
+    $target_dir = "../uploads/";
+    $Photonew = isset($_FILES["new_profile_pic"]["name"]) ? basename($_FILES["new_profile_pic"]["name"]) : null;
+    $target_file1 = $target_dir . $Photonew;
+    $uploadOk = 1;
+    $imageFileType1 = strtolower(pathinfo($target_file1, PATHINFO_EXTENSION));
+
+    $check1 = isset($_FILES["new_profile_pic"]["tmp_name"]) ? getimagesize($_FILES["new_profile_pic"]["tmp_name"]) : false;
+    if ($check1 !== false ) {
+        $uploadOk = 1;
+    } else {
+        echo "Un des fichiers n'est pas une image.";
+        $uploadOk = 0;
+    }
+
+    // Limite les formats de fichier
+    if (
+        ($imageFileType1 != "jpg" && $imageFileType1 != "png" && $imageFileType1 != "jpeg" && $imageFileType1 != "gif")
+    ) {
+        echo "Désolé, seuls les fichiers JPG, JPEG, PNG et GIF sont autorisés.";
+        $uploadOk = 0;
+    }
+
+    // Vérifiez si $uploadOk est à 0 à cause d'une erreur
+    if ($uploadOk == 0) {
+        echo "Désolé, vos fichiers n'ont pas été téléchargés.";
+    } else {
+        if (move_uploaded_file($_FILES["new_profile_pic"]["tmp_name"], $target_file1) ) {
+            echo "Le fichier " . htmlspecialchars(basename($_FILES["new_profile_pic"]["name"])) . " a été téléchargé.";
+        } else {
+            echo "Désolé, une erreur s'est produite lors du téléchargement de vos fichiers.";
+        }
+    }
+    // Mettez à jour le chemin de l'image dans la base de données
+    $stmt = $bdd->prepare("UPDATE client SET Photo = :photo WHERE token = :token");
+    $stmt->execute([':photo' => $newFileName]);
+}
+
 if (isset($_POST['deco'])) {
     $stmt = $bdd->prepare("UPDATE client SET token = NULL WHERE mail = :mail AND token = :token");
     $stmt->execute(['mail' => $_COOKIE['mail'], 'token' => $_COOKIE['token']]);
@@ -168,6 +206,8 @@ if (isset($_POST['modif'])) {
             <form method="POST" action="">
                 <div class="UserPicture">
                     <img src="<?php echo $photoPath; ?>" alt="user">
+                    <label for="new_profile_pic">Changer la photo de profil</label>
+                    <input type="file" name="new_profile_pic" id="new_profile_pic">
                 </div>
                 <label for="Prenom">Nom d'utilisateur</label>
                 <input type="text" name="Prenom" id="Prenom" placeholder="Prenom" value="<?php echo $Prenom; ?>"
