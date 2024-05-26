@@ -73,6 +73,7 @@ if (isset($_POST['suppr'])) {
     exit();
 }
 
+
 if (isset($_POST['modif'])) {
     // Récupérez les nouvelles informations de l'utilisateur à partir du formulaire
 
@@ -164,10 +165,10 @@ if (isset($_POST['modif'])) {
 <body>
     <div class="container">
         <div class="box">
-            <div class="UserPicture">
-                <img src="<?php echo $photoPath; ?>" alt="user">
-            </div>
             <form method="POST" action="">
+                <div class="UserPicture">
+                    <img src="<?php echo $photoPath; ?>" alt="user">
+                </div>
                 <label for="Prenom">Nom d'utilisateur</label>
                 <input type="text" name="Prenom" id="Prenom" placeholder="Prenom" value="<?php echo $Prenom; ?>"
                     autocomplete="off">
@@ -189,7 +190,7 @@ if (isset($_POST['modif'])) {
                     <input type="text" name="modele" id="modele" autocomplete="off" placeholder="Modèle de voiture"
                         value="<?php echo $Modele; ?>">
 
-
+                    <label for="plaque">Plaque du véhicule</label>
                     <input type="text" name="plaque" id="plaque" autocomplete="off" placeholder="Plaque du véhicule"
                         value="<?php echo $Plaque; ?>">
 

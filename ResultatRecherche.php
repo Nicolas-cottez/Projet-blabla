@@ -6,10 +6,9 @@ $Depart = isset($_GET['depart']) ? $_GET['depart'] : null;
 $arrivee = isset($_GET['arrivee']) ? $_GET['arrivee'] : null;
 $date = isset($_GET['date']) ? $_GET['date'] : null;
 $heuredep = isset($_GET['heuredep']) ? $_GET['heuredep'] : null;
-$nom_campus = isset($_GET['nom_campus']) ? $_GET['nom_campus'] : null;
 
 // Vérification de la validité des paramètres
-if ($Depart && $arrivee && $date && $heuredep && $nom_campus) {
+if ($Depart && $arrivee && $date && $heuredep) {
     // Conversion de l'heure de départ en objet DateTime pour comparaison
     $heuredepDateTime = DateTime::createFromFormat('H:i', $heuredep);
     
@@ -18,12 +17,10 @@ if ($Depart && $arrivee && $date && $heuredep && $nom_campus) {
         SELECT trajet.*, client.Photo AS conducteurPhoto, client.preferences AS conducteurPreferences, client.Modele AS Modele
         FROM trajet
         JOIN client ON trajet.ID_conducteur = client.ID_client
-        JOIN campus ON trajet.nom_campus = campus.nom_campus
         WHERE trajet.Depart = :Depart 
         AND trajet.arrivee = :arrivee 
         AND trajet.Date = :date 
         AND TIME(trajet.heuredep) > TIME(:heuredep)
-        AND trajet.nom_campus = :nom_campus
     ');
     
     // Exécution de la requête avec les paramètres de recherche
@@ -31,8 +28,7 @@ if ($Depart && $arrivee && $date && $heuredep && $nom_campus) {
         ':Depart' => $Depart,
         ':arrivee' => $arrivee,
         ':date' => $date,
-        ':heuredep' => $heuredep,
-        ':nom_campus' => $nom_campus
+        ':heuredep' => $heuredep
     ]);
     
     // Récupération des résultats
