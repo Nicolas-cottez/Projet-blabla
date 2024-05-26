@@ -41,56 +41,57 @@ if ($result) {
     $Etat_conducteur = $result['Etat_conducteur'];
 
     // Vérifier si l'état du conducteur est à 1
-    if ($Etat_conducteur == 1) {
-        if (isset($_POST['ok'])) {
-            // Récupération des données du formulaire
-            $Depart = htmlspecialchars($_POST['Depart']);
-            $arrivee = htmlspecialchars($_POST['arrivee']);
-            $Distance = htmlspecialchars($_POST['Distance']);
-            $Duree = htmlspecialchars($_POST['Duree']);
-            $Date = htmlspecialchars($_POST['Date']);
-            $prix = htmlspecialchars($_POST['prix']);
-            $nom_campus = htmlspecialchars($_POST['nom_campus']);
-            $Nb_personne = htmlspecialchars($_POST['Nb_personne']);
-            $heuredep = htmlspecialchars($_POST['heuredep']);
+if ($Etat_conducteur == 1) {
+    if (isset($_POST['ok'])) {
+        // Récupération des données du formulaire
+        $Depart = htmlspecialchars($_POST['Depart']);
+        $arrivee = htmlspecialchars($_POST['arrivee']);
+        $Distance = htmlspecialchars($_POST['Distance']);
+        $Duree = htmlspecialchars($_POST['Duree']);
+        $Date = htmlspecialchars($_POST['Date']);
+        $prix = htmlspecialchars($_POST['prix']);
+        $Nb_personne = htmlspecialchars($_POST['Nb_personne']);
+        $heuredep = htmlspecialchars($_POST['heuredep']);
 
-            $query = "SELECT * FROM campus WHERE adresse = :adresse";
-$stmt = $db->prepare($query);
-$stmt->execute([':adresse' => $Depart]);
-$resultDepart = $stmt->fetch(PDO::FETCH_ASSOC);
+        // Vérifier si l'adresse de départ ou d'arrivée est dans la base de données
+        $query = "SELECT * FROM campus WHERE adresse = :adresse";
+        $stmt = $db->prepare($query);
+        $stmt->execute([':adresse' => $Depart]);
+        $resultDepart = $stmt->fetch(PDO::FETCH_ASSOC);
 
-$stmt->execute([':adresse' => $arrivee]);
-$resultArrivee = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt->execute([':adresse' => $arrivee]);
+        $resultArrivee = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if (!$resultDepart && !$resultArrivee) {
-    echo "Ni l'adresse de départ ni l'adresse d'arrivée n'est un campus de l'ECE.";
-} else {
-    // Récupérer le nom du campus à partir de l'adresse de départ ou d'arrivée
-    $nom_campus = $resultDepart ? $resultDepart['nom_campus'] : $resultArrivee['nom_campus'];
+        if (!$resultDepart && !$resultArrivee) {
+            echo "Ni l'adresse de départ ni l'adresse d'arrivée n'est un campus de l'ECE.";
+        } else {
+            // Récupérer le nom du campus à partir de l'adresse de départ ou d'arrivée
+            $nom_campus = $resultDepart ? $resultDepart['nom_campus'] : $resultArrivee['nom_campus'];
 
-    // Préparation de la requête SQL pour insérer le trajet
-    $query = "INSERT INTO trajet (ID_conducteur, Depart, arrivee, Distance, Duree, Date, prix, nom_campus, Nb_personne, heuredep) VALUES (:ID_conducteur, :Depart, :arrivee, :Distance, :Duree, :Date, :prix, :nom_campus, :Nb_personne, :heuredep)";
-    $stmt = $db->prepare($query);
+            // Préparation de la requête SQL pour insérer le trajet
+            $query = "INSERT INTO trajet (ID_conducteur, Depart, arrivee, Distance, Duree, Date, prix, nom_campus, Nb_personne, heuredep) VALUES (:ID_conducteur, :Depart, :arrivee, :Distance, :Duree, :Date, :prix, :nom_campus, :Nb_personne, :heuredep)";
+            $stmt = $db->prepare($query);
 
-    // Exécution de la requête avec les paramètres
-    $stmt->execute([
-        ':ID_conducteur' => $ID_client,
-        ':Depart' => $Depart,
-        ':arrivee' => $arrivee,
-        ':Distance' => $Distance,
-        ':Duree' => $Duree,
-        ':Date' => $Date,
-        ':prix' => $prix,
-        ':nom_campus' => $nom_campus,
-        ':Nb_personne' => $Nb_personne,
-        ':heuredep' => $heuredep
-    ]);
+            // Exécution de la requête avec les paramètres
+            $stmt->execute([
+                ':ID_conducteur' => $ID_client,
+                ':Depart' => $Depart,
+                ':arrivee' => $arrivee,
+                ':Distance' => $Distance,
+                ':Duree' => $Duree,
+                ':Date' => $Date,
+                ':prix' => $prix,
+                ':nom_campus' => $nom_campus,
+                ':Nb_personne' => $Nb_personne,
+                ':heuredep' => $heuredep
+            ]);
 
             // Redirection après la publication du trajet
-            header("Location: MesTrajet.php");
+            header("Location: ResultatRecherche.php");
             exit();
         }
     }
+
     } else {
         header("Location: DevenirConducteur.php");
         exit();
