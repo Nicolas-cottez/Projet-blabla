@@ -4,21 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="Trajet.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <title>Mes trajets - Blabla Omnes</title>
     <script>
         function toggleDetails(id, type) {
-    var details = document.getElementById('details-' + type + '-' + id);
-    if (details.style.display === 'none') {
-        details.style.display = 'table-row';
-    } else {
-        details.style.display = 'none';
-    }
-}
+            var details = document.getElementById('details-' + type + '-' + id);
+            if (details.style.display === 'none') {
+                details.style.display = 'table-row';
+            } else {
+                details.style.display = 'none';
+            }
+        }
     </script>
 </head>
 
@@ -41,7 +39,7 @@
             $ID_client = $user['ID_client'];
 
             // Requête pour sélectionner les trajets auxquels le client est associé
-$requete = $db->prepare("
+            $requete = $db->prepare("
 SELECT trajet.*, client.Photo AS conducteurPhoto, client.preferences AS conducteurPreferences, client.Modele AS Modele, client.Num_Tel as Num_Tel
 FROM trajet
 JOIN client ON trajet.ID_conducteur = client.ID_client
@@ -72,7 +70,6 @@ ORDER BY trajet.Date ASC, trajet.HeureDep ASC
                     echo '<div class="grid-item item9">Numero de tel: ' . htmlspecialchars($trajet['Num_Tel'] ?? '') . '</div>';
                     echo '<div class="grid-item item10"><img src="uploads/' . htmlspecialchars($trajet['conducteurPhoto'] ?? '') . '" alt="Photo du conducteur" class="conducteur-photo"></div>';
                     echo '</div>';
-                        
                 }
             } else {
                 echo '<p>Aucun trajet passé.</p>';
@@ -99,7 +96,7 @@ ORDER BY trajet.Date ASC, trajet.HeureDep ASC
                 $ID_client = $user['ID_client'];
 
                 // Requête pour sélectionner les trajets où le client est le conducteur
-$requete = $db->prepare("
+                $requete = $db->prepare("
 SELECT trajet.*, client.Photo AS conducteurPhoto, client.preferences AS conducteurPreferences, client.Modele AS Modele, client.Num_Tel as Num_Tel, GROUP_CONCAT(reservant.Num_Tel) as ReservantNums
 FROM trajet
 JOIN client ON trajet.ID_conducteur = client.ID_client
@@ -136,8 +133,6 @@ ORDER BY trajet.Date ASC, trajet.HeureDep ASC
                 } else {
                     echo '<p>Aucun trajet en passé.</p>';
                 }
-
-
             } else {
                 echo "Vous n'êtes pas un conducteur.";
             }
