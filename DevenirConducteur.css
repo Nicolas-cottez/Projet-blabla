@@ -3,15 +3,11 @@ body {
     font-weight: 300;
     color: #F5D742;
     background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 1)), url("image/fondtest4.jpg") center / cover no-repeat;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     height: 100vh;
-    margin: 0;
-    padding: 0;
 }
 
 form {
+    margin: 30px auto;
     width: 100%;
     max-width: 500px;
     background-color: black;
