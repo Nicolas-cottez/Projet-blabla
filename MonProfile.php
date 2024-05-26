@@ -57,43 +57,6 @@ if (isset($_COOKIE['token']) && isset($_COOKIE['mail'])) {
     exit();
 }
 
-if (isset($_FILES['new_profile_pic'])) {
-    $target_dir = "../uploads/";
-    $Photonew = isset($_FILES["new_profile_pic"]["name"]) ? basename($_FILES["new_profile_pic"]["name"]) : null;
-    $target_file1 = $target_dir . $Photonew;
-    $uploadOk = 1;
-    $imageFileType1 = strtolower(pathinfo($target_file1, PATHINFO_EXTENSION));
-
-    $check1 = isset($_FILES["new_profile_pic"]["tmp_name"]) ? getimagesize($_FILES["new_profile_pic"]["tmp_name"]) : false;
-    if ($check1 !== false ) {
-        $uploadOk = 1;
-    } else {
-        echo "Un des fichiers n'est pas une image.";
-        $uploadOk = 0;
-    }
-
-    // Limite les formats de fichier
-    if (
-        ($imageFileType1 != "jpg" && $imageFileType1 != "png" && $imageFileType1 != "jpeg" && $imageFileType1 != "gif")
-    ) {
-        echo "Désolé, seuls les fichiers JPG, JPEG, PNG et GIF sont autorisés.";
-        $uploadOk = 0;
-    }
-
-    // Vérifiez si $uploadOk est à 0 à cause d'une erreur
-    if ($uploadOk == 0) {
-        echo "Désolé, vos fichiers n'ont pas été téléchargés.";
-    } else {
-        if (move_uploaded_file($_FILES["new_profile_pic"]["tmp_name"], $target_file1) ) {
-            echo "Le fichier " . htmlspecialchars(basename($_FILES["new_profile_pic"]["name"])) . " a été téléchargé.";
-        } else {
-            echo "Désolé, une erreur s'est produite lors du téléchargement de vos fichiers.";
-        }
-    }
-    // Mettez à jour le chemin de l'image dans la base de données
-    $stmt = $bdd->prepare("UPDATE client SET Photo = :photo WHERE token = :token");
-    $stmt->execute([':photo' => $newFileName]);
-}
 
 if (isset($_POST['deco'])) {
     $stmt = $bdd->prepare("UPDATE client SET token = NULL WHERE mail = :mail AND token = :token");
@@ -114,7 +77,7 @@ if (isset($_POST['suppr'])) {
 
 if (isset($_POST['modif'])) {
     // Récupérez les nouvelles informations de l'utilisateur à partir du formulaire
-
+    
     $nom = $_POST['nom'];
     $Prenom = $_POST['Prenom'];
     $email = $_POST['email'];
@@ -122,12 +85,20 @@ if (isset($_POST['modif'])) {
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $modele = isset($_POST['modele']) ? $_POST['modele'] : null;
     $plaque = isset($_POST['plaque']) ? $_POST['plaque'] : null;
-    $preferences = $_POST['preferences'];
+
+    //Photo
+    $target_dir = "../uploads/";
+    $Photo = isset($_FILES["Photo"]["name"]) ? basename($_FILES["Photo"]["name"]) : null;
+    $target_file1 = $target_dir . $Photo;
+    $uploadOk = 1;
+    $imageFileType1 = strtolower(pathinfo($target_file1, PATHINFO_EXTENSION));
+    $check1 = isset($_FILES["Photo"]["tmp_name"]) ? getimagesize($_FILES["Photo"]["tmp_name"]) : false;
+    
 
     // Préparez la requête SQL pour mettre à jour les informations de l'utilisateur
-    $query = "UPDATE client SET Prenom = :Prenom, nom = :nom, mail = :email, Num_Tel = :phone, MDP = :password, Modele = :modele, Plaque = :plaque, preferences = :preferences WHERE token = :token";
+    $query = "UPDATE client SET Prenom = :Prenom, nom = :nom, mail = :email, Num_Tel = :phone, MDP = :password, Modele = :modele, Plaque = :plaque WHERE token = :token";
     $stmt = $bdd->prepare($query);
-
+    
     // Exécutez la requête avec les nouvelles informations de l'utilisateur
     $stmt->execute([
         ':Prenom' => $Prenom,
@@ -137,9 +108,23 @@ if (isset($_POST['modif'])) {
         ':password' => $password,
         ':modele' => $modele,
         ':plaque' => $plaque,
+        ':token' => $token // Assurez-vous que $token contient le token de l'utilisateur actuel
+    ]);
+
+    if ($Etat_conducteur){
+        $preferences = $_POST['preferences'];
+
+        // Préparez la requête SQL pour mettre à jour les informations de l'utilisateur
+    $query = "UPDATE client SET preferences = :preferences WHERE token = :token";
+    $stmt = $bdd->prepare($query);
+
+    $stmt->execute([
         ':preferences' => $preferences,
         ':token' => $token // Assurez-vous que $token contient le token de l'utilisateur actuel
     ]);
+    }
+
+    header("Location: main.php");
 }
 ?>
 <!DOCTYPE html>
@@ -206,8 +191,8 @@ if (isset($_POST['modif'])) {
             <form method="POST" action="">
                 <div class="UserPicture">
                     <img src="<?php echo $photoPath; ?>" alt="user">
-                    <label for="new_profile_pic">Changer la photo de profil</label>
-                    <input type="file" name="new_profile_pic" id="new_profile_pic">
+                    <label for="Photo">Changer la photo de profil</label>
+                    <input type="file" name="Photo" id="Photo">
                 </div>
                 <label for="Prenom">Nom d'utilisateur</label>
                 <input type="text" name="Prenom" id="Prenom" placeholder="Prenom" value="<?php echo $Prenom; ?>"
@@ -246,9 +231,13 @@ if (isset($_POST['modif'])) {
                     <div class="Carte">
                         <img src="<?php echo $photoPath2; ?>" alt="photo du permis">
                     </div>
-                    <label for="permis">Préférences</label>
-                    <input type="text" name="preferences" id="preferences" autocomplete="off" placeholder="preferences"
-                        value="<?php echo $preferences; ?>">
+                    <?php if ($Etat_conducteur): ?>
+                        
+                        <label for="preferences">Préférences</label>
+                        <input type="text" name="preferences" id="preferences" autocomplete="off" placeholder="preferences"
+                            value="<?php echo $preferences; ?>">
+                        
+                    <?php endif; ?>
                     <label for="modele">Cagnotte</label>
                     <input type="text" name="" id="" autocomplete="off" placeholder="Cagnotte"
                         value="<?php echo $cagnotte; ?> €" readonly>
