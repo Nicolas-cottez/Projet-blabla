@@ -21,7 +21,8 @@
 </head>
 
 <body class="fond">
-
+    <?php include 'header.php'; ?>
+    <?php include 'backend.php'; ?>
     <h1 class="titre">Mes trajets :</h1>
 
     <div class="flex-container">

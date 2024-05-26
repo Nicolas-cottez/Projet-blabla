@@ -33,9 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $arrivee = $_POST['arrivee'];
     $date = $_POST['date'];
     $heuredep = $_POST['heuredep'];
-    $nom_campus = $_POST['nom_campus'];
 
-    header("Location: ResultatRecherche.php?depart=$Depart&arrivee=$arrivee&date=$date&heuredep=$heuredep&nom_campus=$nom_campus");
+    header("Location: ResultatRecherche.php?depart=$Depart&arrivee=$arrivee&date=$date&heuredep=$heuredep");
     exit();
 }
 ?>
@@ -66,8 +65,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="date" id="date" name="date" required>
                 <label for="heuredep">Heure de départ :</label>
                 <input type="time" id="heuredep" name="heuredep" required>
-                <label for="nom_campus">ID Campus :</label>
-                <input type="text" id="nom_campus" name="nom_campus" required>
                 <input type="submit" value="Rechercher">
             </form>
         </div>
