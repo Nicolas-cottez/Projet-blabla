@@ -2,7 +2,7 @@ body {
     font-family: 'Poppins', sans-serif;
     font-weight: 300;
     color: #F5D742;
-    background: linear-gradient(to bottom, #020307 0%, #e6be51 50%, #020307 100%);
+    background-color: gray;
     height: 100vh;
 }
 
@@ -10,7 +10,7 @@ form {
     margin: 30px auto;
     width: 100%;
     max-width: 500px;
-    background-image: url('image/fond_patern_green.jpg');
+    background-color: #000;
     background-size: cover;
     border-radius: 8px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);

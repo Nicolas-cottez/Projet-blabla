@@ -32,10 +32,10 @@ try {
     <br>
     <br>
     <article>
-        <h2>Merci, Vous êtes inscrit !</h2>
+        <h2>Merci d'avoir réservé un trajet chez Blabla Omnes !</h2>
     </article>
     <br>
-    <a href="../main.php" class="yellow-button">Merci d'avoir réservé un trajet chez Blabla Omnes !</a>
+    <a href="../main.php" class="yellow-button">Retourner à la page d'accueil</a>
     <br>
     <br>
     <br>
